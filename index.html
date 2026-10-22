@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TravelAI — Personalized Travel Planner</title>
+    <link rel="stylesheet" href="css/style.css">
+
+<style>
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: #FCFAF5;
+        color: #183232;
+        line-height: 1.6;
+    }
+
+    /* =========================
+       NAVBAR
+    ========================= */
+
+    nav {
+        background: #164A4A;
+        color: #FCFAF5;
+        padding: 18px 6%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 3px 15px rgba(22, 74, 74, 0.12);
+    }
+
+    .logo {
+        color: #FCFAF5;
+        text-decoration: none;
+        font-size: 28px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+    }
+
+    .nav-links a {
+        color: #FCFAF5;
+        text-decoration: none;
+        font-size: 15px;
+        transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+        color: #267373;
+    }
+
+    /* =========================
+       DROPDOWN
+    ========================= */
+
+    .dropdown {
+        position: relative;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 30px;
+        left: 0;
+        background: #FFFFFF;
+        min-width: 215px;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 10px 25px rgba(22, 74, 74, 0.15);
+    }
+
+    .dropdown-content a {
+        display: block;
+        padding: 12px 16px;
+        color: #164A4A;
+    }
+
+    .dropdown-content a:hover {
+        background: #DCEFE9;
+        color: #164A4A;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+        min-height: 84vh;
+        display: flex;
+        align-items: center;
+        padding: 80px 7%;
+
+        background:
+            linear-gradient(
+                rgba(22, 74, 74, 0.48),
+                rgba(22, 74, 74, 0.48)
+            ),
+            url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1800&q=90");
+
+        background-size: cover;
+        background-position: center;
+    }
+
+    .hero-content {
+        max-width: 760px;
+        color: #FFFFFF;
+    }
+
+    .eyebrow {
+        display: inline-block;
+        padding: 8px 17px;
+        border-radius: 30px;
+        background: rgba(255, 255, 255, 0.18);
+        font-size: 13px;
+        letter-spacing: 2px;
+        margin-bottom: 22px;
+    }
+
+    .hero h1 {
+        font-size: clamp(44px, 6vw, 78px);
+        line-height: 1.05;
+        margin-bottom: 25px;
+    }
+
+    .hero p {
+        font-size: 19px;
+        max-width: 650px;
+        margin-bottom: 35px;
+        color: #DCEFE9;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 14px 27px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .btn-primary {
+        background: #267373;
+        color: #FFFFFF;
+    }
+
+    .btn-primary:hover {
+        background: #FCFAF5;
+        color: #164A4A;
+        transform: translateY(-3px);
+    }
+
+    .btn-secondary {
+        border: 1px solid #FCFAF5;
+        color: #FCFAF5;
+    }
+
+    .btn-secondary:hover {
+        background: #FCFAF5;
+        color: #164A4A;
+    }
+
+    /* =========================
+       GENERAL SECTION
+    ========================= */
+
+    section {
+        padding: 95px 7%;
+    }
+
+    .section-heading {
+        max-width: 720px;
+        margin-bottom: 50px;
+    }
+
+    .section-heading span {
+        color: #267373;
+        font-weight: bold;
+        letter-spacing: 2px;
+        font-size: 13px;
+    }
+
+    .section-heading h2 {
+        color: #164A4A;
+        font-size: 42px;
+        line-height: 1.2;
+        margin: 12px 0;
+    }
+
+    .section-heading p {
+        color: #5E7370;
+        font-size: 17px;
+    }
+
+    /* =========================
+       FEATURES
+    ========================= */
+
+    .features {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 28px;
+    }
+
+    .feature-card {
+        background: #FFFFFF;
+        padding: 35px;
+        border-radius: 20px;
+        border: 1px solid #E2EAE7;
+        box-shadow: 0 8px 25px rgba(22, 74, 74, 0.07);
+        transition: 0.3s;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-7px);
+        box-shadow: 0 15px 30px rgba(22, 74, 74, 0.12);
+    }
+
+    .feature-icon {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #DCEFE9;
+        border-radius: 16px;
+        font-size: 30px;
+        margin-bottom: 22px;
+    }
+
+    .feature-card h3 {
+        color: #164A4A;
+        font-size: 22px;
+        margin-bottom: 12px;
+    }
+
+    .feature-card p {
+        color: #5E7370;
+    }
+
+    /* =========================
+       DESTINATIONS
+    ========================= */
+
+    .destinations {
+        background: #DCEFE9;
+    }
+
+    .destination-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 28px;
+    }
+
+    .destination-card {
+        background: #FFFFFF;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(22, 74, 74, 0.08);
+        transition: 0.3s;
+    }
+
+    .destination-card:hover {
+        transform: translateY(-6px);
+    }
+
+    .destination-card img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+    }
+
+    .destination-info {
+        padding: 27px;
+    }
+
+    .destination-info h3 {
+        color: #164A4A;
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+
+    .destination-info p {
+        color: #5E7370;
+        margin-bottom: 20px;
+    }
+
+    .small-btn {
+        display: inline-block;
+        text-decoration: none;
+        color: #FFFFFF;
+        background: #267373;
+        padding: 10px 19px;
+        border-radius: 25px;
+        font-size: 14px;
+        transition: 0.3s;
+    }
+
+    .small-btn:hover {
+        background: #164A4A;
+    }
+
+    /* =========================
+       AI SECTION
+    ========================= */
+
+    .ai-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 70px;
+        align-items: center;
+    }
+
+    .ai-image img {
+        width: 100%;
+        border-radius: 25px;
+        display: block;
+    }
+
+    .ai-content h2 {
+        color: #164A4A;
+        font-size: 42px;
+        line-height: 1.2;
+        margin-bottom: 20px;
+    }
+
+    .ai-content p {
+        color: #5E7370;
+        font-size: 17px;
+        margin-bottom: 25px;
+    }
+
+    .ai-list {
+        list-style: none;
+        margin-bottom: 30px;
+    }
+
+    .ai-list li {
+        margin: 15px 0;
+        padding-left: 30px;
+        position: relative;
+    }
+
+    .ai-list li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #267373;
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    /* =========================
+       CTA
+    ========================= */
+
+    .cta {
+        background: #164A4A;
+        color: #FFFFFF;
+        text-align: center;
+        border-radius: 25px;
+        margin: 0 7% 95px;
+        padding: 75px 30px;
+    }
+
+    .cta h2 {
+        font-size: 42px;
+        margin-bottom: 15px;
+    }
+
+    .cta p {
+        max-width: 650px;
+        margin: 0 auto 30px;
+        color: #DCEFE9;
+        font-size: 17px;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+        background: #102F2F;
+        color: #DCEFE9;
+        text-align: center;
+        padding: 38px 20px;
+    }
+
+    footer p {
+        margin: 5px 0;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 1100px) {
+
+        .nav-links {
+            gap: 15px;
+        }
+
+        .features,
+        .destination-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .ai-section {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 750px) {
+
+        nav {
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .nav-links {
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .hero {
+            min-height: 75vh;
+            padding: 65px 6%;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+        }
+
+        section {
+            padding: 70px 6%;
+        }
+
+        .features,
+        .destination-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .section-heading h2,
+        .ai-content h2,
+        .cta h2 {
+            font-size: 34px;
+        }
+
+        .cta {
+            margin: 0 6% 70px;
+            padding: 60px 25px;
+        }
+
+        .dropdown-content {
+            position: static;
+            margin-top: 10px;
+        }
+    }
+
+</style>
+
+</head>
+
+<body>
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav>
+
+    <a href="index.html" class="logo">
+        TravelAI
+    </a>
+
+    <div class="nav-links">
+
+        <a href="index.html">Home</a>
+
+        <div class="dropdown">
+
+            <a href="pages/destinations.html">
+                Destinations ▾
+            </a>
+
+            <div class="dropdown-content">
+
+                <a href="pages/destinations.html">
+                    Explore Destinations
+                </a>
+
+                <a href="pages/destination-details.html">
+                    Destination Details
+                </a>
+
+                <a href="pages/favorites.html">
+                    Favorites
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="dropdown">
+
+            <a href="pages/itinerary.html">
+                Trip Planner ▾
+            </a>
+
+            <div class="dropdown-content">
+
+                <a href="pages/itinerary.html">
+                    My Itinerary
+                </a>
+
+                <a href="pages/itinerary-details.html">
+                    Itinerary Details
+                </a>
+
+                <a href="pages/budget.html">
+                    Budget Planner
+                </a>
+
+                <a href="pages/activities.html">
+                    Activities
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="dropdown">
+
+            <a href="pages/recommendations.html">
+                Recommendations ▾
+            </a>
+
+            <div class="dropdown-content">
+
+                <a href="pages/recommendations.html">
+                    All Recommendations
+                </a>
+
+                <a href="pages/recommendation.html">
+                    AI Recommendation
+                </a>
+
+                <a href="pages/preferences.html">
+                    Preferences
+                </a>
+
+            </div>
+
+        </div>
+
+        <a href="pages/hotels.html">
+            Hotels
+        </a>
+
+        <a href="pages/weather.html">
+            Weather
+        </a>
+
+        <div class="dropdown">
+
+            <a href="pages/profile.html">
+                Profile ▾
+            </a>
+
+            <div class="dropdown-content">
+
+                <a href="pages/profile.html">
+                    My Profile
+                </a>
+
+                <a href="pages/preferences.html">
+                    Preferences
+                </a>
+
+                <a href="pages/favorites.html">
+                    Favorites
+                </a>
+
+            </div>
+
+        </div>
+
+        <a href="pages/about.html">
+            About
+        </a>
+
+    </div>
+
+</nav>
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <span class="eyebrow">
+            AI-POWERED TRAVEL PLANNING
+        </span>
+
+        <h1>
+            Travel Smarter.<br>
+            Explore Better.
+        </h1>
+
+        <p>
+            TravelAI creates personalized travel recommendations
+            and intelligent itineraries based on your interests,
+            budget, travel style and preferences.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="pages/recommendation.html"
+               class="btn btn-primary">
+
+                Get AI Recommendation
+
+            </a>
+
+            <a href="pages/destinations.html"
+               class="btn btn-secondary">
+
+                Explore Destinations
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     FEATURES
+========================= -->
+
+<section>
+
+    <div class="section-heading">
+
+        <span>
+            WHY TRAVELAI?
+        </span>
+
+        <h2>
+            Everything you need for a better journey.
+        </h2>
+
+        <p>
+            Plan your entire trip in one place with intelligent
+            recommendations designed around you.
+        </p>
+
+    </div>
+
+    <div class="features">
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🤖
+            </div>
+
+            <h3>
+                AI Recommendations
+            </h3>
+
+            <p>
+                Discover destinations and experiences selected
+                according to your interests, budget and travel style.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🗺️
+            </div>
+
+            <h3>
+                Smart Itineraries
+            </h3>
+
+            <p>
+                Generate organized day-by-day travel plans
+                with activities, destinations and schedules.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                💰
+            </div>
+
+            <h3>
+                Budget Planning
+            </h3>
+
+            <p>
+                Keep track of accommodation, transportation,
+                activities and other travel expenses.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🏨
+            </div>
+
+            <h3>
+                Hotel Discovery
+            </h3>
+
+            <p>
+                Explore accommodation options that fit your
+                destination, budget and travel style.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                🌤️
+            </div>
+
+            <h3>
+                Weather Insights
+            </h3>
+
+            <p>
+                Check destination weather information and
+                prepare for your journey.
+            </p>
+
+        </div>
+
+        <div class="feature-card">
+
+            <div class="feature-icon">
+                ❤️
+            </div>
+
+            <h3>
+                Save Favorites
+            </h3>
+
+            <p>
+                Keep your favorite destinations, hotels and
+                experiences together for future trips.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     DESTINATIONS
+========================= -->
+
+<section class="destinations">
+
+    <div class="section-heading">
+
+        <span>
+            EXPLORE
+        </span>
+
+        <h2>
+            Popular destinations
+        </h2>
+
+        <p>
+            Find inspiration for your next adventure.
+        </p>
+
+    </div>
+
+    <div class="destination-grid">
+
+        <div class="destination-card">
+
+            <img
+                src="https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1000&q=85"
+                alt="Jaipur"
+            >
+
+            <div class="destination-info">
+
+                <h3>
+                    Jaipur
+                </h3>
+
+                <p>
+                    Discover royal palaces, historic forts,
+                    colorful markets and traditional cuisine.
+                </p>
+
+                <a href="pages/destination-details.html"
+                   class="small-btn">
+
+                    Explore Jaipur
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="destination-card">
+
+            <img
+                src="https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1000&q=85"
+                alt="Goa"
+            >
+
+            <div class="destination-info">
+
+                <h3>
+                    Goa
+                </h3>
+
+                <p>
+                    Enjoy beaches, coastal experiences,
+                    local food and relaxing getaways.
+                </p>
+
+                <a href="pages/destinations.html"
+                   class="small-btn">
+
+                    Explore Goa
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="destination-card">
+
+            <img
+                src="/images/munnar.jpeg"
+                alt="Munnar"
+            >
+
+            <div class="destination-info">
+
+                <h3>
+                    Munnar
+                </h3>
+
+                <p>
+                    Explore tea plantations, misty hills,
+                    waterfalls and peaceful landscapes.
+                </p>
+
+                <a href="pages/destinations.html"
+                   class="small-btn">
+
+                    Explore Munnar
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     AI SECTION
+========================= -->
+
+<section>
+
+    <div class="ai-section">
+
+        <div class="ai-image">
+
+            <img
+                src="/images/beach.jpeg"
+                alt="Travel planning"
+            >
+
+        </div>
+
+        <div class="ai-content">
+
+            <h2>
+                Your trip, personalized by AI.
+            </h2>
+
+            <p>
+                TravelAI combines your preferences with destination
+                information to create a personalized travel experience.
+            </p>
+
+            <ul class="ai-list">
+
+                <li>
+                    Choose your travel interests
+                </li>
+
+                <li>
+                    Set your budget and trip duration
+                </li>
+
+                <li>
+                    Select your preferred travel style
+                </li>
+
+                <li>
+                    Receive personalized recommendations
+                </li>
+
+                <li>
+                    Generate a complete itinerary
+                </li>
+
+            </ul>
+
+            <a href="pages/preferences.html"
+               class="btn btn-primary">
+
+                Set Your Preferences
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================
+     CTA
+========================= -->
+
+<div class="cta">
+
+    <h2>
+        Ready to plan your next adventure?
+    </h2>
+
+    <p>
+        Tell TravelAI what you enjoy and let your
+        personalized journey begin.
+    </p>
+
+    <a href="pages/itinerary.html"
+       class="btn btn-primary">
+
+        Start Planning
+
+    </a>
+
+</div>
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <p>
+        © 2026 TravelAI — AI-Based Personalized Travel Recommendation System
+    </p>
+
+    <p>
+        Plan smarter. Travel better. Explore more.
+    </p>
+
+</footer>
+
+</body>
+</html>

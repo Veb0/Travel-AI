@@ -1,0 +1,2876 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Itinerary Details | TravelAI</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #FCFAF5;
+            color: #183232;
+            line-height: 1.6;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        nav {
+            background: #164A4A;
+            color: #FCFAF5;
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 3px 15px rgba(22, 74, 74, 0.12);
+        }
+
+        .logo {
+            color: #FCFAF5;
+            text-decoration: none;
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            color: #FCFAF5;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .nav-links a:hover {
+            color: #267373;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 10px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: calc(100% + 5px);
+            left: 0;
+            min-width: 215px;
+            background: #FFFFFF;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(22, 74, 74, 0.15);
+            z-index: 1001;
+        }
+
+        .dropdown-content a {
+            display: block;
+            color: #164A4A;
+            padding: 12px 16px;
+            white-space: nowrap;
+        }
+
+        .dropdown-content a:hover {
+            background: #DCEFE9;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            min-height: 420px;
+
+            background:
+                linear-gradient(
+                    rgba(22, 74, 74, 0.65),
+                    rgba(22, 74, 74, 0.65)
+                ),
+                url("https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1800&q=90")
+                center/cover;
+
+            display: flex;
+            align-items: center;
+            padding: 65px 7%;
+            color: #FFFFFF;
+        }
+
+        .hero-content {
+            max-width: 850px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            background: #DCEFE9;
+            color: #164A4A;
+            padding: 7px 15px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            font-size: 55px;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            color: #FFFFFF;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #DCEFE9;
+            max-width: 700px;
+        }
+
+        /* ================= GENERAL ================= */
+
+        .container {
+            width: 88%;
+            max-width: 1250px;
+            margin: auto;
+        }
+
+        section {
+            padding: 70px 0;
+        }
+
+        .section-heading {
+            margin-bottom: 35px;
+        }
+
+        .section-heading h2 {
+            font-size: 34px;
+            margin-bottom: 8px;
+            color: #164A4A;
+        }
+
+        .section-heading p {
+            color: #5E7370;
+        }
+
+        /* ================= SUMMARY ================= */
+
+        .summary {
+            margin-top: -50px;
+            position: relative;
+            z-index: 5;
+
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .summary-card {
+            background: #FFFFFF;
+            padding: 23px;
+            border-radius: 17px;
+            border: 1px solid #E2EAE7;
+            box-shadow: 0 8px 25px rgba(22, 74, 74, 0.10);
+        }
+
+        .summary-card span {
+            display: block;
+            color: #5E7370;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .summary-card strong {
+            font-size: 21px;
+            color: #164A4A;
+        }
+
+        /* ================= CONTROLS ================= */
+
+        .trip-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #FFFFFF;
+            padding: 20px 24px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 1px solid #E2EAE7;
+        }
+
+        .trip-controls h3 {
+            font-size: 20px;
+            color: #164A4A;
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .control-btn {
+            border: none;
+            background: #DCEFE9;
+            color: #164A4A;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .control-btn:hover {
+            background: #267373;
+            color: #FFFFFF;
+        }
+
+        /* ================= LAYOUT ================= */
+
+        .trip-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 28px;
+            align-items: start;
+        }
+
+        /* ================= DAY CARDS ================= */
+
+        .day-card {
+            background: #FFFFFF;
+            border: 1px solid #E2EAE7;
+            border-radius: 20px;
+            margin-bottom: 28px;
+            overflow: hidden;
+            box-shadow: 0 7px 25px rgba(22, 74, 74, 0.07);
+        }
+
+        .day-header {
+            background: #267373;
+            color: #FFFFFF;
+            padding: 22px 27px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .day-header h3 {
+            font-size: 23px;
+        }
+
+        .day-header span {
+            background: #DCEFE9;
+            color: #164A4A;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .timeline {
+            padding: 25px 30px;
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 100px 45px 1fr;
+            gap: 15px;
+            position: relative;
+            padding-bottom: 28px;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-item:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            left: 122px;
+            top: 34px;
+            bottom: 0;
+            width: 2px;
+            background: #267373;
+        }
+
+        .time {
+            font-weight: bold;
+            color: #267373;
+            padding-top: 5px;
+        }
+
+        .timeline-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #DCEFE9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .timeline-content {
+            padding-left: 5px;
+        }
+
+        .timeline-content h4 {
+            font-size: 18px;
+            margin-bottom: 4px;
+            color: #164A4A;
+        }
+
+        .timeline-content p {
+            color: #5E7370;
+            font-size: 14px;
+        }
+
+        .tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-top: 8px;
+        }
+
+        .tag {
+            background: #DCEFE9;
+            color: #267373;
+            padding: 5px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+        }
+
+        /* ================= SIDE COLUMN ================= */
+
+        .side-column {
+            display: grid;
+            gap: 20px;
+        }
+
+        .info-card {
+            background: #FFFFFF;
+            border: 1px solid #E2EAE7;
+            border-radius: 17px;
+            padding: 25px;
+            box-shadow: 0 7px 23px rgba(22, 74, 74, 0.07);
+        }
+
+        .info-card h3 {
+            margin-bottom: 17px;
+            font-size: 21px;
+            color: #164A4A;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 11px 0;
+            border-bottom: 1px solid #E2EAE7;
+            font-size: 14px;
+            color: #5E7370;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-row span:last-child {
+            font-weight: bold;
+            color: #183232;
+            text-align: right;
+        }
+
+        /* ================= PROGRESS ================= */
+
+        .progress {
+            height: 9px;
+            background: #DCEFE9;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 12px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #267373;
+            transition: width 0.4s;
+        }
+
+        /* ================= PACKING ================= */
+
+        .packing {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .packing label {
+            background: #DCEFE9;
+            color: #183232;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+
+        .packing input {
+            margin-right: 6px;
+            accent-color: #267373;
+        }
+
+        /* ================= NOTES ================= */
+
+        .notes {
+            background: #DCEFE9;
+        }
+
+        .notes-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        .note {
+            background: #FFFFFF;
+            border: 1px solid #E2EAE7;
+            padding: 25px;
+            border-radius: 16px;
+        }
+
+        .note h3 {
+            margin-bottom: 8px;
+            color: #164A4A;
+        }
+
+        .note p {
+            color: #5E7370;
+            font-size: 14px;
+        }
+
+        /* ================= BUTTONS ================= */
+
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 9px;
+            font-weight: bold;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .primary {
+            background: #267373;
+            color: #FFFFFF;
+        }
+
+        .primary:hover {
+            background: #164A4A;
+        }
+
+        .secondary {
+            background: #DCEFE9;
+            color: #164A4A;
+        }
+
+        .secondary:hover {
+            background: #FFFFFF;
+        }
+
+        /* ================= CTA ================= */
+
+        .cta {
+            background: #164A4A;
+            color: #FFFFFF;
+            border-radius: 25px;
+            text-align: center;
+            padding: 60px 30px;
+        }
+
+        .cta h2 {
+            font-size: 35px;
+            margin-bottom: 12px;
+            color: #FFFFFF;
+        }
+
+        .cta p {
+            max-width: 650px;
+            color: #DCEFE9;
+            margin: 0 auto 25px;
+        }
+
+        .cta .btn {
+            margin: 5px;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #102F2F;
+            color: #DCEFE9;
+            text-align: center;
+            padding: 35px 20px;
+            margin-top: 60px;
+        }
+
+        footer p {
+            margin: 4px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1000px) {
+
+            .summary {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .trip-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .notes-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 12px;
+            }
+
+            .dropdown-content {
+                position: static;
+                margin-top: 10px;
+            }
+
+            .hero {
+                min-height: 370px;
+                padding: 50px 6%;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .summary,
+            .notes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .trip-controls {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .control-buttons {
+                flex-wrap: wrap;
+            }
+
+            .timeline {
+                padding: 22px 18px;
+            }
+
+            .timeline-item {
+                grid-template-columns: 65px 40px 1fr;
+                gap: 8px;
+            }
+
+            .timeline-item:not(:last-child)::after {
+                left: 85px;
+            }
+
+            .timeline-content {
+                padding-left: 0;
+            }
+
+            .timeline-content h4 {
+                font-size: 16px;
+            }
+
+            .timeline-content p {
+                font-size: 13px;
+            }
+
+            .packing {
+                grid-template-columns: 1fr;
+            }
+
+            .day-header {
+                padding: 18px;
+            }
+
+            .day-header h3 {
+                font-size: 19px;
+            }
+
+            section {
+                padding: 50px 0;
+            }
+
+            .container {
+                width: 90%;
+            }
+
+            .cta {
+                padding: 50px 20px;
+            }
+
+            .cta h2 {
+                font-size: 29px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav>
+
+    <a href="../index.html" class="logo">TravelAI</a>
+
+    <div class="nav-links">
+
+        <a href="../index.html">Home</a>
+
+        <div class="dropdown">
+
+            <a href="destinations.html">
+                Destinations ▾
+            </a>
+
+            <div class="dropdown-content">
+
+                <a href="destinations.html">
+                    Explore Destinations
+                </a>
+
+                <a href="destination-details.html">
+                    Destination Details
+                </a>
+
+                <a href="favorites.html">
+                    Favorites
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="dropdown">
+
+            <a href="itinerary.html">
+                Trip Planner ▾
+            </a>
+
+            <div class="dropdown-content">
+
+                <a href="itinerary.html">
+                    My Itinerary
+                </a>
+
+                <a href="itinerary-details.html">
+                    Itinerary Details
+                </a>
+
+                <a href="budget.html">
+                    Budget Planner
+                </a>
+
+                <a href="activities.html">
+                    Activities
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="dropdown">
+
+            <a href="recommendations.html">
+                Recommendations ▾
+            </a>
+
+            <div class="dropdown-content">
+
+                <a href="recommendations.html">
+                    All Recommendations
+                </a>
+
+                <a href="recommendation.html">
+                    AI Recommendation
+                </a>
+
+                <a href="preferences.html">
+                    Preferences
+                </a>
+
+            </div>
+
+        </div>
+
+        <a href="hotels.html">Hotels</a>
+
+        <a href="weather.html">Weather</a>
+
+        <div class="dropdown">
+
+            <a href="profile.html">
+                Profile ▾
+            </a>
+
+            <div class="dropdown-content">
+
+                <a href="profile.html">
+                    My Profile
+                </a>
+
+                <a href="preferences.html">
+                    Preferences
+                </a>
+
+                <a href="favorites.html">
+                    Favorites
+                </a>
+
+            </div>
+
+        </div>
+
+        <a href="about.html">About</a>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <span class="eyebrow">
+            YOUR PERSONALIZED JOURNEY
+        </span>
+
+        <h1 id="heroTitle">
+            Your Travel Itinerary
+        </h1>
+
+        <p id="heroDescription">
+            Your personalized travel plan is being prepared based on
+            your destination, preferences and travel style.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SUMMARY ================= -->
+
+<div class="container">
+
+    <div class="summary">
+
+        <div class="summary-card">
+
+            <span>Destination</span>
+
+            <strong id="summaryDestination">
+                -
+            </strong>
+
+        </div>
+
+        <div class="summary-card">
+
+            <span>Duration</span>
+
+            <strong id="summaryDuration">
+                -
+            </strong>
+
+        </div>
+
+        <div class="summary-card">
+
+            <span>Travelers</span>
+
+            <strong id="summaryTravelers">
+                -
+            </strong>
+
+        </div>
+
+        <div class="summary-card">
+
+            <span>Budget</span>
+
+            <strong id="summaryBudget">
+                -
+            </strong>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= ITINERARY ================= -->
+
+<section>
+
+    <div class="container">
+
+        <div class="trip-controls">
+
+            <div>
+
+                <h3 id="planHeading">
+                    Your Day-by-Day Plan
+                </h3>
+
+                <span id="styleDisplay"
+                      style="font-size:13px;color:#5E7370;">
+                </span>
+
+            </div>
+
+            <div class="control-buttons">
+
+                <a
+                    href="itinerary.html"
+                    class="control-btn"
+                    style="text-decoration:none;"
+                >
+                    ✏️ Edit Trip
+                </a>
+
+                <button
+                    class="control-btn"
+                    onclick="window.print()"
+                >
+                    🖨️ Print
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="trip-layout">
+
+            <!-- MAIN ITINERARY -->
+
+            <div id="itineraryContainer"></div>
+
+
+            <!-- SIDE COLUMN -->
+
+            <div class="side-column">
+
+
+                <!-- TRIP INFORMATION -->
+
+                <div class="info-card">
+
+                    <h3>
+                        Trip Information
+                    </h3>
+
+                    <div class="info-row">
+                        <span>Destination</span>
+                        <span id="infoDestination">-</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span>Duration</span>
+                        <span id="infoDuration">-</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span>Travelers</span>
+                        <span id="infoTravelers">-</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span>Travel Style</span>
+                        <span id="infoStyle">-</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span>Transportation</span>
+                        <span id="infoTransport">-</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span>Accommodation</span>
+                        <span id="infoAccommodation">-</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span>Activities</span>
+                        <span id="infoActivities">-</span>
+                    </div>
+
+                </div>
+
+
+                <!-- BUDGET -->
+
+                <div class="info-card">
+
+                    <h3>
+                        Budget Information
+                    </h3>
+
+                    <div class="info-row">
+                        <span>Selected Budget</span>
+                        <span id="budgetSelected">-</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span>Estimated Cost</span>
+                        <span id="estimatedCost">-</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span>Status</span>
+                        <span id="budgetStatus">-</span>
+                    </div>
+
+                    <div class="progress">
+
+                        <div
+                            class="progress-bar"
+                            id="budgetProgress"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ACCOMMODATION -->
+
+                <div class="info-card">
+
+                    <h3>
+                        🏨 Accommodation
+                    </h3>
+
+                    <div class="info-row">
+                        <span>Preference</span>
+                        <span id="hotelPreference">-</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span>Nights</span>
+                        <span id="hotelNights">-</span>
+                    </div>
+
+                    <a
+                        href="hotels.html"
+                        class="btn primary"
+                        style="display:block;text-align:center;margin-top:15px;"
+                    >
+                        View Hotel Options
+                    </a>
+
+                </div>
+
+
+                <!-- PACKING -->
+
+                <div class="info-card">
+
+                    <h3>
+                        🎒 Packing Checklist
+                    </h3>
+
+                    <div class="packing">
+
+                        <label>
+                            <input type="checkbox">
+                            Comfortable Shoes
+                        </label>
+
+                        <label>
+                            <input type="checkbox">
+                            Sunglasses
+                        </label>
+
+                        <label>
+                            <input type="checkbox">
+                            Power Bank
+                        </label>
+
+                        <label>
+                            <input type="checkbox">
+                            Camera
+                        </label>
+
+                        <label>
+                            <input type="checkbox">
+                            Water Bottle
+                        </label>
+
+                        <label>
+                            <input type="checkbox">
+                            First Aid
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= TRAVEL NOTES ================= -->
+
+<section class="notes">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <h2>
+                Travel Notes
+            </h2>
+
+            <p id="notesIntro">
+                Helpful information generated for your itinerary.
+            </p>
+
+        </div>
+
+        <div class="notes-grid">
+
+            <div class="note">
+
+                <h3>
+                    🌤 Weather
+                </h3>
+
+                <p id="weatherNote">
+                    Check the weather forecast before outdoor activities
+                    and carry suitable clothing for the season.
+                </p>
+
+            </div>
+
+            <div class="note">
+
+                <h3>
+                    🚕 Transportation
+                </h3>
+
+                <p id="transportNote">
+                    Plan enough travel time between attractions.
+                </p>
+
+            </div>
+
+            <div class="note">
+
+                <h3>
+                    💡 AI Suggestion
+                </h3>
+
+                <p id="aiNote">
+                    Keep one flexible time slot each day so you can
+                    discover places spontaneously.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CTA ================= -->
+
+<section>
+
+    <div class="container">
+
+        <div class="cta">
+
+            <h2>
+                Want to Change This Itinerary?
+            </h2>
+
+            <p>
+                Adjust your destination, travel dates, budget and interests
+                to generate a different personalized travel plan.
+            </p>
+
+            <a
+                href="itinerary.html"
+                class="btn secondary"
+            >
+                Edit Itinerary
+            </a>
+
+            <a
+                href="recommendation.html"
+                class="btn secondary"
+            >
+                Generate With AI
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <p>
+        © 2026 TravelAI — AI-Based Personalized Travel Recommendation System
+    </p>
+
+    <p>
+        Plan smarter. Travel better. Explore more.
+    </p>
+
+</footer>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+    /*
+     * =========================================================
+     * DESTINATION DATA
+     * =========================================================
+     *
+     * Each destination has its own attractions, food,
+     * activities and descriptions.
+     *
+     * This prevents every itinerary from becoming Jaipur.
+     */
+
+    const destinationData = {
+
+        goa: {
+
+            name: "Goa",
+
+            hero:
+                "A personalized coastal getaway filled with beaches, local food, relaxation and memorable experiences.",
+
+            activities: [
+                {
+                    icon: "🏖️",
+                    title: "Baga Beach",
+                    description:
+                        "Relax by the Arabian Sea, enjoy the beach atmosphere and explore the surrounding coastline.",
+                    tags: ["Beach", "Relaxation"]
+                },
+                {
+                    icon: "🌴",
+                    title: "Palolem Beach",
+                    description:
+                        "Experience one of Goa's scenic beaches with peaceful surroundings and beautiful coastal views.",
+                    tags: ["Nature", "Photography"]
+                },
+                {
+                    icon: "⛪",
+                    title: "Old Goa",
+                    description:
+                        "Explore historic churches and heritage landmarks while learning about Goa's cultural history.",
+                    tags: ["Culture", "Heritage"]
+                },
+                {
+                    icon: "🍛",
+                    title: "Goan Food Experience",
+                    description:
+                        "Try local Goan dishes and discover traditional flavors at a local restaurant.",
+                    tags: ["Food", "Local Cuisine"]
+                },
+                {
+                    icon: "🌅",
+                    title: "Sunset Cruise",
+                    description:
+                        "Enjoy an evening cruise and watch the sunset over the coastline.",
+                    tags: ["Relaxation", "Photography"]
+                }
+            ],
+
+            nature:
+                "Goa's warm coastal climate makes light clothing, sunscreen and comfortable footwear useful for outdoor activities.",
+
+            transport:
+                "Local taxis, rental scooters and app-based transport can be useful for moving between beaches and attractions."
+
+        },
+
+
+        munnar: {
+
+            name: "Munnar",
+
+            hero:
+                "A peaceful mountain escape surrounded by tea plantations, waterfalls, forests and scenic viewpoints.",
+
+            activities: [
+                {
+                    icon: "🍃",
+                    title: "Tea Plantation Visit",
+                    description:
+                        "Walk through scenic tea plantations and learn about the region's tea-growing traditions.",
+                    tags: ["Nature", "Culture"]
+                },
+                {
+                    icon: "🌄",
+                    title: "Top Station",
+                    description:
+                        "Enjoy panoramic mountain views and spend time photographing the surrounding landscapes.",
+                    tags: ["Photography", "Nature"]
+                },
+                {
+                    icon: "💧",
+                    title: "Waterfall Exploration",
+                    description:
+                        "Visit a scenic waterfall and enjoy a relaxed outdoor experience.",
+                    tags: ["Nature", "Relaxation"]
+                },
+                {
+                    icon: "🥾",
+                    title: "Mountain Walk",
+                    description:
+                        "Take a guided walk through the surrounding hills and natural landscapes.",
+                    tags: ["Adventure", "Nature"]
+                },
+                {
+                    icon: "🍛",
+                    title: "Kerala Cuisine",
+                    description:
+                        "Taste traditional Kerala dishes and enjoy a relaxed local dining experience.",
+                    tags: ["Food", "Local Cuisine"]
+                }
+            ],
+
+            nature:
+                "Munnar can be cool and changeable, so carry comfortable walking shoes and clothing suitable for outdoor activities.",
+
+            transport:
+                "Local taxis and private vehicles are convenient for reaching plantations, viewpoints and waterfalls."
+        },
+
+
+        ooty: {
+
+            name: "Ooty",
+
+            hero:
+                "A refreshing hill-station itinerary featuring gardens, lakes, tea estates and scenic mountain experiences.",
+
+            activities: [
+                {
+                    icon: "🌸",
+                    title: "Botanical Garden",
+                    description:
+                        "Explore the landscaped gardens and enjoy a relaxed morning surrounded by greenery.",
+                    tags: ["Nature", "Relaxation"]
+                },
+                {
+                    icon: "🚂",
+                    title: "Nilgiri Mountain Railway",
+                    description:
+                        "Experience the famous mountain railway and enjoy scenic views along the route.",
+                    tags: ["Experience", "Photography"]
+                },
+                {
+                    icon: "🌿",
+                    title: "Tea Estate",
+                    description:
+                        "Explore a tea estate and learn about tea production in the Nilgiris.",
+                    tags: ["Nature", "Culture"]
+                },
+                {
+                    icon: "🚣",
+                    title: "Ooty Lake",
+                    description:
+                        "Spend a relaxed afternoon near the lake and enjoy outdoor activities.",
+                    tags: ["Relaxation", "Nature"]
+                },
+                {
+                    icon: "☕",
+                    title: "Local Café",
+                    description:
+                        "Relax at a local café and enjoy regional snacks and beverages.",
+                    tags: ["Food", "Relaxation"]
+                }
+            ],
+
+            nature:
+                "Ooty's cooler climate makes a light jacket and comfortable walking shoes useful.",
+
+            transport:
+                "Local taxis and tourist vehicles are convenient for exploring the hill station."
+        },
+
+
+        jaipur: {
+
+            name: "Jaipur",
+
+            hero:
+                "A heritage-focused journey through royal architecture, markets, local cuisine and Rajasthan's cultural traditions.",
+
+            activities: [
+                {
+                    icon: "🏛️",
+                    title: "City Palace",
+                    description:
+                        "Explore royal courtyards, museums and traditional palace architecture.",
+                    tags: ["Culture", "Heritage"]
+                },
+                {
+                    icon: "🏰",
+                    title: "Amber Fort",
+                    description:
+                        "Discover the historic fort and enjoy panoramic views of the surrounding landscape.",
+                    tags: ["Heritage", "Photography"]
+                },
+                {
+                    icon: "📸",
+                    title: "Hawa Mahal",
+                    description:
+                        "Visit Jaipur's iconic landmark and explore the streets around the old city.",
+                    tags: ["Photography", "Culture"]
+                },
+                {
+                    icon: "🛍️",
+                    title: "Johari Bazaar",
+                    description:
+                        "Explore traditional jewelry, textiles, handicrafts and local souvenirs.",
+                    tags: ["Shopping", "Local Experience"]
+                },
+                {
+                    icon: "🍛",
+                    title: "Rajasthani Food Tour",
+                    description:
+                        "Taste traditional Rajasthani dishes at local restaurants.",
+                    tags: ["Food", "Local Cuisine"]
+                }
+            ],
+
+            nature:
+                "Jaipur can be warm during the day, so carry water, sun protection and comfortable footwear.",
+
+            transport:
+                "Taxis, auto-rickshaws and app-based transport are useful for moving around the city."
+        },
+
+
+        kerala: {
+
+            name: "Kerala",
+
+            hero:
+                "A relaxing Kerala experience combining backwaters, greenery, local food, culture and peaceful landscapes.",
+
+            activities: [
+                {
+                    icon: "🚤",
+                    title: "Backwater Cruise",
+                    description:
+                        "Enjoy a peaceful cruise through Kerala's famous backwaters and villages.",
+                    tags: ["Nature", "Relaxation"]
+                },
+                {
+                    icon: "🌴",
+                    title: "Alleppey",
+                    description:
+                        "Explore the waterways and surrounding landscapes of the backwater region.",
+                    tags: ["Nature", "Photography"]
+                },
+                {
+                    icon: "🛕",
+                    title: "Local Culture",
+                    description:
+                        "Discover Kerala's traditional architecture, customs and cultural experiences.",
+                    tags: ["Culture", "Heritage"]
+                },
+                {
+                    icon: "🍛",
+                    title: "Kerala Food Experience",
+                    description:
+                        "Taste traditional Kerala cuisine featuring regional ingredients and flavors.",
+                    tags: ["Food", "Local Cuisine"]
+                },
+                {
+                    icon: "🌿",
+                    title: "Wellness Experience",
+                    description:
+                        "Enjoy a relaxing wellness session inspired by Kerala's traditional practices.",
+                    tags: ["Wellness", "Relaxation"]
+                }
+            ],
+
+            nature:
+                "Kerala's tropical climate makes breathable clothing, comfortable footwear and rain protection useful.",
+
+            transport:
+                "Taxis, trains, buses and boats can all be useful depending on the region."
+        },
+
+
+        manali: {
+
+            name: "Manali",
+
+            hero:
+                "A mountain adventure featuring scenic valleys, outdoor activities, local culture and Himalayan landscapes.",
+
+            activities: [
+                {
+                    icon: "🏔️",
+                    title: "Solang Valley",
+                    description:
+                        "Enjoy mountain scenery and outdoor adventure activities in the valley.",
+                    tags: ["Adventure", "Nature"]
+                },
+                {
+                    icon: "🌲",
+                    title: "Forest Walk",
+                    description:
+                        "Take a peaceful walk through the surrounding forest landscapes.",
+                    tags: ["Nature", "Photography"]
+                },
+                {
+                    icon: "🏛️",
+                    title: "Old Manali",
+                    description:
+                        "Explore local cafés, shops and the relaxed atmosphere of Old Manali.",
+                    tags: ["Culture", "Lifestyle"]
+                },
+                {
+                    icon: "🥾",
+                    title: "Mountain Trek",
+                    description:
+                        "Enjoy a guided trekking experience suitable for your preferred activity level.",
+                    tags: ["Adventure", "Nature"]
+                },
+                {
+                    icon: "🍲",
+                    title: "Himalayan Cuisine",
+                    description:
+                        "Try local dishes and enjoy a warm meal after a day outdoors.",
+                    tags: ["Food", "Local Cuisine"]
+                }
+            ],
+
+            nature:
+                "Mountain weather can change quickly, so carry warm layers and comfortable trekking shoes.",
+
+            transport:
+                "Local taxis and private vehicles are convenient for reaching mountain attractions."
+        },
+
+
+        delhi: {
+
+            name: "Delhi",
+
+            hero:
+                "A vibrant city experience combining historic landmarks, markets, food and modern urban culture.",
+
+            activities: [
+                {
+                    icon: "🏛️",
+                    title: "India Gate",
+                    description:
+                        "Visit the iconic monument and explore the surrounding central Delhi area.",
+                    tags: ["Culture", "Sightseeing"]
+                },
+                {
+                    icon: "🕌",
+                    title: "Historic Delhi",
+                    description:
+                        "Explore historic architecture and landmarks in Old Delhi.",
+                    tags: ["Heritage", "Culture"]
+                },
+                {
+                    icon: "🛍️",
+                    title: "Local Markets",
+                    description:
+                        "Discover markets featuring clothing, handicrafts, food and souvenirs.",
+                    tags: ["Shopping", "Lifestyle"]
+                },
+                {
+                    icon: "🍜",
+                    title: "Delhi Food Tour",
+                    description:
+                        "Experience famous street food and local restaurants across the city.",
+                    tags: ["Food", "Local Cuisine"]
+                },
+                {
+                    icon: "📸",
+                    title: "Photography Walk",
+                    description:
+                        "Capture historic buildings, markets and everyday city life.",
+                    tags: ["Photography", "Culture"]
+                }
+            ],
+
+            nature:
+                "Delhi weather varies by season, so check conditions and carry suitable clothing and water.",
+
+            transport:
+                "Metro services, taxis and auto-rickshaws provide convenient ways to explore the city."
+        },
+
+
+        paris: {
+
+            name: "Paris",
+
+            hero:
+                "A romantic European journey featuring art, architecture, cafés, shopping and iconic city experiences.",
+
+            activities: [
+                {
+                    icon: "🗼",
+                    title: "Eiffel Tower",
+                    description:
+                        "Visit Paris's iconic landmark and enjoy views across the city.",
+                    tags: ["Sightseeing", "Photography"]
+                },
+                {
+                    icon: "🎨",
+                    title: "Louvre Museum",
+                    description:
+                        "Explore one of the world's most famous museums and its extensive art collection.",
+                    tags: ["Culture", "Art"]
+                },
+                {
+                    icon: "🥐",
+                    title: "French Food Experience",
+                    description:
+                        "Enjoy traditional pastries, cafés and French cuisine.",
+                    tags: ["Food", "Lifestyle"]
+                },
+                {
+                    icon: "🛍️",
+                    title: "Paris Shopping",
+                    description:
+                        "Explore boutiques, department stores and local shopping districts.",
+                    tags: ["Shopping", "Lifestyle"]
+                },
+                {
+                    icon: "🚶",
+                    title: "Seine Walk",
+                    description:
+                        "Take a relaxed walk along the Seine and enjoy Parisian architecture.",
+                    tags: ["Relaxation", "Photography"]
+                }
+            ],
+
+            nature:
+                "Carry comfortable walking shoes because many Paris attractions are best explored on foot.",
+
+            transport:
+                "The Metro and walking are convenient ways to move between central attractions."
+        },
+
+
+        tokyo: {
+
+            name: "Tokyo",
+
+            hero:
+                "A dynamic Japanese city experience combining technology, culture, food, shopping and traditional neighborhoods.",
+
+            activities: [
+                {
+                    icon: "⛩️",
+                    title: "Senso-ji Temple",
+                    description:
+                        "Explore one of Tokyo's famous traditional temples and surrounding streets.",
+                    tags: ["Culture", "Heritage"]
+                },
+                {
+                    icon: "🌃",
+                    title: "Shibuya",
+                    description:
+                        "Experience Tokyo's energetic shopping, entertainment and city atmosphere.",
+                    tags: ["Shopping", "Lifestyle"]
+                },
+                {
+                    icon: "🍣",
+                    title: "Japanese Food Tour",
+                    description:
+                        "Discover Japanese cuisine through local restaurants and food markets.",
+                    tags: ["Food", "Local Cuisine"]
+                },
+                {
+                    icon: "📸",
+                    title: "Tokyo Photography",
+                    description:
+                        "Capture the contrast between modern architecture and traditional neighborhoods.",
+                    tags: ["Photography", "Culture"]
+                },
+                {
+                    icon: "🌸",
+                    title: "City Park",
+                    description:
+                        "Enjoy a peaceful break in one of Tokyo's green spaces.",
+                    tags: ["Nature", "Relaxation"]
+                }
+            ],
+
+            nature:
+                "Tokyo involves significant walking, so comfortable shoes and a portable water bottle are useful.",
+
+            transport:
+                "Tokyo's rail and subway networks are highly useful for moving between attractions."
+        },
+
+
+        dubai: {
+
+            name: "Dubai",
+
+            hero:
+                "A modern city escape featuring iconic architecture, shopping, entertainment and desert experiences.",
+
+            activities: [
+                {
+                    icon: "🏙️",
+                    title: "Burj Khalifa",
+                    description:
+                        "Visit Dubai's iconic skyscraper and enjoy panoramic city views.",
+                    tags: ["Sightseeing", "Photography"]
+                },
+                {
+                    icon: "🛍️",
+                    title: "Dubai Mall",
+                    description:
+                        "Explore one of the world's largest shopping and entertainment destinations.",
+                    tags: ["Shopping", "Lifestyle"]
+                },
+                {
+                    icon: "🏜️",
+                    title: "Desert Experience",
+                    description:
+                        "Enjoy a desert excursion with scenic landscapes and traditional experiences.",
+                    tags: ["Adventure", "Nature"]
+                },
+                {
+                    icon: "🌴",
+                    title: "Jumeirah",
+                    description:
+                        "Relax near the coast and explore Dubai's modern waterfront.",
+                    tags: ["Relaxation", "Beach"]
+                },
+                {
+                    icon: "🍽️",
+                    title: "Dubai Dining",
+                    description:
+                        "Explore international and regional cuisine at local restaurants.",
+                    tags: ["Food", "Lifestyle"]
+                }
+            ],
+
+            nature:
+                "Dubai can be very warm, so stay hydrated and use sun protection during outdoor activities.",
+
+            transport:
+                "Metro, taxis and rental cars are convenient options for exploring Dubai."
+        },
+
+
+        singapore: {
+
+            name: "Singapore",
+
+            hero:
+                "A modern city getaway combining gardens, food, shopping, culture and efficient urban exploration.",
+
+            activities: [
+                {
+                    icon: "🌿",
+                    title: "Gardens by the Bay",
+                    description:
+                        "Explore Singapore's famous futuristic gardens and green spaces.",
+                    tags: ["Nature", "Photography"]
+                },
+                {
+                    icon: "🦁",
+                    title: "Marina Bay",
+                    description:
+                        "Explore Singapore's iconic waterfront and modern architecture.",
+                    tags: ["Sightseeing", "Photography"]
+                },
+                {
+                    icon: "🍜",
+                    title: "Hawker Food",
+                    description:
+                        "Discover Singapore's famous local food culture at hawker centres.",
+                    tags: ["Food", "Local Cuisine"]
+                },
+                {
+                    icon: "🛍️",
+                    title: "Orchard Road",
+                    description:
+                        "Explore one of Singapore's best-known shopping districts.",
+                    tags: ["Shopping", "Lifestyle"]
+                },
+                {
+                    icon: "🏛️",
+                    title: "Cultural Districts",
+                    description:
+                        "Explore Singapore's diverse cultural neighborhoods and heritage.",
+                    tags: ["Culture", "Heritage"]
+                }
+            ],
+
+            nature:
+                "Singapore is warm and humid, so breathable clothing, water and comfortable shoes are useful.",
+
+            transport:
+                "MRT trains and buses are convenient for reaching most major attractions."
+        },
+
+
+        london: {
+
+            name: "London",
+
+            hero:
+                "A classic city journey featuring royal landmarks, museums, historic streets, food and shopping.",
+
+            activities: [
+                {
+                    icon: "🏰",
+                    title: "Tower of London",
+                    description:
+                        "Explore one of London's most historic landmarks.",
+                    tags: ["Culture", "Heritage"]
+                },
+                {
+                    icon: "🎡",
+                    title: "London Eye",
+                    description:
+                        "Enjoy panoramic views across central London.",
+                    tags: ["Sightseeing", "Photography"]
+                },
+                {
+                    icon: "☕",
+                    title: "British Café Experience",
+                    description:
+                        "Enjoy a relaxed café experience and traditional local treats.",
+                    tags: ["Food", "Lifestyle"]
+                },
+                {
+                    icon: "🛍️",
+                    title: "London Shopping",
+                    description:
+                        "Explore famous shopping streets and local markets.",
+                    tags: ["Shopping", "Lifestyle"]
+                },
+                {
+                    icon: "🌳",
+                    title: "Hyde Park",
+                    description:
+                        "Take a relaxing walk through one of London's famous parks.",
+                    tags: ["Nature", "Relaxation"]
+                }
+            ],
+
+            nature:
+                "London weather can change quickly, so carrying a light waterproof layer is useful.",
+
+            transport:
+                "The Underground and buses are convenient for exploring central London."
+        },
+
+
+        sydney: {
+
+            name: "Sydney",
+
+            hero:
+                "A coastal Australian adventure combining beaches, city landmarks, nature and outdoor experiences.",
+
+            activities: [
+                {
+                    icon: "🏖️",
+                    title: "Bondi Beach",
+                    description:
+                        "Relax at the famous beach and explore the surrounding coastal area.",
+                    tags: ["Beach", "Relaxation"]
+                },
+                {
+                    icon: "🏛️",
+                    title: "Sydney Opera House",
+                    description:
+                        "Visit Sydney's iconic architectural landmark.",
+                    tags: ["Culture", "Photography"]
+                },
+                {
+                    icon: "🌊",
+                    title: "Coastal Walk",
+                    description:
+                        "Enjoy scenic coastal views while walking along Sydney's shoreline.",
+                    tags: ["Nature", "Adventure"]
+                },
+                {
+                    icon: "🍽️",
+                    title: "Sydney Food Experience",
+                    description:
+                        "Explore the city's diverse restaurant and café culture.",
+                    tags: ["Food", "Lifestyle"]
+                },
+                {
+                    icon: "🌿",
+                    title: "Royal Botanic Garden",
+                    description:
+                        "Relax among gardens while enjoying views of the city and harbour.",
+                    tags: ["Nature", "Relaxation"]
+                }
+            ],
+
+            nature:
+                "Sydney's outdoor attractions make sunscreen, water and comfortable walking shoes useful.",
+
+            transport:
+                "Trains, buses, ferries and light rail provide convenient options around Sydney."
+        }
+
+    };
+
+
+    /*
+     * =========================================================
+     * DEFAULT DATA FOR OTHER DESTINATIONS
+     * =========================================================
+     */
+
+    const genericActivities = [
+
+        {
+            icon: "📍",
+            title: "City Exploration",
+            description:
+                "Explore the main attractions, streets and local highlights of the destination.",
+            tags: ["Sightseeing", "Exploration"]
+        },
+
+        {
+            icon: "🏛️",
+            title: "Cultural Experience",
+            description:
+                "Discover local history, architecture and cultural landmarks.",
+            tags: ["Culture", "Heritage"]
+        },
+
+        {
+            icon: "🍽️",
+            title: "Local Food Experience",
+            description:
+                "Try regional dishes and discover the destination's local food culture.",
+            tags: ["Food", "Local Cuisine"]
+        },
+
+        {
+            icon: "📸",
+            title: "Photography Walk",
+            description:
+                "Capture memorable views, architecture and local life.",
+            tags: ["Photography", "Sightseeing"]
+        },
+
+        {
+            icon: "🌿",
+            title: "Nature & Relaxation",
+            description:
+                "Take a break from sightseeing and enjoy a peaceful outdoor experience.",
+            tags: ["Nature", "Relaxation"]
+        }
+
+    ];
+
+
+    /*
+     * =========================================================
+     * GET SAVED TRIP
+     * =========================================================
+     */
+
+    function getTripData() {
+
+        try {
+
+            const saved =
+                localStorage.getItem("travelAIItinerary");
+
+            if (!saved) {
+                return null;
+            }
+
+            return JSON.parse(saved);
+
+        } catch (error) {
+
+            console.error(
+                "Unable to read itinerary data:",
+                error
+            );
+
+            return null;
+        }
+    }
+
+
+    /*
+     * =========================================================
+     * NORMALIZE DESTINATION
+     * =========================================================
+     */
+
+    function normalizeDestination(destination) {
+
+        return destination
+            .trim()
+            .toLowerCase()
+            .replace(/\s+/g, " ");
+
+    }
+
+
+    /*
+     * =========================================================
+     * FIND DESTINATION DATA
+     * =========================================================
+     */
+
+    function getDestinationData(destination) {
+
+        const key =
+            normalizeDestination(destination);
+
+        return destinationData[key] || {
+
+            name: destination,
+
+            hero:
+                "A personalized journey designed around your selected destination, travel style and preferences.",
+
+            activities:
+                genericActivities,
+
+            nature:
+                "Check the local weather before outdoor activities and pack clothing suitable for the season.",
+
+            transport:
+                "Use local public transport, taxis or rental options depending on your selected destination."
+
+        };
+    }
+
+
+    /*
+     * =========================================================
+     * BUDGET ESTIMATION
+     * =========================================================
+     */
+
+    function estimateBudget(trip) {
+
+        const travelers =
+            Number(trip.travelers) || 1;
+
+        const days =
+            Number(trip.days) || 1;
+
+
+        let dailyCost = 2500;
+
+
+        if (trip.budget === "Under ₹10,000") {
+            dailyCost = 1800;
+        }
+
+        else if (trip.budget === "₹10,000 - ₹25,000") {
+            dailyCost = 2800;
+        }
+
+        else if (trip.budget === "₹25,000 - ₹50,000") {
+            dailyCost = 4200;
+        }
+
+        else if (trip.budget === "₹50,000 - ₹1,00,000") {
+            dailyCost = 7000;
+        }
+
+        else if (trip.budget === "Above ₹1,00,000") {
+            dailyCost = 11000;
+        }
+
+
+        if (trip.travelStyle === "Adventure") {
+            dailyCost *= 1.10;
+        }
+
+        else if (trip.travelStyle === "Relaxation") {
+            dailyCost *= 1.15;
+        }
+
+        else if (trip.travelStyle === "Food") {
+            dailyCost *= 1.10;
+        }
+
+
+        if (trip.accommodation === "Luxury Hotel") {
+            dailyCost *= 1.35;
+        }
+
+        else if (trip.accommodation === "Resort") {
+            dailyCost *= 1.40;
+        }
+
+        else if (trip.accommodation === "Hostel") {
+            dailyCost *= 0.70;
+        }
+
+        else if (trip.accommodation === "Budget Hotel") {
+            dailyCost *= 0.80;
+        }
+
+
+        if (trip.transport === "Flight") {
+            dailyCost *= 1.15;
+        }
+
+        else if (trip.transport === "Rental Car") {
+            dailyCost *= 1.10;
+        }
+
+
+        return Math.round(
+            dailyCost *
+            days *
+            travelers
+        );
+    }
+
+
+    /*
+     * =========================================================
+     * FORMAT CURRENCY
+     * =========================================================
+     */
+
+    function formatCurrency(amount) {
+
+        return "₹" +
+            Number(amount).toLocaleString("en-IN");
+
+    }
+
+
+    /*
+     * =========================================================
+     * GET BUDGET LIMIT
+     * =========================================================
+     */
+
+    function getBudgetLimit(budget) {
+
+        if (budget === "Under ₹10,000") {
+            return 10000;
+        }
+
+        if (budget === "₹10,000 - ₹25,000") {
+            return 25000;
+        }
+
+        if (budget === "₹25,000 - ₹50,000") {
+            return 50000;
+        }
+
+        if (budget === "₹50,000 - ₹1,00,000") {
+            return 100000;
+        }
+
+        if (budget === "Above ₹1,00,000") {
+            return 150000;
+        }
+
+        return 50000;
+    }
+
+
+    /*
+     * =========================================================
+     * GET ACTIVITIES
+     * =========================================================
+     */
+
+    function getActivities(data, trip) {
+
+        let activities =
+            [...data.activities];
+
+
+        /*
+         * Slightly change the activity order based
+         * on the selected travel style.
+         */
+
+        if (trip.travelStyle === "Adventure") {
+
+            activities.sort(function(a, b) {
+
+                const aAdventure =
+                    a.tags.includes("Adventure") ? 1 : 0;
+
+                const bAdventure =
+                    b.tags.includes("Adventure") ? 1 : 0;
+
+                return bAdventure - aAdventure;
+
+            });
+
+        }
+
+        else if (trip.travelStyle === "Relaxation") {
+
+            activities.sort(function(a, b) {
+
+                const aRelax =
+                    a.tags.includes("Relaxation") ? 1 : 0;
+
+                const bRelax =
+                    b.tags.includes("Relaxation") ? 1 : 0;
+
+                return bRelax - aRelax;
+
+            });
+
+        }
+
+        else if (trip.travelStyle === "Food") {
+
+            activities.sort(function(a, b) {
+
+                const aFood =
+                    a.tags.includes("Food") ? 1 : 0;
+
+                const bFood =
+                    b.tags.includes("Food") ? 1 : 0;
+
+                return bFood - aFood;
+
+            });
+
+        }
+
+        return activities;
+
+    }
+
+
+    /*
+     * =========================================================
+     * CREATE DAY ACTIVITIES
+     * =========================================================
+     */
+
+    function getDayActivities(
+        activities,
+        dayNumber,
+        totalDays
+    ) {
+
+        const startIndex =
+            ((dayNumber - 1) * 2) %
+            activities.length;
+
+
+        const first =
+            activities[startIndex];
+
+
+        const second =
+            activities[
+                (startIndex + 1) %
+                activities.length
+            ];
+
+
+        return [first, second];
+
+    }
+
+
+    /*
+     * =========================================================
+     * DAY TITLES
+     * =========================================================
+     */
+
+    function getDayTitle(day, totalDays, style) {
+
+        if (day === 1) {
+            return "Arrival & First Exploration";
+        }
+
+        if (day === totalDays) {
+            return "Relaxation & Departure";
+        }
+
+        if (style === "Adventure") {
+            return "Adventure & Exploration";
+        }
+
+        if (style === "Relaxation") {
+            return "Relaxation & Scenic Experiences";
+        }
+
+        if (style === "Food") {
+            return "Food & Local Experiences";
+        }
+
+        return "Culture & Local Experiences";
+    }
+
+
+    /*
+     * =========================================================
+     * DAY LABEL
+     * =========================================================
+     */
+
+    function getDayLabel(style) {
+
+        if (style === "Adventure") {
+            return "ADVENTURE";
+        }
+
+        if (style === "Relaxation") {
+            return "RELAXED";
+        }
+
+        if (style === "Food") {
+            return "FOOD & LIFESTYLE";
+        }
+
+        return "EXPERIENCE";
+
+    }
+
+
+    /*
+     * =========================================================
+     * CREATE TIMELINE ITEM
+     * =========================================================
+     */
+
+    function createTimelineItem(
+        time,
+        activity
+    ) {
+
+        return `
+
+            <div class="timeline-item">
+
+                <div class="time">
+                    ${time}
+                </div>
+
+                <div class="timeline-icon">
+                    ${activity.icon}
+                </div>
+
+                <div class="timeline-content">
+
+                    <h4>
+                        ${activity.title}
+                    </h4>
+
+                    <p>
+                        ${activity.description}
+                    </p>
+
+                    <div class="tag-row">
+
+                        ${activity.tags.map(function(tag) {
+
+                            return `
+                                <span class="tag">
+                                    ${tag}
+                                </span>
+                            `;
+
+                        }).join("")}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /*
+     * =========================================================
+     * CREATE DAY CARD
+     * =========================================================
+     */
+
+    function createDayCard(
+        day,
+        totalDays,
+        activities,
+        trip
+    ) {
+
+        const dayActivities =
+            getDayActivities(
+                activities,
+                day,
+                totalDays
+            );
+
+
+        const title =
+            getDayTitle(
+                day,
+                totalDays,
+                trip.travelStyle
+            );
+
+
+        const label =
+            getDayLabel(
+                trip.travelStyle
+            );
+
+
+        return `
+
+            <div class="day-card">
+
+                <div class="day-header">
+
+                    <h3>
+                        Day ${day} — ${title}
+                    </h3>
+
+                    <span>
+                        ${label}
+                    </span>
+
+                </div>
+
+                <div class="timeline">
+
+                    ${createTimelineItem(
+                        "08:00 AM",
+                        {
+                            icon: "☕",
+                            title: "Breakfast",
+                            description:
+                                "Start the day with breakfast and prepare for your planned activities.",
+                            tags: ["Morning"]
+                        }
+                    )}
+
+                    ${createTimelineItem(
+                        "10:00 AM",
+                        dayActivities[0]
+                    )}
+
+                    ${createTimelineItem(
+                        "01:00 PM",
+                        {
+                            icon: "🍽️",
+                            title: "Local Lunch",
+                            description:
+                                "Enjoy lunch and take some time to relax before continuing the day's experiences.",
+                            tags: ["Food", "Break"]
+                        }
+                    )}
+
+                    ${createTimelineItem(
+                        "03:30 PM",
+                        dayActivities[1]
+                    )}
+
+                    ${createTimelineItem(
+                        "07:30 PM",
+                        {
+                            icon: "🌅",
+                            title: "Evening & Dinner",
+                            description:
+                                "Relax in the evening and enjoy dinner while experiencing the local atmosphere.",
+                            tags: ["Evening", "Relaxation"]
+                        }
+                    )}
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /*
+     * =========================================================
+     * DISPLAY ITINERARY
+     * =========================================================
+     */
+
+    function displayItinerary(trip) {
+
+        const data =
+            getDestinationData(
+                trip.destination
+            );
+
+
+        const activities =
+            getActivities(
+                data,
+                trip
+            );
+
+
+        document.title =
+            trip.destination +
+            " Itinerary | TravelAI";
+
+
+        document.getElementById(
+            "heroTitle"
+        ).textContent =
+            trip.destination +
+            " Travel Itinerary";
+
+
+        document.getElementById(
+            "heroDescription"
+        ).textContent =
+            data.hero;
+
+
+        document.getElementById(
+            "summaryDestination"
+        ).textContent =
+            trip.destination;
+
+
+        document.getElementById(
+            "summaryDuration"
+        ).textContent =
+            trip.days +
+            (trip.days === 1 ? " Day" : " Days");
+
+
+        document.getElementById(
+            "summaryTravelers"
+        ).textContent =
+            trip.travelers +
+            (trip.travelers === 1
+                ? " Person"
+                : " People");
+
+
+        document.getElementById(
+            "summaryBudget"
+        ).textContent =
+            trip.budget;
+
+
+        document.getElementById(
+            "planHeading"
+        ).textContent =
+            trip.destination +
+            " — Day-by-Day Plan";
+
+
+        document.getElementById(
+            "styleDisplay"
+        ).textContent =
+            "Travel Style: " +
+            trip.travelStyle;
+
+
+        /*
+         * SIDE INFORMATION
+         */
+
+        document.getElementById(
+            "infoDestination"
+        ).textContent =
+            trip.destination;
+
+
+        document.getElementById(
+            "infoDuration"
+        ).textContent =
+            trip.days +
+            (trip.days === 1 ? " Day" : " Days");
+
+
+        document.getElementById(
+            "infoTravelers"
+        ).textContent =
+            trip.travelers +
+            " Adults";
+
+
+        document.getElementById(
+            "infoStyle"
+        ).textContent =
+            trip.travelStyle;
+
+
+        document.getElementById(
+            "infoTransport"
+        ).textContent =
+            trip.transport;
+
+
+        document.getElementById(
+            "infoAccommodation"
+        ).textContent =
+            trip.accommodation;
+
+
+        /*
+         * GENERATE DAY CARDS
+         */
+
+        const container =
+            document.getElementById(
+                "itineraryContainer"
+            );
+
+
+        let html = "";
+
+
+        for (
+            let day = 1;
+            day <= trip.days;
+            day++
+        ) {
+
+            html +=
+                createDayCard(
+                    day,
+                    trip.days,
+                    activities,
+                    trip
+                );
+
+        }
+
+
+        container.innerHTML = html;
+
+
+        /*
+         * ACTIVITY COUNT
+         */
+
+        const activityCount =
+            trip.days * 5;
+
+
+        document.getElementById(
+            "infoActivities"
+        ).textContent =
+            activityCount;
+
+
+        /*
+         * BUDGET
+         */
+
+        const estimated =
+            estimateBudget(trip);
+
+
+        const limit =
+            getBudgetLimit(
+                trip.budget
+            );
+
+
+        document.getElementById(
+            "budgetSelected"
+        ).textContent =
+            trip.budget;
+
+
+        document.getElementById(
+            "estimatedCost"
+        ).textContent =
+            formatCurrency(
+                estimated
+            );
+
+
+        const percentage =
+            Math.min(
+                100,
+                Math.round(
+                    (estimated / limit) * 100
+                )
+            );
+
+
+        document.getElementById(
+            "budgetProgress"
+        ).style.width =
+            percentage + "%";
+
+
+        if (estimated > limit) {
+
+            document.getElementById(
+                "budgetStatus"
+            ).textContent =
+                "Over budget";
+
+        }
+
+        else {
+
+            document.getElementById(
+                "budgetStatus"
+            ).textContent =
+                "Within budget";
+
+        }
+
+
+        /*
+         * HOTEL
+         */
+
+        document.getElementById(
+            "hotelPreference"
+        ).textContent =
+            trip.accommodation;
+
+
+        document.getElementById(
+            "hotelNights"
+        ).textContent =
+            Math.max(
+                1,
+                trip.days - 1
+            );
+
+
+        /*
+         * TRAVEL NOTES
+         */
+
+        document.getElementById(
+            "weatherNote"
+        ).textContent =
+            data.nature;
+
+
+        document.getElementById(
+            "transportNote"
+        ).textContent =
+            data.transport;
+
+
+        /*
+         * AI SUGGESTION
+         */
+
+        let aiSuggestion =
+            "Keep one flexible time slot each day so you can discover places spontaneously.";
+
+
+        if (trip.travelStyle === "Adventure") {
+
+            aiSuggestion =
+                "Keep enough rest time between outdoor activities and allow flexibility for changing conditions.";
+
+        }
+
+        else if (trip.travelStyle === "Relaxation") {
+
+            aiSuggestion =
+                "Avoid over-scheduling your days and keep enough free time to enjoy the destination at a relaxed pace.";
+
+        }
+
+        else if (trip.travelStyle === "Food") {
+
+            aiSuggestion =
+                "Leave some flexibility in the schedule to discover local cafés, markets and regional food experiences.";
+
+        }
+
+
+        if (trip.requirements) {
+
+            aiSuggestion +=
+                " Special requirement: " +
+                trip.requirements +
+                ".";
+
+        }
+
+
+        document.getElementById(
+            "aiNote"
+        ).textContent =
+            aiSuggestion;
+
+    }
+
+
+    /*
+     * =========================================================
+     * PAGE LOAD
+     * =========================================================
+     */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function() {
+
+            const trip =
+                getTripData();
+
+
+            /*
+             * If someone opens itinerary-details.html
+             * directly without creating a trip first.
+             */
+
+            if (!trip || !trip.destination) {
+
+                document.getElementById(
+                    "heroTitle"
+                ).textContent =
+                    "Create Your Itinerary";
+
+
+                document.getElementById(
+                    "heroDescription"
+                ).textContent =
+                    "Choose your destination and preferences to generate a personalized travel plan.";
+
+
+                document.getElementById(
+                    "itineraryContainer"
+                ).innerHTML = `
+
+                    <div class="info-card">
+
+                        <h3>
+                            No itinerary found
+                        </h3>
+
+                        <p style="color:#5E7370;margin-bottom:20px;">
+                            Please create your trip first.
+                        </p>
+
+                        <a
+                            href="itinerary.html"
+                            class="btn primary"
+                        >
+                            Create My Itinerary
+                        </a>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            displayItinerary(trip);
+
+        }
+    );
+
+</script>
+
+</body>
+
+</html>

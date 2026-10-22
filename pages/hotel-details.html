@@ -1,0 +1,2792 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hotel Details | TravelAI</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #FCFAF5;
+            color: #183232;
+            line-height: 1.6;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        nav {
+            background: #164A4A;
+            color: #FCFAF5;
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 3px 15px rgba(22, 74, 74, 0.12);
+        }
+
+        .logo {
+            color: #FCFAF5;
+            text-decoration: none;
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            color: #FCFAF5;
+            text-decoration: none;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #267373;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 10px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: calc(100% + 5px);
+            left: 0;
+            background: #FFFFFF;
+            min-width: 215px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(22, 74, 74, 0.15);
+            z-index: 1001;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 12px 16px;
+            color: #164A4A;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .dropdown-content a:hover {
+            background: #DCEFE9;
+            color: #164A4A;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+
+        /* ================= HERO ================= */
+
+        .hotel-hero {
+            min-height: 360px;
+
+            background:
+                linear-gradient(
+                    rgba(22, 74, 74, 0.68),
+                    rgba(22, 74, 74, 0.68)
+                ),
+                url("https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1800&q=90")
+                center/cover;
+
+            display: flex;
+            align-items: center;
+            padding: 70px 7%;
+            color: white;
+        }
+
+        .hero-content {
+            max-width: 850px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            background: #DCEFE9;
+            color: #164A4A;
+            padding: 7px 15px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 18px;
+        }
+
+        .hotel-hero h1 {
+            font-size: 52px;
+            line-height: 1.1;
+            margin-bottom: 15px;
+        }
+
+        .hotel-hero p {
+            font-size: 18px;
+            max-width: 700px;
+        }
+
+
+        /* ================= CONTAINER ================= */
+
+        .container {
+            width: 88%;
+            max-width: 1250px;
+            margin: 0 auto;
+        }
+
+        section {
+            padding: 70px 0;
+        }
+
+
+        /* ================= MAIN HOTEL CARD ================= */
+
+        .hotel-main {
+            margin-top: -55px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .hotel-main-card {
+            background: #FFFFFF;
+            border: 1px solid #E2EAE7;
+            border-radius: 24px;
+            box-shadow: 0 15px 40px rgba(22, 74, 74, 0.12);
+            overflow: hidden;
+        }
+
+
+        /* ================= LARGE HOTEL IMAGE ================= */
+
+        .main-hotel-image {
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+        }
+
+        .main-hotel-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .main-hotel-image:hover img {
+            transform: scale(1.02);
+        }
+
+
+        /* ================= HOTEL SUMMARY ================= */
+
+        .hotel-summary {
+            padding: 35px;
+        }
+
+        .summary-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 25px;
+        }
+
+        .hotel-category {
+            color: #267373;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .hotel-summary h2 {
+            color: #164A4A;
+            font-size: 34px;
+            margin-bottom: 7px;
+        }
+
+        .hotel-location {
+            color: #5E7370;
+            margin-bottom: 12px;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .rating-number {
+            background: #267373;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 7px;
+            font-weight: bold;
+        }
+
+        .rating-text {
+            color: #5E7370;
+            font-size: 14px;
+        }
+
+
+        /* ================= FAVORITE ================= */
+
+        .favorite-btn {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 50%;
+            background: #FFFFFF;
+            color: #267373;
+            font-size: 25px;
+            cursor: pointer;
+
+            box-shadow:
+                0 4px 15px rgba(22, 74, 74, 0.15);
+
+            transition: 0.2s ease;
+
+            flex-shrink: 0;
+        }
+
+        .favorite-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .favorite-btn.active {
+            background: #267373;
+            color: #FFFFFF;
+        }
+
+
+        /* ================= DESCRIPTION ================= */
+
+        .description {
+            margin-top: 25px;
+            color: #5E7370;
+            max-width: 950px;
+            font-size: 15px;
+        }
+
+
+        /* ================= AMENITIES ================= */
+
+        .amenities {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-top: 22px;
+        }
+
+        .amenity {
+            background: #DCEFE9;
+            color: #164A4A;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+
+        /* ================= ADDITIONAL PHOTOS ================= */
+
+        .additional-photos {
+            padding: 0 35px 35px;
+        }
+
+        .additional-title {
+            color: #164A4A;
+            font-size: 22px;
+            margin-bottom: 18px;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .additional-photo {
+            height: 220px;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .additional-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.35s ease;
+        }
+
+        .additional-photo:hover img {
+            transform: scale(1.04);
+        }
+
+
+        /* ================= PRICE SECTION ================= */
+
+        .booking-bar {
+            border-top: 1px solid #E2EAE7;
+            margin: 0 35px;
+            padding: 28px 0 35px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 20px;
+        }
+
+        .price-label {
+            color: #5E7370;
+            font-size: 13px;
+        }
+
+        .price {
+            color: #164A4A;
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        .price-note {
+            color: #5E7370;
+            font-size: 12px;
+        }
+
+        .book-button {
+            display: inline-block;
+            background: #267373;
+            color: #FFFFFF;
+            text-decoration: none;
+            padding: 14px 25px;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: 0.2s ease;
+        }
+
+        .book-button:hover {
+            background: #164A4A;
+        }
+
+
+        /* ================= INFORMATION CARDS ================= */
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .info-card {
+            background: #FFFFFF;
+            border: 1px solid #E2EAE7;
+            border-radius: 16px;
+            padding: 22px;
+        }
+
+        .info-icon {
+            font-size: 27px;
+            margin-bottom: 10px;
+        }
+
+        .info-card h3 {
+            color: #164A4A;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .info-card p {
+            color: #5E7370;
+            font-size: 13px;
+        }
+
+
+        /* ================= OFFERS ================= */
+
+        .section-heading {
+            margin-bottom: 30px;
+        }
+
+        .section-heading h2 {
+            color: #164A4A;
+            font-size: 34px;
+            margin-bottom: 7px;
+        }
+
+        .section-heading p {
+            color: #5E7370;
+        }
+
+        .offers-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .offer-card {
+            background: #FFFFFF;
+            border: 1px solid #E2EAE7;
+            border-radius: 18px;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .offer-card::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 5px;
+            height: 100%;
+            background: #267373;
+        }
+
+        .offer-tag {
+            display: inline-block;
+            background: #DCEFE9;
+            color: #164A4A;
+            padding: 5px 9px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .offer-card h3 {
+            color: #164A4A;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .offer-card p {
+            color: #5E7370;
+            font-size: 14px;
+        }
+
+        .offer-price {
+            margin-top: 15px;
+            color: #267373;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+
+        /* ================= REVIEWS ================= */
+
+        .reviews-section {
+            background: #DCEFE9;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .review-card {
+            background: #FFFFFF;
+            border-radius: 18px;
+            padding: 25px;
+            border: 1px solid #E2EAE7;
+        }
+
+        .review-stars {
+            color: #267373;
+            letter-spacing: 2px;
+            margin-bottom: 14px;
+        }
+
+        .review-card p {
+            color: #5E7370;
+            font-size: 14px;
+            margin-bottom: 18px;
+        }
+
+        .reviewer {
+            border-top: 1px solid #E2EAE7;
+            padding-top: 14px;
+        }
+
+        .reviewer strong {
+            display: block;
+            color: #164A4A;
+        }
+
+        .reviewer span {
+            color: #5E7370;
+            font-size: 12px;
+        }
+
+
+        /* ================= WHY STAY ================= */
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 45px;
+            align-items: center;
+        }
+
+        .why-image {
+            height: 430px;
+            border-radius: 22px;
+            overflow: hidden;
+        }
+
+        .why-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .why-content h2 {
+            color: #164A4A;
+            font-size: 34px;
+            margin-bottom: 15px;
+        }
+
+        .why-content p {
+            color: #5E7370;
+            margin-bottom: 22px;
+        }
+
+        .check-list {
+            list-style: none;
+        }
+
+        .check-list li {
+            margin: 13px 0;
+            color: #183232;
+        }
+
+        .check-list li::before {
+            content: "✓";
+            color: #267373;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+
+        /* ================= CTA ================= */
+
+        .cta {
+            background: #164A4A;
+            color: #FFFFFF;
+            padding: 60px 35px;
+            border-radius: 25px;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 35px;
+            margin-bottom: 12px;
+        }
+
+        .cta p {
+            max-width: 650px;
+            margin: 0 auto 25px;
+            color: #DCEFE9;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .cta a {
+            display: inline-block;
+            background: #267373;
+            color: #FFFFFF;
+            padding: 13px 23px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .cta a:hover {
+            background: #DCEFE9;
+            color: #164A4A;
+        }
+
+
+        /* ================= NOT FOUND ================= */
+
+        .not-found {
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .not-found h2 {
+            color: #164A4A;
+            font-size: 35px;
+            margin-bottom: 12px;
+        }
+
+        .not-found p {
+            color: #5E7370;
+            margin-bottom: 25px;
+        }
+
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #102F2F;
+            color: #DCEFE9;
+            text-align: center;
+            padding: 35px 20px;
+            margin-top: 60px;
+        }
+
+        footer p {
+            margin: 4px;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1000px) {
+
+            .nav-links {
+                gap: 14px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .offers-grid,
+            .reviews-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .why-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 750px) {
+
+            nav {
+                flex-direction: column;
+                gap: 18px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .dropdown-content {
+                position: static;
+                margin-top: 10px;
+            }
+
+            .hotel-hero {
+                min-height: 340px;
+                padding: 50px 6%;
+            }
+
+            .hotel-hero h1 {
+                font-size: 40px;
+            }
+
+            .main-hotel-image {
+                height: 350px;
+            }
+
+            .photo-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .additional-photo {
+                height: 220px;
+            }
+
+            .info-grid,
+            .offers-grid,
+            .reviews-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-top {
+                flex-direction: column;
+            }
+
+            .booking-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .book-button {
+                width: 100%;
+                text-align: center;
+            }
+
+            section {
+                padding: 50px 0;
+            }
+
+        }
+
+
+        @media (max-width: 480px) {
+
+            .hotel-hero h1 {
+                font-size: 34px;
+            }
+
+            .hotel-summary {
+                padding: 23px;
+            }
+
+            .hotel-summary h2 {
+                font-size: 27px;
+            }
+
+            .main-hotel-image {
+                height: 280px;
+            }
+
+            .additional-photos {
+                padding: 0 23px 25px;
+            }
+
+            .booking-bar {
+                margin: 0 23px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav>
+
+    <a href="../index.html" class="logo">
+        TravelAI
+    </a>
+
+
+    <div class="nav-links">
+
+        <a href="../index.html">
+            Home
+        </a>
+
+
+        <div class="dropdown">
+
+            <a href="destinations.html">
+                Destinations ▾
+            </a>
+
+            <div class="dropdown-content">
+
+                <a href="destinations.html">
+                    Explore Destinations
+                </a>
+
+                <a href="destination-details.html">
+                    Destination Details
+                </a>
+
+                <a href="favorites.html">
+                    Favorites
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="dropdown">
+
+            <a href="itinerary.html">
+                Trip Planner ▾
+            </a>
+
+            <div class="dropdown-content">
+
+                <a href="itinerary.html">
+                    My Itinerary
+                </a>
+
+                <a href="itinerary-details.html">
+                    Itinerary Details
+                </a>
+
+                <a href="budget.html">
+                    Budget Planner
+                </a>
+
+                <a href="activities.html">
+                    Activities
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="dropdown">
+
+            <a href="recommendations.html">
+                Recommendations ▾
+            </a>
+
+            <div class="dropdown-content">
+
+                <a href="recommendations.html">
+                    All Recommendations
+                </a>
+
+                <a href="recommendation.html">
+                    AI Recommendation
+                </a>
+
+                <a href="preferences.html">
+                    Preferences
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <a href="hotels.html">
+            Hotels
+        </a>
+
+
+        <a href="weather.html">
+            Weather
+        </a>
+
+
+        <div class="dropdown">
+
+            <a href="profile.html">
+                Profile ▾
+            </a>
+
+            <div class="dropdown-content">
+
+                <a href="profile.html">
+                    My Profile
+                </a>
+
+                <a href="preferences.html">
+                    Preferences
+                </a>
+
+                <a href="favorites.html">
+                    Favorites
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <a href="about.html">
+            About
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hotel-hero">
+
+    <div class="hero-content">
+
+        <span class="eyebrow">
+            YOUR STAY
+        </span>
+
+        <h1 id="heroHotelName">
+            Hotel Details
+        </h1>
+
+        <p id="heroDescription">
+            Explore rooms, offers, facilities and guest
+            experiences before planning your stay.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     MAIN HOTEL
+===================================================== -->
+
+<div class="container hotel-main">
+
+    <div class="hotel-main-card">
+
+
+        <div class="main-hotel-image">
+
+            <img
+                id="image1"
+                src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1800&q=90"
+                alt="Hotel exterior">
+
+        </div>
+
+
+
+        <div class="hotel-summary">
+
+            <div class="summary-top">
+
+                <div>
+
+                    <div
+                        class="hotel-category"
+                        id="hotelCategory">
+
+                        LUXURY HOTEL
+
+                    </div>
+
+
+                    <h2 id="hotelName">
+                        Hotel Name
+                    </h2>
+
+
+                    <div
+                        class="hotel-location"
+                        id="hotelLocation">
+
+                        📍 Location
+
+                    </div>
+
+
+                    <div class="rating">
+
+                        <span
+                            class="rating-number"
+                            id="hotelRating">
+
+                            4.7
+
+                        </span>
+
+
+                        <span
+                            class="rating-text"
+                            id="reviewCount">
+
+                            Guest reviews
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="favorite-btn"
+                    id="favoriteButton"
+                    onclick="toggleFavorite()">
+
+                    ♡
+
+                </button>
+
+            </div>
+
+
+            <p
+                class="description"
+                id="hotelDescription">
+
+                Discover a comfortable stay with carefully
+                selected facilities and convenient access
+                to the destination.
+
+            </p>
+
+
+            <div
+                class="amenities"
+                id="amenities">
+
+            </div>
+
+        </div>
+
+
+
+        <div class="additional-photos">
+
+            <h3 class="additional-title">
+                Explore the Property
+            </h3>
+
+
+            <div class="photo-grid">
+
+
+                <div class="additional-photo">
+
+                    <img
+                        id="image2"
+                        src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1000&q=85"
+                        alt="Hotel room">
+
+                </div>
+
+
+                <div class="additional-photo">
+
+                    <img
+                        id="image3"
+                        src="https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=1000&q=85"
+                        alt="Hotel pool">
+
+                </div>
+
+
+                <div class="additional-photo">
+
+                    <img
+                        id="image4"
+                        src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1000&q=85"
+                        alt="Hotel interior">
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="booking-bar">
+
+            <div>
+
+                <div class="price-label">
+                    Starting from
+                </div>
+
+
+                <div
+                    class="price"
+                    id="hotelPrice">
+
+                    Check live price
+
+                </div>
+
+
+                <div class="price-note">
+
+                    Prices vary by dates, room type
+                    and availability.
+
+                </div>
+
+            </div>
+
+
+            <a
+                href="#"
+                target="_blank"
+                class="book-button"
+                id="officialButton">
+
+                Check Live Price
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     QUICK INFORMATION
+===================================================== -->
+
+<section>
+
+    <div class="container">
+
+        <div class="info-grid">
+
+
+            <div class="info-card">
+
+                <div class="info-icon">
+                    📍
+                </div>
+
+                <h3>
+                    Location
+                </h3>
+
+                <p id="infoLocation">
+                    —
+                </p>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <div class="info-icon">
+                    🏨
+                </div>
+
+                <h3>
+                    Property Type
+                </h3>
+
+                <p id="infoCategory">
+                    —
+                </p>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <div class="info-icon">
+                    ⭐
+                </div>
+
+                <h3>
+                    Guest Rating
+                </h3>
+
+                <p id="infoRating">
+                    —
+                </p>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <div class="info-icon">
+                    🔗
+                </div>
+
+                <h3>
+                    Booking
+                </h3>
+
+                <p>
+                    Official hotel website
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     OFFERS
+===================================================== -->
+
+<section>
+
+    <div class="container">
+
+
+        <div class="section-heading">
+
+            <h2>
+                Offers & Packages
+            </h2>
+
+            <p>
+                Available offers can change according
+                to dates, room type and hotel policies.
+            </p>
+
+        </div>
+
+
+        <div
+            class="offers-grid"
+            id="offersGrid">
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     REVIEWS
+===================================================== -->
+
+<section class="reviews-section">
+
+    <div class="container">
+
+
+        <div class="section-heading">
+
+            <h2>
+                Guest Reviews
+            </h2>
+
+            <p>
+                Review highlights and guest feedback
+                for this property.
+            </p>
+
+        </div>
+
+
+        <div
+            class="reviews-grid"
+            id="reviewsGrid">
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     WHY STAY
+===================================================== -->
+
+<section>
+
+    <div class="container">
+
+
+        <div class="why-grid">
+
+
+            <div class="why-image">
+
+                <img
+                    id="whyImage"
+                    src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=90"
+                    alt="Hotel">
+
+            </div>
+
+
+            <div class="why-content">
+
+                <h2>
+                    What to Expect
+                </h2>
+
+
+                <p id="whyDescription">
+
+                    Enjoy a stay designed around comfort,
+                    location and memorable travel experiences.
+
+                </p>
+
+
+                <ul
+                    class="check-list"
+                    id="checkList">
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     CTA
+===================================================== -->
+
+<section>
+
+    <div class="container">
+
+
+        <div class="cta">
+
+            <h2>
+                Ready to Plan Your Stay?
+            </h2>
+
+
+            <p>
+                Add this hotel to your travel plan or
+                explore more stays for your destination.
+            </p>
+
+
+            <div class="cta-buttons">
+
+                <a href="itinerary.html">
+                    Create Itinerary
+                </a>
+
+
+                <a href="hotels.html">
+                    Explore More Hotels
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    <p>
+        © 2026 TravelAI — AI-Based Personalized
+        Travel Recommendation System
+    </p>
+
+    <p>
+        Plan smarter. Travel better. Explore more.
+    </p>
+
+</footer>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+/* =====================================================
+   HOTEL IMAGE COLLECTION
+===================================================== */
+
+const hotelImages = [
+
+    "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1800&q=90",
+
+    "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=1200&q=85",
+
+    "https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=1200&q=85",
+
+    "https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1200&q=85",
+
+    "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=1200&q=85",
+
+    "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=85",
+
+    "https://images.unsplash.com/photo-1445019980597-93fa8acb246c?auto=format&fit=crop&w=1200&q=85",
+
+    "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=85",
+
+    "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=85",
+
+    "https://images.unsplash.com/photo-1601918774946-25832a4be0d6?auto=format&fit=crop&w=1200&q=85"
+
+];
+
+
+/* =====================================================
+   DESTINATION DATA
+===================================================== */
+
+const destinations = {
+
+    india: [
+        "Goa",
+        "Munnar",
+        "Ooty",
+        "Jaipur",
+        "Kerala",
+        "Delhi",
+        "Mumbai",
+        "Manali",
+        "Udaipur",
+        "Varanasi",
+        "Rishikesh",
+        "Darjeeling",
+        "Amritsar",
+        "Kolkata",
+        "Andaman Islands",
+        "Ladakh",
+        "Hampi",
+        "Pondicherry",
+        "Agra",
+        "Coorg"
+    ],
+
+    asia: [
+        "Tokyo",
+        "Kyoto",
+        "Seoul",
+        "Bali",
+        "Bangkok",
+        "Phuket",
+        "Singapore",
+        "Kuala Lumpur",
+        "Hanoi",
+        "Ho Chi Minh City",
+        "Manila",
+        "Maldives",
+        "Kathmandu",
+        "Colombo",
+        "Beijing",
+        "Shanghai",
+        "Hong Kong",
+        "Taipei",
+        "Siem Reap",
+        "Dubai"
+    ],
+
+    europe: [
+        "Paris",
+        "London",
+        "Rome",
+        "Venice",
+        "Florence",
+        "Barcelona",
+        "Madrid",
+        "Amsterdam",
+        "Berlin",
+        "Munich",
+        "Vienna",
+        "Prague",
+        "Budapest",
+        "Athens",
+        "Santorini",
+        "Lisbon",
+        "Zurich",
+        "Interlaken",
+        "Reykjavik",
+        "Copenhagen"
+    ],
+
+    international: [
+        "New York",
+        "Los Angeles",
+        "San Francisco",
+        "Vancouver",
+        "Toronto",
+        "Sydney",
+        "Melbourne",
+        "Queenstown",
+        "Cape Town",
+        "Cairo",
+        "Marrakech",
+        "Nairobi",
+        "Rio de Janeiro",
+        "Buenos Aires",
+        "Mexico City",
+        "Bora Bora",
+        "Honolulu",
+        "Istanbul",
+        "Patagonia",
+        "Seychelles"
+    ]
+
+};
+
+
+/* =====================================================
+   SPECIAL HOTEL INFORMATION
+   Existing detailed hotels are preserved.
+===================================================== */
+
+const specialHotels = {
+
+    "w-goa": {
+        name: "W Goa",
+        destination: "Goa",
+        category: "5-Star Beach Resort",
+        location: "Vagator Beach, Goa",
+        rating: "4.6",
+        reviewCount: "Guest reviews",
+        description:
+            "W Goa is a luxury beachfront resort in Vagator, designed around Goa's beach culture with resort facilities, dining, pool experiences and wellness options.",
+        amenities: [
+            "Beach Access",
+            "Pool",
+            "Spa",
+            "Dining",
+            "Wi-Fi"
+        ],
+        officialUrl:
+            "https://www.marriott.com/en-us/hotels/goiwh-w-goa/overview/"
+    },
+
+
+    "the-leela-goa": {
+        name: "The Leela Goa",
+        destination: "Goa",
+        category: "5-Star Luxury Resort",
+        location: "Mobor, Cavelossim, Goa",
+        rating: "4.7",
+        reviewCount: "Guest reviews",
+        description:
+            "The Leela Goa is a luxury resort in Mobor, Cavelossim, combining a beachfront setting with spacious accommodation, dining and wellness experiences.",
+        amenities: [
+            "Beachfront",
+            "Pool",
+            "Spa",
+            "Restaurants",
+            "Wi-Fi"
+        ],
+        officialUrl:
+            "https://www.theleela.com/the-leela-goa"
+    },
+
+
+    "scenic-munnar": {
+        name: "Scenic, Munnar - IHCL SeleQtions",
+        destination: "Munnar",
+        category: "Luxury Hotel",
+        location: "Anachal, Munnar, Kerala",
+        rating: "4.6",
+        reviewCount: "Guest reviews",
+        description:
+            "Scenic, Munnar - IHCL SeleQtions is positioned amid the natural landscape of Munnar and offers a luxury stay surrounded by the region's tea-country scenery.",
+        amenities: [
+            "Mountain Views",
+            "Nature",
+            "Dining",
+            "Wi-Fi",
+            "Wellness"
+        ],
+        officialUrl:
+            "https://www.tajhotels.com/"
+    },
+
+
+    "itc-rajputana": {
+        name: "ITC Rajputana, Jaipur",
+        destination: "Jaipur",
+        category: "Luxury Collection Hotel",
+        location: "Palace Road, Jaipur",
+        rating: "4.6",
+        reviewCount: "Guest reviews",
+        description:
+            "ITC Rajputana combines contemporary luxury with Rajasthan-inspired architecture and design. The hotel is centrally located near Jaipur Railway Station and offers dining, leisure and wellness facilities.",
+        amenities: [
+            "Pool",
+            "Spa",
+            "Restaurants",
+            "Wi-Fi",
+            "Fitness Centre"
+        ],
+        officialUrl:
+            "https://www.itchotels.com/in/en/itcrajputana-jaipur"
+    },
+
+
+    "taj-palace-delhi": {
+        name: "Taj Palace, New Delhi",
+        destination: "Delhi",
+        category: "Luxury Hotel",
+        location: "Diplomatic Enclave, New Delhi",
+        rating: "4.7",
+        reviewCount: "Guest reviews",
+        description:
+            "Taj Palace, New Delhi is a luxury hotel in the Diplomatic Enclave, offering multiple restaurants, wellness facilities, a swimming pool and extensive event spaces.",
+        amenities: [
+            "Swimming Pool",
+            "J Wellness Circle",
+            "Restaurants",
+            "Fitness Centre",
+            "Wi-Fi"
+        ],
+        officialUrl:
+            "https://www.tajhotels.com/en-in/hotels/taj-palace-new-delhi"
+    },
+
+
+    "leela-palace-delhi": {
+        name: "The Leela Palace New Delhi",
+        destination: "Delhi",
+        category: "5-Star Palace Hotel",
+        location: "Diplomatic Enclave, Chanakyapuri, New Delhi",
+        rating: "4.7",
+        reviewCount: "Guest reviews",
+        description:
+            "The Leela Palace New Delhi is a luxury palace-style hotel in the Diplomatic Enclave, combining contemporary comforts with Indian-inspired architecture, dining and wellness experiences.",
+        amenities: [
+            "Pool",
+            "Fine Dining",
+            "Spa",
+            "Butler Service",
+            "Wi-Fi"
+        ],
+        officialUrl:
+            "https://www.theleela.com/the-leela-palace-new-delhi"
+    },
+
+
+    "welcomhotel-hamsa-manali": {
+        name: "Welcomhotel by ITC Hotels Hamsa, Manali",
+        destination: "Manali",
+        category: "Luxury Mountain Resort",
+        location: "Manali, Himachal Pradesh",
+        rating: "4.6",
+        reviewCount: "Guest reviews",
+        description:
+            "Welcomhotel Hamsa is a mountain property surrounded by an apple orchard, with views of the Himalayan landscape and convenient access to Manali's mountain attractions.",
+        amenities: [
+            "Mountain Views",
+            "Spa",
+            "Restaurant",
+            "Apple Orchard",
+            "Wi-Fi"
+        ],
+        officialUrl:
+            "https://www.itchotels.com/"
+    },
+
+
+    "sterling-ooty-elk-hill": {
+        name: "Sterling Ooty - Elk Hill",
+        destination: "Ooty",
+        category: "Hill Resort",
+        location: "Ooty, Tamil Nadu",
+        rating: "4.4",
+        reviewCount: "Guest reviews",
+        description:
+            "Sterling Ooty - Elk Hill is a hill-station resort in Ooty, suited to travellers looking for a scenic stay in the Nilgiris.",
+        amenities: [
+            "Hill Views",
+            "Restaurant",
+            "Nature",
+            "Parking",
+            "Wi-Fi"
+        ],
+        officialUrl:
+            "https://www.sterlingholidays.com/destination/ooty"
+    },
+
+
+    "paris-marriott-opera": {
+        name: "Paris Marriott Opera Ambassador Hotel",
+        destination: "Paris",
+        category: "4-Star City Hotel",
+        location: "16 Boulevard Haussmann, Paris",
+        rating: "4.3",
+        reviewCount: "Guest reviews",
+        description:
+            "Paris Marriott Opera Ambassador Hotel is located in the Opera district on Boulevard Haussmann, placing guests close to major Paris attractions and shopping areas.",
+        amenities: [
+            "Opera District",
+            "Restaurant",
+            "Fitness Centre",
+            "Wi-Fi",
+            "City Access"
+        ],
+        officialUrl:
+            "https://www.marriott.com/en-us/hotels/paroa-paris-marriott-opera-ambassador-hotel/overview/"
+    },
+
+
+    "hyatt-regency-tokyo": {
+        name: "Hyatt Regency Tokyo",
+        destination: "Tokyo",
+        category: "Luxury City Hotel",
+        location: "Nishi-Shinjuku, Tokyo",
+        rating: "4.4",
+        reviewCount: "Guest reviews",
+        description:
+            "Hyatt Regency Tokyo is a large city hotel in Nishi-Shinjuku, with convenient access to Shinjuku and Tokyo's transport network.",
+        amenities: [
+            "Shinjuku",
+            "City Views",
+            "Restaurants",
+            "Fitness Centre",
+            "Wi-Fi"
+        ],
+        officialUrl:
+            "https://www.hyatt.com/hyatt-regency/en-US/tyoty-hyatt-regency-tokyo"
+    }
+
+};
+
+
+/* =====================================================
+   TEXT HELPERS
+===================================================== */
+
+function titleFromSlug(slug) {
+
+    return slug
+        .replace(/-/g, " ")
+        .replace(/\b\w/g, function(letter) {
+            return letter.toUpperCase();
+        });
+
+}
+
+
+function destinationFromSlug(slug) {
+
+    const words = slug
+        .replace(/-/g, " ")
+        .toLowerCase();
+
+    const allDestinations = [
+
+        ...destinations.india,
+        ...destinations.asia,
+        ...destinations.europe,
+        ...destinations.international
+
+    ];
+
+    for (const destination of allDestinations) {
+
+        const destinationSlug =
+            destination
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, "-")
+                .replace(/^-|-$/g, "");
+
+        if (slug.includes(destinationSlug)) {
+            return destination;
+        }
+
+    }
+
+    return "Travel Destination";
+
+}
+
+
+/* =====================================================
+   CREATE GENERIC HOTEL DETAILS
+===================================================== */
+
+function createGenericHotel(slug) {
+
+    const special = specialHotels[slug];
+
+    if (special) {
+
+        return {
+
+            ...special,
+
+            slug: slug,
+
+            price: "Check live price",
+
+            images: [
+
+                hotelImages[0],
+                hotelImages[1],
+                hotelImages[2],
+                hotelImages[3]
+
+            ]
+
+        };
+
+    }
+
+
+    const hotelName =
+        titleFromSlug(slug);
+
+
+    const destination =
+        destinationFromSlug(slug);
+
+
+    const destinationIndex =
+        Math.abs(
+            slug
+                .split("")
+                .reduce(
+                    function(total, character) {
+                        return total + character.charCodeAt(0);
+                    },
+                    0
+                )
+        );
+
+
+    const imageStart =
+        destinationIndex %
+        hotelImages.length;
+
+
+    const images = [
+
+        hotelImages[
+            imageStart %
+            hotelImages.length
+        ],
+
+        hotelImages[
+            (imageStart + 1) %
+            hotelImages.length
+        ],
+
+        hotelImages[
+            (imageStart + 2) %
+            hotelImages.length
+        ],
+
+        hotelImages[
+            (imageStart + 3) %
+            hotelImages.length
+        ]
+
+    ];
+
+
+    const amenitiesSets = [
+
+        [
+            "Wi-Fi",
+            "Restaurant",
+            "Room Service",
+            "Parking",
+            "24-Hour Reception"
+        ],
+
+        [
+            "Wi-Fi",
+            "Swimming Pool",
+            "Restaurant",
+            "Breakfast",
+            "Room Service"
+        ],
+
+        [
+            "Wi-Fi",
+            "Spa",
+            "Restaurant",
+            "Fitness Centre",
+            "Breakfast"
+        ],
+
+        [
+            "Wi-Fi",
+            "Mountain Views",
+            "Restaurant",
+            "Breakfast",
+            "Parking"
+        ],
+
+        [
+            "Wi-Fi",
+            "City Access",
+            "Restaurant",
+            "Room Service",
+            "Breakfast"
+        ]
+
+    ];
+
+
+    const amenities =
+        amenitiesSets[
+            destinationIndex %
+            amenitiesSets.length
+        ];
+
+
+    const ratingValues = [
+        "4.3",
+        "4.4",
+        "4.5",
+        "4.6",
+        "4.7"
+    ];
+
+
+    const rating =
+        ratingValues[
+            destinationIndex %
+            ratingValues.length
+        ];
+
+
+    return {
+
+        slug: slug,
+
+        name: hotelName,
+
+        destination: destination,
+
+        category: "Hotel Stay",
+
+        location:
+            destination +
+            " · Convenient Location",
+
+        rating: rating,
+
+        reviewCount:
+            "Guest reviews",
+
+        price:
+            "Check live price",
+
+        description:
+            hotelName +
+            " offers a comfortable stay in " +
+            destination +
+            ", with convenient facilities and access to the destination's major attractions. Explore the property, available amenities and current booking information before planning your stay.",
+
+        images: images,
+
+        amenities: amenities,
+
+        officialUrl: "#"
+
+    };
+
+}
+
+
+/* =====================================================
+   IMPORTANT:
+   HOTEL SLUG IS READ FROM THE URL
+===================================================== */
+
+const params =
+    new URLSearchParams(
+        window.location.search
+    );
+
+
+const hotelSlug =
+    params.get("hotel");
+
+
+/*
+   The selected hotel is generated from the slug.
+
+   This means:
+   hotel-details.html?hotel=some-hotel-slug
+
+   will always produce a hotel details page,
+   including the hotel slugs coming from hotels.html.
+*/
+
+const hotel =
+    hotelSlug
+        ? createGenericHotel(hotelSlug)
+        : null;
+
+
+/* =====================================================
+   HOTEL FAVORITES
+===================================================== */
+
+const HOTEL_FAVORITES_KEY =
+    "travelAIHotelFavorites";
+
+
+function getHotelFavorites() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                HOTEL_FAVORITES_KEY
+            ) || "[]"
+        );
+
+    }
+
+    catch (error) {
+
+        return [];
+
+    }
+
+}
+
+
+function saveHotelFavorites(favorites) {
+
+    localStorage.setItem(
+        HOTEL_FAVORITES_KEY,
+        JSON.stringify(favorites)
+    );
+
+}
+
+
+function isFavorite(slug) {
+
+    const favorites =
+        getHotelFavorites();
+
+
+    return favorites.some(
+        function(item) {
+
+            /*
+              Supports both the older object format
+              and the simpler slug format.
+            */
+
+            if (
+                typeof item === "string"
+            ) {
+
+                return item === slug;
+
+            }
+
+
+            return item.slug === slug;
+
+        }
+    );
+
+}
+
+
+function toggleFavorite() {
+
+    if (!hotel) {
+        return;
+    }
+
+
+    let favorites =
+        getHotelFavorites();
+
+
+    const index =
+        favorites.findIndex(
+            function(item) {
+
+                if (
+                    typeof item === "string"
+                ) {
+
+                    return item === hotel.slug;
+
+                }
+
+                return item.slug === hotel.slug;
+
+            }
+        );
+
+
+    if (index === -1) {
+
+        favorites.push({
+
+            type: "hotel",
+
+            slug: hotel.slug,
+
+            name: hotel.name,
+
+            destination: hotel.destination,
+
+            category: hotel.category,
+
+            location: hotel.location,
+
+            image: hotel.images[0],
+
+            officialUrl: hotel.officialUrl
+
+        });
+
+    }
+
+    else {
+
+        favorites.splice(
+            index,
+            1
+        );
+
+    }
+
+
+    saveHotelFavorites(
+        favorites
+    );
+
+
+    updateFavoriteButton();
+
+}
+
+
+function updateFavoriteButton() {
+
+    const button =
+        document.getElementById(
+            "favoriteButton"
+        );
+
+
+    if (
+        !button ||
+        !hotel
+    ) {
+
+        return;
+
+    }
+
+
+    if (
+        isFavorite(
+            hotel.slug
+        )
+    ) {
+
+        button.innerHTML = "♥";
+
+        button.classList.add(
+            "active"
+        );
+
+    }
+
+    else {
+
+        button.innerHTML = "♡";
+
+        button.classList.remove(
+            "active"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   RENDER OFFERS
+===================================================== */
+
+function renderOffers() {
+
+    const offersGrid =
+        document.getElementById(
+            "offersGrid"
+        );
+
+
+    offersGrid.innerHTML = "";
+
+
+    const offers = [
+
+        {
+            tag: "STAY",
+            title: "Flexible Stay",
+            description:
+                "Check the hotel's current room availability, packages and booking conditions.",
+            value: "Check dates"
+        },
+
+        {
+            tag: "TRAVEL",
+            title: "Destination Experience",
+            description:
+                "Plan your stay around the attractions, activities and experiences available in the destination.",
+            value: "Explore"
+        },
+
+        {
+            tag: "DIRECT",
+            title: "Direct Booking",
+            description:
+                "Use the official hotel website to check current prices, room types and availability.",
+            value: "Live rates"
+        }
+
+    ];
+
+
+    offers.forEach(
+        function(offer) {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "offer-card";
+
+
+            card.innerHTML = `
+
+                <span class="offer-tag">
+                    ${offer.tag}
+                </span>
+
+                <h3>
+                    ${offer.title}
+                </h3>
+
+                <p>
+                    ${offer.description}
+                </p>
+
+                <div class="offer-price">
+                    ${offer.value}
+                </div>
+
+            `;
+
+
+            offersGrid.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   RENDER REVIEWS
+===================================================== */
+
+function renderReviews() {
+
+    const reviewsGrid =
+        document.getElementById(
+            "reviewsGrid"
+        );
+
+
+    reviewsGrid.innerHTML = "";
+
+
+    const reviews = [
+
+        {
+            stars: "★★★★★",
+
+            text:
+                "Guests can check current reviews and recent experiences before confirming their stay.",
+
+            name:
+                "Guest feedback",
+
+            source:
+                "Review highlights"
+
+        },
+
+        {
+            stars: "★★★★★",
+
+            text:
+                "The location, accommodation and available facilities can be considered when planning a visit.",
+
+            name:
+                "Guest feedback",
+
+            source:
+                "Review highlights"
+
+        },
+
+        {
+            stars: "★★★★★",
+
+            text:
+                "Travel experiences may vary according to dates, room type and individual preferences.",
+
+            name:
+                "Guest feedback",
+
+            source:
+                "Review highlights"
+
+        }
+
+    ];
+
+
+    reviews.forEach(
+        function(review) {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "review-card";
+
+
+            card.innerHTML = `
+
+                <div class="review-stars">
+                    ${review.stars}
+                </div>
+
+                <p>
+                    "${review.text}"
+                </p>
+
+                <div class="reviewer">
+
+                    <strong>
+                        ${review.name}
+                    </strong>
+
+                    <span>
+                        ${review.source}
+                    </span>
+
+                </div>
+
+            `;
+
+
+            reviewsGrid.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   RENDER HOTEL
+===================================================== */
+
+function renderHotel() {
+
+
+    if (!hotel) {
+
+        document.body.innerHTML = `
+
+            <nav>
+
+                <a
+                    href="../index.html"
+                    class="logo">
+
+                    TravelAI
+
+                </a>
+
+            </nav>
+
+
+            <div class="not-found">
+
+                <h2>
+                    Hotel Not Found
+                </h2>
+
+                <p>
+                    Please select a hotel from the Hotels page.
+                </p>
+
+                <a
+                    href="hotels.html"
+                    class="book-button">
+
+                    Back to Hotels
+
+                </a>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    /* ================= PAGE TITLE ================= */
+
+    document.title =
+        hotel.name +
+        " | TravelAI";
+
+
+    /* ================= HERO ================= */
+
+    document.getElementById(
+        "heroHotelName"
+    ).textContent =
+        hotel.name;
+
+
+    document.getElementById(
+        "heroDescription"
+    ).textContent =
+        "Explore this stay, view offers, read guest feedback and plan your visit.";
+
+
+    /* ================= HOTEL DETAILS ================= */
+
+    document.getElementById(
+        "hotelCategory"
+    ).textContent =
+        hotel.category.toUpperCase();
+
+
+    document.getElementById(
+        "hotelName"
+    ).textContent =
+        hotel.name;
+
+
+    document.getElementById(
+        "hotelLocation"
+    ).textContent =
+        "📍 " +
+        hotel.location;
+
+
+    document.getElementById(
+        "hotelRating"
+    ).textContent =
+        hotel.rating;
+
+
+    document.getElementById(
+        "reviewCount"
+    ).textContent =
+        hotel.reviewCount;
+
+
+    document.getElementById(
+        "hotelDescription"
+    ).textContent =
+        hotel.description;
+
+
+    /* ================= IMAGES ================= */
+
+    document.getElementById(
+        "image1"
+    ).src =
+        hotel.images[0];
+
+
+    document.getElementById(
+        "image2"
+    ).src =
+        hotel.images[1];
+
+
+    document.getElementById(
+        "image3"
+    ).src =
+        hotel.images[2];
+
+
+    document.getElementById(
+        "image4"
+    ).src =
+        hotel.images[3];
+
+
+    document.getElementById(
+        "whyImage"
+    ).src =
+        hotel.images[0];
+
+
+    /* ================= AMENITIES ================= */
+
+    const amenities =
+        document.getElementById(
+            "amenities"
+        );
+
+
+    amenities.innerHTML = "";
+
+
+    hotel.amenities.forEach(
+        function(item) {
+
+            const span =
+                document.createElement(
+                    "span"
+                );
+
+
+            span.className =
+                "amenity";
+
+
+            span.textContent =
+                item;
+
+
+            amenities.appendChild(
+                span
+            );
+
+        }
+    );
+
+
+    /* ================= PRICE ================= */
+
+    document.getElementById(
+        "hotelPrice"
+    ).textContent =
+        hotel.price;
+
+
+    /* ================= QUICK INFORMATION ================= */
+
+    document.getElementById(
+        "infoLocation"
+    ).textContent =
+        hotel.location;
+
+
+    document.getElementById(
+        "infoCategory"
+    ).textContent =
+        hotel.category;
+
+
+    document.getElementById(
+        "infoRating"
+    ).textContent =
+        hotel.rating +
+        " / 5";
+
+
+    /* ================= OFFICIAL WEBSITE ================= */
+
+    const officialButton =
+        document.getElementById(
+            "officialButton"
+        );
+
+
+    if (
+        hotel.officialUrl &&
+        hotel.officialUrl !== "#"
+    ) {
+
+        officialButton.href =
+            hotel.officialUrl;
+
+        officialButton.target =
+            "_blank";
+
+    }
+
+    else {
+
+        officialButton.href =
+            "hotels.html";
+
+        officialButton.target =
+            "_self";
+
+    }
+
+
+    /* ================= OFFERS ================= */
+
+    renderOffers();
+
+
+    /* ================= REVIEWS ================= */
+
+    renderReviews();
+
+
+    /* ================= WHY STAY ================= */
+
+    document.getElementById(
+        "whyDescription"
+    ).textContent =
+
+        "This stay combines the character of " +
+        hotel.destination +
+        " with facilities and accommodation suited to travellers exploring the destination.";
+
+
+    const checkList =
+        document.getElementById(
+            "checkList"
+        );
+
+
+    checkList.innerHTML = "";
+
+
+    hotel.amenities
+        .slice(0, 5)
+        .forEach(
+            function(item) {
+
+                const li =
+                    document.createElement(
+                        "li"
+                    );
+
+
+                li.textContent =
+                    item +
+                    " available at the property";
+
+
+                checkList.appendChild(
+                    li
+                );
+
+            }
+        );
+
+
+    /* ================= FAVORITE ================= */
+
+    updateFavoriteButton();
+
+}
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        renderHotel();
+
+    }
+);
+
+
+/* =====================================================
+   SYNC FAVORITES BETWEEN TABS
+===================================================== */
+
+window.addEventListener(
+    "storage",
+    function(event) {
+
+        if (
+            event.key ===
+            HOTEL_FAVORITES_KEY
+        ) {
+
+            updateFavoriteButton();
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

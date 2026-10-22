@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AI Recommendation | TravelAI</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#FCFAF5;
+    color:#183232;
+    line-height:1.6;
+}
+
+nav{
+    background:#164A4A;
+    padding:18px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.logo{
+    color:#FCFAF5;
+    text-decoration:none;
+    font-size:28px;
+    font-weight:bold;
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:24px;
+}
+
+.nav-links a{
+    color:#FCFAF5;
+    text-decoration:none;
+    font-size:15px;
+}
+
+.nav-links a:hover{
+    color:#267373;
+}
+
+.dropdown{
+    position:relative;
+}
+
+.dropdown::after{
+    content:"";
+    position:absolute;
+    top:100%;
+    left:0;
+    width:100%;
+    height:10px;
+}
+
+.dropdown-content{
+    display:none;
+    position:absolute;
+    top:calc(100% + 5px);
+    left:0;
+    min-width:215px;
+    background:#fff;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(22,74,74,.15);
+    z-index:1001;
+}
+
+.dropdown-content a{
+    display:block;
+    color:#164A4A;
+    padding:12px 16px;
+}
+
+.dropdown-content a:hover{
+    background:#DCEFE9;
+}
+
+.dropdown:hover .dropdown-content{
+    display:block;
+}
+
+.hero{
+    min-height:430px;
+    display:flex;
+    align-items:center;
+    padding:70px 7%;
+    color:#fff;
+    background:
+        linear-gradient(rgba(22,74,74,.68),rgba(22,74,74,.68)),
+        url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1800&q=90")
+        center/cover;
+}
+
+.hero-content{
+    max-width:820px;
+}
+
+.eyebrow{
+    display:inline-block;
+    background:#267373;
+    color:#fff;
+    padding:7px 15px;
+    border-radius:30px;
+    font-size:12px;
+    font-weight:bold;
+    letter-spacing:1px;
+    margin-bottom:18px;
+}
+
+.hero h1{
+    font-size:55px;
+    line-height:1.1;
+    margin-bottom:16px;
+}
+
+.hero p{
+    max-width:700px;
+    font-size:18px;
+    color:#DCEFE9;
+}
+
+.container{
+    width:88%;
+    max-width:1250px;
+    margin:auto;
+}
+
+section{
+    padding:70px 0;
+}
+
+.match-wrapper{
+    margin-top:-55px;
+    position:relative;
+    z-index:5;
+}
+
+.match-card{
+    background:#fff;
+    border-radius:20px;
+    padding:27px 30px;
+    box-shadow:0 10px 35px rgba(22,74,74,.12);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:25px;
+}
+
+.match-info h2{
+    color:#164A4A;
+    margin-bottom:5px;
+}
+
+.match-info p{
+    color:#5E7370;
+    font-size:14px;
+}
+
+.match-meter{
+    min-width:240px;
+}
+
+.meter-top{
+    display:flex;
+    justify-content:space-between;
+    font-size:13px;
+    font-weight:bold;
+    color:#164A4A;
+    margin-bottom:8px;
+}
+
+.meter{
+    height:10px;
+    background:#DCEFE9;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.meter-fill{
+    height:100%;
+    width:0;
+    background:#267373;
+    transition:width .5s;
+}
+
+.section-heading{
+    margin-bottom:30px;
+}
+
+.section-heading h2{
+    font-size:34px;
+    color:#164A4A;
+}
+
+.section-heading p{
+    color:#5E7370;
+}
+
+.recommendation-card{
+    background:#fff;
+    border-radius:24px;
+    overflow:hidden;
+    box-shadow:0 9px 30px rgba(22,74,74,.09);
+    display:grid;
+    grid-template-columns:1fr 1fr;
+}
+
+.recommendation-image{
+    min-height:520px;
+    background-size:cover;
+    background-position:center;
+}
+
+.recommendation-content{
+    padding:45px;
+}
+
+.recommendation-content h2{
+    font-size:39px;
+    color:#164A4A;
+    margin-bottom:5px;
+}
+
+.location{
+    color:#267373;
+    margin-bottom:20px;
+    font-size:14px;
+}
+
+.description{
+    color:#5E7370;
+    margin-bottom:25px;
+}
+
+.reason-list{
+    display:grid;
+    gap:11px;
+    margin-bottom:27px;
+}
+
+.reason{
+    background:#DCEFE9;
+    padding:13px 15px;
+    border-radius:10px;
+    font-size:13px;
+}
+
+.reason strong{
+    display:block;
+    color:#164A4A;
+}
+
+.details-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:28px;
+}
+
+.detail{
+    background:#DCEFE9;
+    padding:15px;
+    border-radius:11px;
+}
+
+.detail span{
+    display:block;
+    font-size:11px;
+    color:#5E7370;
+}
+
+.detail strong{
+    color:#164A4A;
+    font-size:14px;
+}
+
+.btn{
+    display:inline-block;
+    padding:13px 20px;
+    border-radius:9px;
+    text-decoration:none;
+    font-weight:bold;
+    font-size:13px;
+    border:0;
+    cursor:pointer;
+}
+
+.primary{
+    background:#267373;
+    color:#fff;
+}
+
+.secondary{
+    background:#DCEFE9;
+    color:#164A4A;
+}
+
+.primary:hover{
+    background:#164A4A;
+}
+
+.secondary:hover{
+    background:#267373;
+    color:#fff;
+}
+
+.breakdown{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:25px;
+}
+
+.breakdown-card{
+    background:#fff;
+    border-radius:18px;
+    padding:27px;
+    box-shadow:0 6px 22px rgba(22,74,74,.06);
+}
+
+.breakdown-card h3{
+    color:#164A4A;
+    margin-bottom:20px;
+}
+
+.factor{
+    margin-bottom:17px;
+}
+
+.factor-top{
+    display:flex;
+    justify-content:space-between;
+    font-size:13px;
+    margin-bottom:6px;
+}
+
+.factor-bar{
+    height:8px;
+    background:#DCEFE9;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.factor-fill{
+    height:100%;
+    background:#267373;
+    width:0;
+    transition:width .5s;
+}
+
+.interest-tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+}
+
+.interest-tag{
+    background:#DCEFE9;
+    color:#164A4A;
+    padding:8px 11px;
+    border-radius:20px;
+    font-size:12px;
+}
+
+.why-section{
+    background:#DCEFE9;
+}
+
+.why-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+}
+
+.why-card{
+    background:#fff;
+    border-radius:17px;
+    padding:27px;
+}
+
+.why-icon{
+    font-size:31px;
+    margin-bottom:12px;
+}
+
+.why-card h3{
+    color:#164A4A;
+    margin-bottom:7px;
+}
+
+.why-card p{
+    color:#5E7370;
+    font-size:13px;
+}
+
+.alternative-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:22px;
+}
+
+.alternative-card{
+    background:#fff;
+    border-radius:17px;
+    overflow:hidden;
+    box-shadow:0 7px 24px rgba(22,74,74,.07);
+}
+
+.alternative-image{
+    height:200px;
+    background-size:cover;
+    background-position:center;
+}
+
+.alternative-content{
+    padding:22px;
+}
+
+.alternative-content h3{
+    color:#164A4A;
+    font-size:20px;
+}
+
+.alternative-content p{
+    color:#5E7370;
+    font-size:13px;
+    margin:8px 0 15px;
+}
+
+.small-match{
+    display:inline-block;
+    background:#DCEFE9;
+    color:#164A4A;
+    padding:6px 9px;
+    border-radius:15px;
+    font-size:11px;
+}
+
+.cta{
+    background:#164A4A;
+    color:#fff;
+    border-radius:24px;
+    padding:60px 30px;
+    text-align:center;
+}
+
+.cta h2{
+    font-size:35px;
+    margin-bottom:12px;
+}
+
+.cta p{
+    max-width:670px;
+    margin:0 auto 25px;
+    color:#DCEFE9;
+}
+
+footer{
+    background:#102F2F;
+    color:#DCEFE9;
+    text-align:center;
+    padding:35px 20px;
+    margin-top:60px;
+}
+
+@media(max-width:1000px){
+
+    .recommendation-card{
+        grid-template-columns:1fr;
+    }
+
+    .details-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .breakdown{
+        grid-template-columns:1fr;
+    }
+
+    .why-grid,
+    .alternative-grid{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:700px){
+
+    nav{
+        flex-direction:column;
+        gap:15px;
+    }
+
+    .nav-links{
+        flex-wrap:wrap;
+        justify-content:center;
+    }
+
+    .hero h1{
+        font-size:40px;
+    }
+
+    .match-card{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .match-meter{
+        width:100%;
+    }
+
+    .recommendation-content{
+        padding:28px;
+    }
+
+    .recommendation-content h2{
+        font-size:31px;
+    }
+
+    .details-grid,
+    .why-grid,
+    .alternative-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+
+<a href="../index.html" class="logo">TravelAI</a>
+
+<div class="nav-links">
+
+<a href="../index.html">Home</a>
+
+<div class="dropdown">
+<a href="destinations.html">Destinations ▾</a>
+<div class="dropdown-content">
+<a href="destinations.html">Explore Destinations</a>
+<a href="destination-details.html">Destination Details</a>
+<a href="favorites.html">Favorites</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="itinerary.html">Trip Planner ▾</a>
+<div class="dropdown-content">
+<a href="itinerary.html">My Itinerary</a>
+<a href="itinerary-details.html">Itinerary Details</a>
+<a href="budget.html">Budget Planner</a>
+<a href="activities.html">Activities</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="recommendations.html">Recommendations ▾</a>
+<div class="dropdown-content">
+<a href="recommendations.html">All Recommendations</a>
+<a href="recommendation.html">AI Recommendation</a>
+<a href="preferences.html">Preferences</a>
+</div>
+</div>
+
+<a href="hotels.html">Hotels</a>
+<a href="weather.html">Weather</a>
+
+<div class="dropdown">
+<a href="profile.html">Profile ▾</a>
+<div class="dropdown-content">
+<a href="profile.html">My Profile</a>
+<a href="preferences.html">Preferences</a>
+<a href="favorites.html">Favorites</a>
+</div>
+</div>
+
+<a href="about.html">About</a>
+
+</div>
+</nav>
+
+<section class="hero">
+
+<div class="hero-content">
+
+<span class="eyebrow">AI-POWERED RECOMMENDATION</span>
+
+<h1 id="heroTitle">
+Your Next Destination, Personalized
+</h1>
+
+<p id="heroDescription">
+TravelAI analyzes your interests, travel style and budget
+to find a destination that matches your preferences.
+</p>
+
+</div>
+
+</section>
+
+<section style="padding-top:0">
+
+<div class="container match-wrapper">
+
+<div class="match-card">
+
+<div class="match-info">
+
+<h2>AI Recommendation for You</h2>
+
+<p id="matchDescription">
+Calculating your personalized destination...
+</p>
+
+</div>
+
+<div class="match-meter">
+
+<div class="meter-top">
+
+<span>Preference Alignment</span>
+
+<span id="matchPercent">0%</span>
+
+</div>
+
+<div class="meter">
+
+<div class="meter-fill" id="meterFill"></div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section>
+
+<div class="container">
+
+<div class="section-heading">
+
+<h2>Recommended Destination</h2>
+
+<p>
+This destination is selected from your saved TravelAI preferences.
+</p>
+
+</div>
+
+<div class="recommendation-card">
+
+<div class="recommendation-image" id="recommendationImage"></div>
+
+<div class="recommendation-content">
+
+<span class="eyebrow">
+TOP PERSONALIZED SUGGESTION
+</span>
+
+<h2 id="destinationName">Loading...</h2>
+
+<div class="location" id="destinationLocation"></div>
+
+<p class="description" id="destinationDescription"></p>
+
+<div class="details-grid">
+
+<div class="detail">
+<span>Ideal Duration</span>
+<strong id="duration"></strong>
+</div>
+
+<div class="detail">
+<span>Travel Style</span>
+<strong id="travelStyle"></strong>
+</div>
+
+<div class="detail">
+<span>Budget Level</span>
+<strong id="budgetLevel"></strong>
+</div>
+
+<div class="detail">
+<span>Best For</span>
+<strong id="bestFor"></strong>
+</div>
+
+</div>
+
+<div class="reason-list" id="reasonList"></div>
+
+<a id="exploreButton"
+class="btn primary"
+href="destination-details.html">
+Explore Destination
+</a>
+
+<a href="itinerary.html" class="btn secondary">
+Plan This Trip
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="why-section">
+
+<div class="container">
+
+<div class="section-heading">
+
+<h2>Why This Recommendation?</h2>
+
+<p>
+TravelAI compares multiple preference categories before selecting
+the destination.
+</p>
+
+</div>
+
+<div class="why-grid">
+
+<div class="why-card">
+
+<div class="why-icon">❤️</div>
+
+<h3>Your Interests</h3>
+
+<p>
+Your selected interests directly contribute to destination matching.
+</p>
+
+</div>
+
+<div class="why-card">
+
+<div class="why-icon">💰</div>
+
+<h3>Your Budget</h3>
+
+<p>
+Your daily budget helps TravelAI identify destinations within your range.
+</p>
+
+</div>
+
+<div class="why-card">
+
+<div class="why-icon">🗺️</div>
+
+<h3>Your Travel Style</h3>
+
+<p>
+Travel style, food, accommodation and pace are considered together.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section>
+
+<div class="container">
+
+<div class="section-heading">
+
+<h2>Recommendation Breakdown</h2>
+
+<p>
+See how your preferences contributed to the selected destination.
+</p>
+
+</div>
+
+<div class="breakdown">
+
+<div class="breakdown-card">
+
+<h3>Preference Factors</h3>
+
+<div class="factor">
+<div class="factor-top">
+<span>Interest Match</span>
+<strong id="interestScore">0%</strong>
+</div>
+<div class="factor-bar">
+<div class="factor-fill" id="interestBar"></div>
+</div>
+</div>
+
+<div class="factor">
+<div class="factor-top">
+<span>Travel Style</span>
+<strong id="styleScore">0%</strong>
+</div>
+<div class="factor-bar">
+<div class="factor-fill" id="styleBar"></div>
+</div>
+</div>
+
+<div class="factor">
+<div class="factor-top">
+<span>Budget Compatibility</span>
+<strong id="budgetScore">0%</strong>
+</div>
+<div class="factor-bar">
+<div class="factor-fill" id="budgetBar"></div>
+</div>
+</div>
+
+<div class="factor">
+<div class="factor-top">
+<span>Experience Match</span>
+<strong id="experienceScore">0%</strong>
+</div>
+<div class="factor-bar">
+<div class="factor-fill" id="experienceBar"></div>
+</div>
+</div>
+
+</div>
+
+<div class="breakdown-card">
+
+<h3>Your Active Interests</h3>
+
+<div class="interest-tags" id="interestTags"></div>
+
+<br>
+
+<p style="color:#164A4A;font-size:13px">
+
+These preferences are stored in your browser and are used
+to generate the recommendation.
+
+</p>
+
+<br>
+
+<a href="preferences.html" class="btn primary">
+Update Preferences
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section>
+
+<div class="container">
+
+<div class="section-heading">
+
+<h2>Other Destinations to Explore</h2>
+
+<p>
+These are the next closest matches to your current profile.
+</p>
+
+</div>
+
+<div class="alternative-grid" id="alternatives"></div>
+
+</div>
+
+</section>
+
+<section>
+
+<div class="container">
+
+<div class="cta">
+
+<h2>Turn This Recommendation Into a Trip</h2>
+
+<p>
+Create an itinerary using your recommended destination,
+activities, hotels and budget.
+</p>
+
+<a href="itinerary.html" class="btn secondary">
+Create Itinerary
+</a>
+
+<a href="budget.html" class="btn secondary">
+Plan Budget
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<footer>
+
+<p>
+© 2026 TravelAI — AI-Based Personalized Travel Recommendation System
+</p>
+
+<p>
+Plan smarter. Travel better. Explore more.
+</p>
+
+</footer>
+
+<script>
+
+const destinations={
+
+jaipur:{
+name:"Jaipur",
+location:"Rajasthan, India",
+interests:["Culture","Food","Photography","Shopping"],
+styles:["culture"],
+budget:"moderate",
+description:"Explore royal palaces, historic forts, colorful markets, traditional cuisine and rich heritage.",
+duration:"3–5 Days",
+bestFor:"Culture",
+image:"/images/jaipur1.jpg"
+},
+
+goa:{
+name:"Goa",
+location:"Goa, India",
+interests:["Beaches","Food","Nightlife","Photography"],
+styles:["beach"],
+budget:"moderate",
+description:"Enjoy beaches, coastal cuisine, water activities, nightlife and relaxed experiences by the sea.",
+duration:"3–5 Days",
+bestFor:"Beaches",
+image:"/images/goa3.avif"
+},
+
+munnar:{
+name:"Munnar",
+location:"Kerala, India",
+interests:["Nature","Adventure","Photography","Wellness"],
+styles:["nature","adventure"],
+budget:"budget",
+description:"Discover tea plantations, mountain landscapes, trekking routes and peaceful natural surroundings.",
+duration:"3–5 Days",
+bestFor:"Nature",
+image:"/images/munnar3.webp"
+},
+
+kerala:{
+name:"Kerala",
+location:"Kerala, India",
+interests:["Nature","Wellness","Food","Culture","Photography"],
+styles:["nature","wellness"],
+budget:"moderate",
+description:"Experience backwaters, greenery, local cuisine, wellness experiences and cultural attractions.",
+duration:"4–6 Days",
+bestFor:"Nature & Wellness",
+image:"/images/kerala2.webp"
+},
+
+ooty:{
+name:"Ooty",
+location:"Tamil Nadu, India",
+interests:["Nature","Photography","Wellness"],
+styles:["nature"],
+budget:"budget",
+description:"Enjoy cool weather, gardens, viewpoints and peaceful mountain experiences.",
+duration:"2–4 Days",
+bestFor:"Relaxation",
+image:"/images/ooty2.jpeg"
+},
+
+manali:{
+name:"Manali",
+location:"Himachal Pradesh, India",
+interests:["Adventure","Nature","Photography"],
+styles:["adventure","nature"],
+budget:"moderate",
+description:"Explore mountain scenery, trekking, outdoor activities and adventurous experiences.",
+duration:"4–6 Days",
+bestFor:"Adventure",
+image:"/images/manali1.jpg"
+},
+
+delhi:{
+name:"Delhi",
+location:"Delhi, India",
+interests:["Culture","Food","Shopping","Photography"],
+styles:["culture","city"],
+budget:"moderate",
+description:"Discover historic monuments, museums, markets, street food and urban experiences.",
+duration:"2–4 Days",
+bestFor:"Culture & Food",
+image:"/images/delhi.jpg"
+},
+
+paris:{
+name:"Paris",
+location:"France",
+interests:["Culture","Food","Photography","Shopping"],
+styles:["culture"],
+budget:"premium",
+description:"Experience art, architecture, museums, cuisine, shopping and iconic city attractions.",
+duration:"4–6 Days",
+bestFor:"Culture",
+image:"/images/paris1.jpg"
+},
+
+tokyo:{
+name:"Tokyo",
+location:"Japan",
+interests:["Culture","Food","Shopping","Nightlife","Photography"],
+styles:["city","culture"],
+budget:"premium",
+description:"Experience Japanese culture, incredible food, shopping, nightlife and modern city life.",
+duration:"5–7 Days",
+bestFor:"Culture & City",
+image:"/images/tokyo1.webp"
+}
+
+};
+
+const prefs=
+JSON.parse(localStorage.getItem("travelPreferences")) || {
+
+    interests:["Adventure"],
+    travelStyle:"Balanced",
+    hotelPreference:"Any Accommodation",
+    foodPreference:"Any Food",
+    transportPreference:"Any",
+    tripPace:"Balanced",
+    budget:7000
+
+};
+
+function scoreDestination(destination){
+
+    let interestMatches=0;
+
+    prefs.interests.forEach(interest=>{
+
+        if(destination.interests.includes(interest)){
+            interestMatches++;
+        }
+
+    });
+
+    const interestScore=
+        prefs.interests.length
+        ? Math.round(
+            (interestMatches/prefs.interests.length)*100
+          )
+        : 0;
+
+    let styleScore=40;
+
+    const style=prefs.travelStyle.toLowerCase();
+
+    if(style.includes("adventure") &&
+       destination.styles.includes("adventure"))
+        styleScore=100;
+
+    else if(style.includes("relaxed") &&
+        (
+            destination.interests.includes("Wellness") ||
+            destination.interests.includes("Beaches")
+        ))
+        styleScore=100;
+
+    else if(style.includes("budget") &&
+        destination.budget==="budget")
+        styleScore=100;
+
+    else if(style.includes("luxury") &&
+        destination.budget==="premium")
+        styleScore=100;
+
+    else if(style.includes("family") &&
+        (
+            destination.interests.includes("Nature") ||
+            destination.interests.includes("Culture")
+        ))
+        styleScore=85;
+
+    let budgetScore=70;
+
+    if(destination.budget==="budget" && prefs.budget>=3000)
+        budgetScore=100;
+
+    if(destination.budget==="moderate" && prefs.budget>=6000)
+        budgetScore=100;
+
+    if(destination.budget==="premium" && prefs.budget>=12000)
+        budgetScore=100;
+
+    if(destination.budget==="premium" && prefs.budget<8000)
+        budgetScore=40;
+
+    let experienceScore=60;
+
+    if(
+        prefs.foodPreference==="Local Cuisine" &&
+        destination.interests.includes("Food")
+    )
+        experienceScore+=25;
+
+    if(
+        prefs.hotelPreference==="Resort" &&
+        (
+            destination.interests.includes("Beaches") ||
+            destination.interests.includes("Wellness")
+        )
+    )
+        experienceScore+=15;
+
+    experienceScore=Math.min(100,experienceScore);
+
+    const total=Math.round(
+        interestScore*.45+
+        styleScore*.20+
+        budgetScore*.20+
+        experienceScore*.15
+    );
+
+    return{
+        total,
+        interestScore,
+        styleScore,
+        budgetScore,
+        experienceScore
+    };
+
+}
+
+function getRankedDestinations(){
+
+    return Object.values(destinations)
+        .map(destination=>({
+
+            destination,
+            scores:scoreDestination(destination)
+
+        }))
+        .sort(
+            (a,b)=>
+                b.scores.total-a.scores.total
+        );
+
+}
+
+function showRecommendation(){
+
+    const ranked=getRankedDestinations();
+
+    const selected=ranked[0];
+
+    const destination=selected.destination;
+    const scores=selected.scores;
+
+    document.getElementById("destinationName")
+        .textContent=destination.name;
+
+    document.getElementById("destinationLocation")
+        .textContent="📍 "+destination.location;
+
+    document.getElementById("destinationDescription")
+        .textContent=destination.description;
+
+    document.getElementById("duration")
+        .textContent=destination.duration;
+
+    document.getElementById("travelStyle")
+        .textContent=destination.bestFor;
+
+    document.getElementById("budgetLevel")
+        .textContent=
+            destination.budget==="budget"
+            ? "Budget"
+            : destination.budget==="premium"
+            ? "Premium"
+            : "Moderate";
+
+    document.getElementById("bestFor")
+        .textContent=destination.bestFor;
+
+    document.getElementById("recommendationImage")
+        .style.backgroundImage=
+            `url("${destination.image}")`;
+
+    document.getElementById("exploreButton")
+        .href=
+            "destination-details.html?place="+
+            destination.name.toLowerCase();
+
+    document.getElementById("matchPercent")
+        .textContent=scores.total+"%";
+
+    document.getElementById("meterFill")
+        .style.width=scores.total+"%";
+
+    document.getElementById("matchDescription")
+        .textContent=
+            "Recommended because it matches "+
+            scores.interestScore+"% of your selected interests "+
+            "and fits your current travel profile.";
+
+    document.getElementById("interestScore")
+        .textContent=scores.interestScore+"%";
+
+    document.getElementById("styleScore")
+        .textContent=scores.styleScore+"%";
+
+    document.getElementById("budgetScore")
+        .textContent=scores.budgetScore+"%";
+
+    document.getElementById("experienceScore")
+        .textContent=scores.experienceScore+"%";
+
+    document.getElementById("interestBar")
+        .style.width=scores.interestScore+"%";
+
+    document.getElementById("styleBar")
+        .style.width=scores.styleScore+"%";
+
+    document.getElementById("budgetBar")
+        .style.width=scores.budgetScore+"%";
+
+    document.getElementById("experienceBar")
+        .style.width=scores.experienceScore+"%";
+
+    const reasonList=
+        document.getElementById("reasonList");
+
+    reasonList.innerHTML="";
+
+    const matched=
+        prefs.interests.filter(
+            interest=>
+                destination.interests.includes(interest)
+        );
+
+    if(matched.length){
+
+        matched.slice(0,3).forEach(interest=>{
+
+            const div=document.createElement("div");
+
+            div.className="reason";
+
+            div.innerHTML=
+                `<strong>✓ Matches Your ${interest} Interest</strong>
+                 This destination offers experiences related to ${interest.toLowerCase()}.`;
+
+            reasonList.appendChild(div);
+
+        });
+
+    }
+
+    const styleReason=document.createElement("div");
+
+    styleReason.className="reason";
+
+    styleReason.innerHTML=
+        `<strong>🧭 Travel Style Match</strong>
+         Your ${prefs.travelStyle} travel style was considered when calculating this recommendation.`;
+
+    reasonList.appendChild(styleReason);
+
+    const budgetReason=document.createElement("div");
+
+    budgetReason.className="reason";
+
+    budgetReason.innerHTML=
+        `<strong>💰 Budget Consideration</strong>
+         Your ₹${Number(prefs.budget).toLocaleString("en-IN")} daily budget was included in the match.`;
+
+    reasonList.appendChild(budgetReason);
+
+    const tags=
+        document.getElementById("interestTags");
+
+    tags.innerHTML="";
+
+    prefs.interests.forEach(interest=>{
+
+        const tag=document.createElement("span");
+
+        tag.className="interest-tag";
+
+        tag.textContent="✓ "+interest;
+
+        tags.appendChild(tag);
+
+    });
+
+    showAlternatives(ranked.slice(1,4));
+
+}
+
+function showAlternatives(alternatives){
+
+    const container=
+        document.getElementById("alternatives");
+
+    container.innerHTML="";
+
+    alternatives.forEach(item=>{
+
+        const d=item.destination;
+
+        const card=document.createElement("div");
+
+        card.className="alternative-card";
+
+        card.innerHTML=`
+
+            <div
+                class="alternative-image"
+                style="background-image:url('${d.image}')">
+            </div>
+
+            <div class="alternative-content">
+
+                <span class="small-match">
+                    ${item.scores.total}% Match
+                </span>
+
+                <h3>${d.name}</h3>
+
+                <p>${d.description}</p>
+
+                <a
+                    href="destination-details.html?place=${d.name.toLowerCase()}"
+                    class="btn secondary">
+                    Explore
+                </a>
+
+            </div>
+
+        `;
+
+        container.appendChild(card);
+
+    });
+
+}
+
+showRecommendation();
+
+</script>
+
+</body>
+</html>

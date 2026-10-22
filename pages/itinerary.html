@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Trip Planner | TravelAI</title>
+    <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #FCFAF5;
+            color: #183232;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        nav {
+            background: #164A4A;
+            color: #FCFAF5;
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 3px 15px rgba(22, 74, 74, 0.12);
+        }
+
+        .logo {
+            color: #FCFAF5;
+            text-decoration: none;
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            color: #FCFAF5;
+            text-decoration: none;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #267373;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 10px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: calc(100% + 5px);
+            left: 0;
+            background: #FFFFFF;
+            min-width: 215px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(22, 74, 74, 0.15);
+            z-index: 1001;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 12px 16px;
+            color: #164A4A;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .dropdown-content a:hover {
+            background: #DCEFE9;
+            color: #164A4A;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            min-height: 430px;
+            background:
+                linear-gradient(
+                    rgba(22, 74, 74, 0.68),
+                    rgba(22, 74, 74, 0.68)
+                ),
+                url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=90")
+                center/cover;
+
+            display: flex;
+            align-items: center;
+            padding: 70px 7%;
+            color: #FFFFFF;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            background: #DCEFE9;
+            color: #164A4A;
+            padding: 7px 15px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            font-size: 55px;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            color: #FFFFFF;
+        }
+
+        .hero p {
+            max-width: 680px;
+            font-size: 18px;
+            color: #DCEFE9;
+        }
+
+        /* ================= GENERAL ================= */
+
+        .container {
+            width: 88%;
+            max-width: 1250px;
+            margin: auto;
+        }
+
+        section {
+            padding: 70px 0;
+        }
+
+        .section-heading {
+            margin-bottom: 35px;
+        }
+
+        .section-heading h2 {
+            font-size: 34px;
+            margin-bottom: 8px;
+            color: #164A4A;
+        }
+
+        .section-heading p {
+            color: #5E7370;
+        }
+
+        /* ================= PLANNER ================= */
+
+        .planner-wrapper {
+            margin-top: -55px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .planner {
+            background: #FFFFFF;
+            padding: 35px;
+            border-radius: 22px;
+            border: 1px solid #E2EAE7;
+            box-shadow: 0 10px 35px rgba(22, 74, 74, 0.13);
+        }
+
+        .planner-header {
+            margin-bottom: 28px;
+        }
+
+        .planner-header h2 {
+            font-size: 27px;
+            margin-bottom: 5px;
+            color: #164A4A;
+        }
+
+        .planner-header p {
+            color: #5E7370;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #183232;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 14px;
+            border: 1px solid #E2EAE7;
+            border-radius: 9px;
+            background: #FCFAF5;
+            color: #164A4A;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #267373;
+            box-shadow: 0 0 0 3px rgba(38, 115, 115, 0.10);
+        }
+
+        .date-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .planner-button {
+            margin-top: 25px;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: #267373;
+            color: #FFFFFF;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .planner-button:hover {
+            background: #164A4A;
+        }
+
+        /* ================= STYLE CARDS ================= */
+
+        .style-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .style-card {
+            background: #FFFFFF;
+            border: 2px solid #E2EAE7;
+            border-radius: 16px;
+            padding: 25px 18px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .style-card:hover {
+            transform: translateY(-5px);
+            border-color: #267373;
+        }
+
+        .style-card.selected {
+            border-color: #267373;
+            background: #DCEFE9;
+        }
+
+        .style-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .style-card h3 {
+            font-size: 17px;
+            margin-bottom: 5px;
+            color: #164A4A;
+        }
+
+        .style-card p {
+            font-size: 12px;
+            color: #5E7370;
+        }
+
+        /* ================= GENERATION ================= */
+
+        .generation {
+            background: #DCEFE9;
+        }
+
+        .generation-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .generation-image {
+            height: 420px;
+            border-radius: 22px;
+            background:
+                linear-gradient(
+                    rgba(22, 74, 74, 0.15),
+                    rgba(22, 74, 74, 0.15)
+                ),
+                url("https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1000&q=85")
+                center/cover;
+        }
+
+        .generation-content {
+            padding: 15px;
+        }
+
+        .generation-content h2 {
+            font-size: 36px;
+            margin-bottom: 15px;
+            color: #164A4A;
+        }
+
+        .generation-content p {
+            color: #5E7370;
+            margin-bottom: 20px;
+        }
+
+        .feature-list {
+            display: grid;
+            gap: 13px;
+            margin: 25px 0;
+        }
+
+        .feature {
+            background: #FFFFFF;
+            padding: 13px 15px;
+            border-radius: 10px;
+            border: 1px solid #E2EAE7;
+        }
+
+        .feature strong {
+            display: block;
+            margin-bottom: 2px;
+            color: #164A4A;
+        }
+
+        .feature span {
+            font-size: 13px;
+            color: #5E7370;
+        }
+
+        /* ================= PREVIEW ================= */
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .preview-card {
+            background: #FFFFFF;
+            border: 1px solid #E2EAE7;
+            border-radius: 17px;
+            overflow: hidden;
+        }
+
+        .preview-top {
+            padding: 22px;
+            background: #267373;
+            color: #FFFFFF;
+        }
+
+        .preview-top h3 {
+            font-size: 20px;
+        }
+
+        .preview-top span {
+            font-size: 12px;
+            color: #DCEFE9;
+        }
+
+        .preview-body {
+            padding: 22px;
+        }
+
+        .preview-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .preview-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .preview-icon {
+            width: 32px;
+            height: 32px;
+            background: #DCEFE9;
+            color: #164A4A;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .preview-item strong {
+            font-size: 14px;
+            display: block;
+            color: #164A4A;
+        }
+
+        .preview-item span {
+            color: #5E7370;
+            font-size: 12px;
+        }
+
+        /* ================= AI BANNER ================= */
+
+        .ai-banner {
+            background: #164A4A;
+            color: #FFFFFF;
+            border-radius: 22px;
+            padding: 55px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .ai-banner h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #FFFFFF;
+        }
+
+        .ai-banner p {
+            color: #DCEFE9;
+            max-width: 650px;
+        }
+
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            padding: 13px 21px;
+            border-radius: 9px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .primary {
+            background: #267373;
+            color: #FFFFFF;
+        }
+
+        .primary:hover {
+            background: #102F2F;
+        }
+
+        .secondary {
+            background: #DCEFE9;
+            color: #164A4A;
+        }
+
+        .secondary:hover {
+            background: #FFFFFF;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #102F2F;
+            color: #DCEFE9;
+            text-align: center;
+            padding: 35px 20px;
+            margin-top: 60px;
+        }
+
+        footer p {
+            margin: 4px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1000px) {
+            .style-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .generation-box {
+                grid-template-columns: 1fr;
+            }
+
+            .preview-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .ai-banner {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 700px) {
+            nav {
+                flex-direction: column;
+                gap: 18px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 12px;
+            }
+
+            .dropdown-content {
+                position: static;
+                margin-top: 10px;
+            }
+
+            .hero {
+                min-height: 370px;
+                padding: 50px 6%;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+            .style-grid,
+            .preview-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .planner {
+                padding: 24px;
+            }
+
+            .date-row {
+                grid-template-columns: 1fr;
+            }
+
+            .ai-banner {
+                padding: 35px 25px;
+            }
+
+            section {
+                padding: 50px 0;
+            }
+
+            .container {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav>
+    <a href="../index.html" class="logo">TravelAI</a>
+
+    <div class="nav-links">
+        <a href="../index.html">Home</a>
+
+        <div class="dropdown">
+            <a href="destinations.html">Destinations ▾</a>
+            <div class="dropdown-content">
+                <a href="destinations.html">Explore Destinations</a>
+                <a href="destination-details.html">Destination Details</a>
+                <a href="favorites.html">Favorites</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="itinerary.html">Trip Planner ▾</a>
+            <div class="dropdown-content">
+                <a href="itinerary.html">My Itinerary</a>
+                <a href="itinerary-details.html">Itinerary Details</a>
+                <a href="budget.html">Budget Planner</a>
+                <a href="activities.html">Activities</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="recommendations.html">Recommendations ▾</a>
+            <div class="dropdown-content">
+                <a href="recommendations.html">All Recommendations</a>
+                <a href="recommendation.html">AI Recommendation</a>
+                <a href="preferences.html">Preferences</a>
+            </div>
+        </div>
+
+        <a href="hotels.html">Hotels</a>
+        <a href="weather.html">Weather</a>
+
+        <div class="dropdown">
+            <a href="profile.html">Profile ▾</a>
+            <div class="dropdown-content">
+                <a href="profile.html">My Profile</a>
+                <a href="preferences.html">Preferences</a>
+                <a href="favorites.html">Favorites</a>
+            </div>
+        </div>
+
+        <a href="about.html">About</a>
+    </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+    <div class="hero-content">
+        <span class="eyebrow">AI TRIP PLANNER</span>
+
+        <h1>Build Your Perfect Journey</h1>
+
+        <p>
+            Tell TravelAI where you want to go, how long you want to stay
+            and what you enjoy. Our intelligent planner organizes your
+            trip into a personalized itinerary.
+        </p>
+    </div>
+</section>
+
+<!-- ================= PLANNER ================= -->
+
+<section style="padding-top:0;">
+
+    <div class="container planner-wrapper">
+
+        <div class="planner">
+
+            <div class="planner-header">
+                <h2>Create Your Trip</h2>
+                <p>
+                    Enter your travel preferences to start building your itinerary.
+                </p>
+            </div>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label>Destination</label>
+                    <input
+                        type="text"
+                        id="destination"
+                        placeholder="e.g. Jaipur, Goa, Paris"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Number of Travelers</label>
+                    <input
+                        type="number"
+                        id="travelers"
+                        min="1"
+                        value="2"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Travel Dates</label>
+
+                    <div class="date-row">
+                        <input type="date" id="startDate">
+                        <input type="date" id="endDate">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Budget</label>
+
+                    <select id="budget">
+                        <option value="">Select your budget</option>
+                        <option>Under ₹10,000</option>
+                        <option>₹10,000 - ₹25,000</option>
+                        <option>₹25,000 - ₹50,000</option>
+                        <option>₹50,000 - ₹1,00,000</option>
+                        <option>Above ₹1,00,000</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Transportation</label>
+
+                    <select id="transport">
+                        <option>Any</option>
+                        <option>Flight</option>
+                        <option>Train</option>
+                        <option>Bus</option>
+                        <option>Rental Car</option>
+                        <option>Local Transport</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Accommodation</label>
+
+                    <select id="accommodation">
+                        <option>Any</option>
+                        <option>Budget Hotel</option>
+                        <option>Standard Hotel</option>
+                        <option>Luxury Hotel</option>
+                        <option>Resort</option>
+                        <option>Hostel</option>
+                    </select>
+                </div>
+
+                <div class="form-group full">
+                    <label>Special Requirements</label>
+
+                    <input
+                        type="text"
+                        id="requirements"
+                        placeholder="e.g. vegetarian food, family-friendly activities, photography"
+                    >
+                </div>
+
+            </div>
+
+            <button class="planner-button" onclick="generatePlan()">
+                ✨ Generate My Itinerary
+            </button>
+
+        </div>
+    </div>
+</section>
+
+<!-- ================= TRAVEL STYLE ================= -->
+
+<section>
+    <div class="container">
+
+        <div class="section-heading">
+            <h2>Choose Your Travel Style</h2>
+
+            <p>
+                Your selected style helps TravelAI personalize your itinerary.
+            </p>
+        </div>
+
+        <div class="style-grid">
+
+            <div class="style-card"
+                 onclick="selectStyle(this, 'Adventure')">
+
+                <div class="style-icon">🏔️</div>
+
+                <h3>Adventure</h3>
+
+                <p>
+                    Trekking, outdoor activities and exploration.
+                </p>
+            </div>
+
+            <div class="style-card"
+                 onclick="selectStyle(this, 'Relaxation')">
+
+                <div class="style-icon">🌴</div>
+
+                <h3>Relaxation</h3>
+
+                <p>
+                    Beaches, resorts, wellness and peaceful experiences.
+                </p>
+            </div>
+
+            <div class="style-card selected"
+                 onclick="selectStyle(this, 'Culture')">
+
+                <div class="style-icon">🏛️</div>
+
+                <h3>Culture</h3>
+
+                <p>
+                    Heritage, museums, architecture and local traditions.
+                </p>
+            </div>
+
+            <div class="style-card"
+                 onclick="selectStyle(this, 'Food')">
+
+                <div class="style-icon">🍜</div>
+
+                <h3>Food & Lifestyle</h3>
+
+                <p>
+                    Local cuisine, cafés, markets and food experiences.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ================= AI GENERATION ================= -->
+
+<section class="generation">
+
+    <div class="container">
+
+        <div class="generation-box">
+
+            <div class="generation-image"></div>
+
+            <div class="generation-content">
+
+                <span class="eyebrow">SMART PLANNING</span>
+
+                <h2>Let AI Organize Your Trip</h2>
+
+                <p>
+                    TravelAI combines your destination, budget, travel style
+                    and interests to create a balanced travel schedule.
+                </p>
+
+                <div class="feature-list">
+
+                    <div class="feature">
+                        <strong>🗺️ Smart Route Planning</strong>
+                        <span>
+                            Organizes nearby attractions together
+                            to reduce unnecessary travel.
+                        </span>
+                    </div>
+
+                    <div class="feature">
+                        <strong>💰 Budget Awareness</strong>
+                        <span>
+                            Suggests experiences that fit your selected budget.
+                        </span>
+                    </div>
+
+                    <div class="feature">
+                        <strong>❤️ Personalized Activities</strong>
+                        <span>
+                            Adjusts recommendations according to your interests.
+                        </span>
+                    </div>
+
+                    <div class="feature">
+                        <strong>🌤️ Flexible Planning</strong>
+                        <span>
+                            Allows activities to be changed whenever your plans change.
+                        </span>
+                    </div>
+
+                </div>
+
+                <a href="recommendation.html" class="btn primary">
+                    Get AI Recommendations
+                </a>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================= SAMPLE PREVIEW ================= -->
+
+<section>
+
+    <div class="container">
+
+        <div class="section-heading">
+            <h2>Sample Itinerary Preview</h2>
+
+            <p>
+                Here's what your generated itinerary could look like.
+            </p>
+        </div>
+
+        <div class="preview-grid">
+
+            <div class="preview-card">
+
+                <div class="preview-top">
+                    <span>DAY 01</span>
+                    <h3>Arrival & Exploration</h3>
+                </div>
+
+                <div class="preview-body">
+
+                    <div class="preview-item">
+                        <div class="preview-icon">🏨</div>
+                        <div>
+                            <strong>Hotel Check-in</strong>
+                            <span>10:00 AM</span>
+                        </div>
+                    </div>
+
+                    <div class="preview-item">
+                        <div class="preview-icon">📍</div>
+                        <div>
+                            <strong>City Exploration</strong>
+                            <span>02:00 PM</span>
+                        </div>
+                    </div>
+
+                    <div class="preview-item">
+                        <div class="preview-icon">🍽️</div>
+                        <div>
+                            <strong>Local Dinner</strong>
+                            <span>07:00 PM</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="preview-card">
+
+                <div class="preview-top">
+                    <span>DAY 02</span>
+                    <h3>Experiences & Culture</h3>
+                </div>
+
+                <div class="preview-body">
+
+                    <div class="preview-item">
+                        <div class="preview-icon">🏛️</div>
+                        <div>
+                            <strong>Major Attraction</strong>
+                            <span>09:30 AM</span>
+                        </div>
+                    </div>
+
+                    <div class="preview-item">
+                        <div class="preview-icon">🍜</div>
+                        <div>
+                            <strong>Local Food</strong>
+                            <span>01:00 PM</span>
+                        </div>
+                    </div>
+
+                    <div class="preview-item">
+                        <div class="preview-icon">📸</div>
+                        <div>
+                            <strong>Photography</strong>
+                            <span>04:00 PM</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="preview-card">
+
+                <div class="preview-top">
+                    <span>DAY 03</span>
+                    <h3>Adventure & Relaxation</h3>
+                </div>
+
+                <div class="preview-body">
+
+                    <div class="preview-item">
+                        <div class="preview-icon">🌿</div>
+                        <div>
+                            <strong>Nature Experience</strong>
+                            <span>09:00 AM</span>
+                        </div>
+                    </div>
+
+                    <div class="preview-item">
+                        <div class="preview-icon">🚶</div>
+                        <div>
+                            <strong>Local Exploration</strong>
+                            <span>11:00 AM</span>
+                        </div>
+                    </div>
+
+                    <div class="preview-item">
+                        <div class="preview-icon">🍽️</div>
+                        <div>
+                            <strong>Food Experience</strong>
+                            <span>06:00 PM</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ================= CTA ================= -->
+
+<section>
+    <div class="container">
+
+        <div class="ai-banner">
+
+            <div>
+                <h2>Ready to Plan Your Journey?</h2>
+
+                <p>
+                    Explore destinations, compare hotels and create
+                    an itinerary designed around the way you love to travel.
+                </p>
+            </div>
+
+            <div>
+                <a href="destinations.html" class="btn secondary">
+                    Explore Destinations
+                </a>
+
+                <a href="itinerary-details.html" class="btn secondary">
+                    View Last Itinerary
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<footer>
+    <p>
+        © 2026 TravelAI — AI-Based Personalized Travel Recommendation System
+    </p>
+
+    <p>
+        Plan smarter. Travel better. Explore more.
+    </p>
+</footer>
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+    let selectedStyle = "Culture";
+
+    function selectStyle(card, style) {
+
+        document.querySelectorAll(".style-card").forEach(function(item) {
+            item.classList.remove("selected");
+        });
+
+        card.classList.add("selected");
+
+        selectedStyle = style;
+    }
+
+
+    function calculateDays(startDate, endDate) {
+
+        if (!startDate || !endDate) {
+            return 4;
+        }
+
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+
+        const difference =
+            Math.ceil(
+                (end - start) /
+                (1000 * 60 * 60 * 24)
+            );
+
+        return difference > 0 ? difference : 1;
+    }
+
+
+    function generatePlan() {
+
+        const destination =
+            document.getElementById("destination").value.trim();
+
+        const travelers =
+            Number(document.getElementById("travelers").value);
+
+        const startDate =
+            document.getElementById("startDate").value;
+
+        const endDate =
+            document.getElementById("endDate").value;
+
+        const budget =
+            document.getElementById("budget").value;
+
+        const transport =
+            document.getElementById("transport").value;
+
+        const accommodation =
+            document.getElementById("accommodation").value;
+
+        const requirements =
+            document.getElementById("requirements").value.trim();
+
+
+        if (destination === "") {
+            alert("Please enter your destination.");
+            return;
+        }
+
+        if (travelers < 1) {
+            alert("Please enter a valid number of travelers.");
+            return;
+        }
+
+        if (budget === "") {
+            alert("Please select your budget.");
+            return;
+        }
+
+        if (startDate && endDate) {
+
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+
+            if (end <= start) {
+                alert("End date must be after the start date.");
+                return;
+            }
+        }
+
+
+        const days =
+            calculateDays(startDate, endDate);
+
+
+        const tripData = {
+
+            destination: destination,
+
+            travelers: travelers,
+
+            startDate: startDate,
+
+            endDate: endDate,
+
+            days: days,
+
+            budget: budget,
+
+            transport: transport,
+
+            accommodation: accommodation,
+
+            requirements: requirements,
+
+            travelStyle: selectedStyle,
+
+            createdAt: new Date().toISOString()
+
+        };
+
+
+        /*
+         * Save the user's actual selections.
+         * itinerary-details.html will read this data.
+         */
+
+        localStorage.setItem(
+            "travelAIItinerary",
+            JSON.stringify(tripData)
+        );
+
+
+        /*
+         * Also keep the latest destination separately.
+         * This can be useful for other pages later.
+         */
+
+        localStorage.setItem(
+            "travelAICurrentDestination",
+            destination
+        );
+
+
+        alert(
+            "Your personalized itinerary is being created for " +
+            destination + "!"
+        );
+
+
+        window.location.href =
+            "itinerary-details.html";
+    }
+
+</script>
+
+</body>
+</html>

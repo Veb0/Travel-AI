@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | TravelAI</title>
+    <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #FCFAF5;
+            color: #183232;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        nav {
+            background: #164A4A;
+            padding: 16px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            color: #FFFFFF;
+            font-size: 27px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 23px;
+        }
+
+        .nav-links a {
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            color: #DCEFE9;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 28px;
+            left: 0;
+            min-width: 190px;
+            background: #FFFFFF;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(22, 74, 74, 0.18);
+        }
+
+        .dropdown-content a {
+            display: block;
+            color: #164A4A;
+            padding: 12px 15px;
+        }
+
+        .dropdown-content a:hover {
+            background: #DCEFE9;
+            color: #164A4A;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            min-height: 390px;
+            background:
+                linear-gradient(
+                    rgba(22, 74, 74, 0.70),
+                    rgba(22, 74, 74, 0.70)
+                ),
+                url("https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&w=1800&q=90")
+                center/cover;
+
+            display: flex;
+            align-items: center;
+            padding: 65px 7%;
+            color: #FFFFFF;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            background: #267373;
+            color: #FFFFFF;
+            padding: 7px 15px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            font-size: 54px;
+            line-height: 1.1;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #DCEFE9;
+            max-width: 680px;
+        }
+
+        /* ================= GENERAL ================= */
+
+        .container {
+            width: 88%;
+            max-width: 1250px;
+            margin: auto;
+        }
+
+        section {
+            padding: 70px 0;
+        }
+
+        .section-heading {
+            margin-bottom: 30px;
+        }
+
+        .section-heading h2 {
+            font-size: 34px;
+            margin-bottom: 7px;
+            color: #164A4A;
+        }
+
+        .section-heading p {
+            color: #5E7370;
+        }
+
+        /* ================= PROFILE HEADER ================= */
+
+        .profile-wrapper {
+            margin-top: -65px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .profile-card {
+            background: #FFFFFF;
+            border-radius: 22px;
+            padding: 30px;
+            box-shadow: 0 10px 35px rgba(22, 74, 74, 0.12);
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .avatar {
+            width: 105px;
+            height: 105px;
+            border-radius: 50%;
+            background: #267373;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 39px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-info h2 {
+            font-size: 29px;
+            margin-bottom: 3px;
+            color: #164A4A;
+        }
+
+        .profile-info p {
+            color: #5E7370;
+            font-size: 14px;
+        }
+
+        .profile-info .location {
+            margin-top: 8px;
+            font-size: 13px;
+        }
+
+        .edit-btn {
+            background: #DCEFE9;
+            color: #164A4A;
+            padding: 11px 18px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .edit-btn:hover {
+            background: #267373;
+            color: #FFFFFF;
+        }
+
+        /* ================= STATS ================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .stat-card {
+            background: #FFFFFF;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 6px 22px rgba(22, 74, 74, 0.06);
+        }
+
+        .stat-icon {
+            font-size: 27px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card strong {
+            display: block;
+            font-size: 27px;
+            margin-bottom: 3px;
+            color: #164A4A;
+        }
+
+        .stat-card span {
+            color: #5E7370;
+            font-size: 13px;
+        }
+
+        /* ================= MAIN GRID ================= */
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        .panel {
+            background: #FFFFFF;
+            border-radius: 18px;
+            padding: 27px;
+            box-shadow: 0 7px 24px rgba(22, 74, 74, 0.07);
+        }
+
+        .panel h3 {
+            font-size: 21px;
+            margin-bottom: 18px;
+            color: #164A4A;
+        }
+
+        /* ================= TRIPS ================= */
+
+        .trip {
+            display: grid;
+            grid-template-columns: 115px 1fr auto;
+            gap: 17px;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #E2EAE7;
+        }
+
+        .trip:last-child {
+            border-bottom: none;
+        }
+
+        .trip-image {
+            height: 80px;
+            border-radius: 10px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .goa {
+            background-image:
+                url("https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=500&q=80");
+        }
+
+        .jaipur {
+            background-image:
+                url("https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=500&q=80");
+        }
+
+        .munnar {
+            background-image:
+                url("https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=500&q=80");
+        }
+
+        .trip-info h4 {
+            font-size: 17px;
+            margin-bottom: 3px;
+            color: #164A4A;
+        }
+
+        .trip-info p {
+            color: #5E7370;
+            font-size: 12px;
+        }
+
+        .status {
+            padding: 6px 9px;
+            border-radius: 15px;
+            font-size: 10px;
+            font-weight: bold;
+            background: #DCEFE9;
+            color: #164A4A;
+            white-space: nowrap;
+        }
+
+        .status.completed {
+            background: #267373;
+            color: #FFFFFF;
+        }
+
+        /* ================= PREFERENCES ================= */
+
+        .preference-list {
+            display: grid;
+            gap: 13px;
+        }
+
+        .preference-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #E2EAE7;
+            font-size: 13px;
+        }
+
+        .preference-row:last-child {
+            border-bottom: none;
+        }
+
+        .preference-row span:last-child {
+            font-weight: bold;
+            color: #267373;
+            text-align: right;
+        }
+
+        /* ================= INTEREST TAGS ================= */
+
+        .interest-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .interest-tag {
+            background: #DCEFE9;
+            color: #164A4A;
+            padding: 7px 11px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+
+        /* ================= ACHIEVEMENTS ================= */
+
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 17px;
+        }
+
+        .achievement {
+            background: #FFFFFF;
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 7px 22px rgba(22, 74, 74, 0.06);
+        }
+
+        .achievement-icon {
+            font-size: 37px;
+            margin-bottom: 8px;
+        }
+
+        .achievement h3 {
+            font-size: 16px;
+            margin-bottom: 4px;
+            color: #164A4A;
+        }
+
+        .achievement p {
+            color: #5E7370;
+            font-size: 12px;
+        }
+
+        /* ================= QUICK LINKS ================= */
+
+        .quick-links {
+            display: grid;
+            gap: 10px;
+        }
+
+        .quick-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px;
+            border-radius: 9px;
+            background: #DCEFE9;
+            text-decoration: none;
+            color: #164A4A;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .quick-link:hover {
+            background: #267373;
+            color: #FFFFFF;
+        }
+
+        /* ================= BUTTONS ================= */
+
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            border-radius: 9px;
+            border: none;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .primary {
+            background: #267373;
+            color: #FFFFFF;
+        }
+
+        .primary:hover {
+            background: #164A4A;
+        }
+
+        .secondary {
+            background: #DCEFE9;
+            color: #164A4A;
+        }
+
+        .secondary:hover {
+            background: #267373;
+            color: #FFFFFF;
+        }
+
+        /* ================= CTA ================= */
+
+        .cta {
+            background: #164A4A;
+            color: #FFFFFF;
+            padding: 60px 30px;
+            border-radius: 24px;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 35px;
+            margin-bottom: 12px;
+        }
+
+        .cta p {
+            max-width: 650px;
+            margin: 0 auto 25px;
+            color: #DCEFE9;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #102F2F;
+            color: #DCEFE9;
+            text-align: center;
+            padding: 35px 20px;
+            margin-top: 60px;
+        }
+
+        footer p {
+            margin: 4px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1000px) {
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .achievement-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 12px;
+            }
+
+            .hero {
+                min-height: 350px;
+                padding: 50px 6%;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .profile-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-info .location {
+                margin-top: 7px;
+            }
+
+            .stats,
+            .achievement-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .trip {
+                grid-template-columns: 80px 1fr;
+            }
+
+            .trip .status {
+                grid-column: 2;
+                justify-self: start;
+            }
+
+            section {
+                padding: 50px 0;
+            }
+
+            .dropdown-content {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav>
+
+    <a href="../index.html" class="logo">TravelAI</a>
+
+    <div class="nav-links">
+
+        <a href="../index.html">Home</a>
+
+        <div class="dropdown">
+            <a href="destinations.html">Destinations ▾</a>
+
+            <div class="dropdown-content">
+                <a href="destinations.html">Explore Destinations</a>
+                <a href="destination-details.html">Destination Details</a>
+                <a href="favorites.html">Favorites</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="itinerary.html">Trip Planner ▾</a>
+
+            <div class="dropdown-content">
+                <a href="itinerary.html">My Itinerary</a>
+                <a href="itinerary-details.html">Itinerary Details</a>
+                <a href="budget.html">Budget Planner</a>
+                <a href="activities.html">Activities</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="recommendations.html">Recommendations ▾</a>
+
+            <div class="dropdown-content">
+                <a href="recommendations.html">All Recommendations</a>
+                <a href="recommendation.html">AI Recommendation</a>
+                <a href="preferences.html">Preferences</a>
+            </div>
+        </div>
+
+        <a href="hotels.html">Hotels</a>
+
+        <a href="weather.html">Weather</a>
+
+        <div class="dropdown">
+            <a href="profile.html">Profile ▾</a>
+
+            <div class="dropdown-content">
+                <a href="profile.html">My Profile</a>
+                <a href="preferences.html">Preferences</a>
+                <a href="favorites.html">Favorites</a>
+            </div>
+        </div>
+
+        <a href="about.html">About</a>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <span class="eyebrow">YOUR TRAVEL DASHBOARD</span>
+
+        <h1>Welcome Back, Traveler</h1>
+
+        <p>
+            Manage your travel preferences, review your previous journeys,
+            explore saved places and continue planning your next adventure.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ================= PROFILE ================= -->
+
+<section style="padding-top: 0;">
+
+    <div class="container profile-wrapper">
+
+        <div class="profile-card">
+
+            <div class="avatar">
+                AJ
+            </div>
+
+            <div class="profile-info">
+
+                <h2>Ashima J</h2>
+
+                <p>
+                    Travel Explorer · TravelAI Member
+                </p>
+
+                <p class="location">
+                    📍 India &nbsp; • &nbsp; Member since 2026
+                </p>
+
+            </div>
+
+            <button class="edit-btn" onclick="editProfile()">
+                Edit Profile
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= STATS ================= -->
+
+<section>
+
+    <div class="container">
+
+        <div class="stats">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">🌍</div>
+
+                <strong>8</strong>
+
+                <span>Destinations Explored</span>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">🗺️</div>
+
+                <strong>5</strong>
+
+                <span>Trips Planned</span>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">❤️</div>
+
+                <strong>16</strong>
+
+                <span>Saved Places</span>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">📸</div>
+
+                <strong>32</strong>
+
+                <span>Activities Completed</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<section style="padding-top: 0;">
+
+    <div class="container">
+
+        <div class="dashboard-grid">
+
+
+            <!-- RECENT TRIPS -->
+
+            <div class="panel">
+
+                <h3>Recent Trips</h3>
+
+
+                <div class="trip">
+
+                    <div class="trip-image goa"></div>
+
+                    <div class="trip-info">
+
+                        <h4>Goa Beach Escape</h4>
+
+                        <p>
+                            4 Days · Beach & Relaxation
+                        </p>
+
+                        <p>
+                            February 2026
+                        </p>
+
+                    </div>
+
+                    <span class="status completed">
+                        COMPLETED
+                    </span>
+
+                </div>
+
+
+                <div class="trip">
+
+                    <div class="trip-image jaipur"></div>
+
+                    <div class="trip-info">
+
+                        <h4>Jaipur Heritage Tour</h4>
+
+                        <p>
+                            4 Days · Culture & Food
+                        </p>
+
+                        <p>
+                            September 2026
+                        </p>
+
+                    </div>
+
+                    <span class="status">
+                        UPCOMING
+                    </span>
+
+                </div>
+
+
+                <div class="trip">
+
+                    <div class="trip-image munnar"></div>
+
+                    <div class="trip-info">
+
+                        <h4>Munnar Nature Retreat</h4>
+
+                        <p>
+                            3 Days · Nature & Adventure
+                        </p>
+
+                        <p>
+                            October 2026
+                        </p>
+
+                    </div>
+
+                    <span class="status">
+                        PLANNED
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- PREFERENCES -->
+
+            <div class="panel">
+
+                <h3>Travel Preferences</h3>
+
+                <div class="preference-list">
+
+                    <div class="preference-row">
+                        <span>Travel Style</span>
+                        <span>Balanced</span>
+                    </div>
+
+                    <div class="preference-row">
+                        <span>Trip Pace</span>
+                        <span>Moderate</span>
+                    </div>
+
+                    <div class="preference-row">
+                        <span>Accommodation</span>
+                        <span>Standard</span>
+                    </div>
+
+                    <div class="preference-row">
+                        <span>Food</span>
+                        <span>Local Cuisine</span>
+                    </div>
+
+                    <div class="preference-row">
+                        <span>Transport</span>
+                        <span>Flexible</span>
+                    </div>
+
+                </div>
+
+                <br>
+
+                <a href="preferences.html" class="btn primary">
+                    Edit Preferences
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= INTERESTS ================= -->
+
+<section>
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <h2>Your Interests</h2>
+
+            <p>
+                These interests are used to personalize your recommendations.
+            </p>
+
+        </div>
+
+
+        <div class="panel">
+
+            <div class="interest-tags">
+
+                <span class="interest-tag">🏔️ Adventure</span>
+                <span class="interest-tag">🏖️ Beaches</span>
+                <span class="interest-tag">🍜 Food & Cuisine</span>
+                <span class="interest-tag">📸 Photography</span>
+                <span class="interest-tag">🌿 Nature</span>
+                <span class="interest-tag">🏛️ Heritage</span>
+                <span class="interest-tag">🛍️ Shopping</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= ACHIEVEMENTS ================= -->
+
+<section style="background: #DCEFE9;">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <h2>Travel Milestones</h2>
+
+            <p>
+                Keep exploring and create more memorable journeys.
+            </p>
+
+        </div>
+
+
+        <div class="achievement-grid">
+
+
+            <div class="achievement">
+
+                <div class="achievement-icon">
+                    🧭
+                </div>
+
+                <h3>First Journey</h3>
+
+                <p>
+                    Planned your first trip with TravelAI.
+                </p>
+
+            </div>
+
+
+            <div class="achievement">
+
+                <div class="achievement-icon">
+                    🌊
+                </div>
+
+                <h3>Beach Explorer</h3>
+
+                <p>
+                    Explored multiple coastal destinations.
+                </p>
+
+            </div>
+
+
+            <div class="achievement">
+
+                <div class="achievement-icon">
+                    📷
+                </div>
+
+                <h3>Memory Maker</h3>
+
+                <p>
+                    Added photography experiences to your trips.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= QUICK LINKS ================= -->
+
+<section>
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <h2>Quick Access</h2>
+
+            <p>
+                Jump directly to the TravelAI features you use most.
+            </p>
+
+        </div>
+
+
+        <div class="dashboard-grid">
+
+            <div class="panel">
+
+                <h3>Plan Your Next Trip</h3>
+
+                <div class="quick-links">
+
+                    <a href="itinerary.html" class="quick-link">
+                        🗺️ Create an Itinerary
+                    </a>
+
+                    <a href="recommendation.html" class="quick-link">
+                        ✨ Get AI Recommendations
+                    </a>
+
+                    <a href="budget.html" class="quick-link">
+                        💰 Plan Your Budget
+                    </a>
+
+                    <a href="activities.html" class="quick-link">
+                        🎯 Explore Activities
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+
+                <h3>Saved Content</h3>
+
+                <div class="quick-links">
+
+                    <a href="favorites.html" class="quick-link">
+                        ❤️ My Favorites
+                    </a>
+
+                    <a href="hotels.html" class="quick-link">
+                        🏨 Saved Hotels
+                    </a>
+
+                    <a href="destinations.html" class="quick-link">
+                        🌍 Destinations
+                    </a>
+
+                    <a href="weather.html" class="quick-link">
+                        🌤️ Weather
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CTA ================= -->
+
+<section>
+
+    <div class="container">
+
+        <div class="cta">
+
+            <h2>Where Will You Go Next?</h2>
+
+            <p>
+                Let TravelAI create a personalized travel experience
+                based on your interests, budget and preferred travel style.
+            </p>
+
+            <a href="itinerary.html" class="btn secondary">
+                Plan a New Trip
+            </a>
+
+            <a href="recommendation.html" class="btn secondary">
+                Get Recommendations
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <p>
+        © 2026 TravelAI — AI-Based Personalized Travel Recommendation System
+    </p>
+
+    <p>
+        Plan smarter. Travel better. Explore more.
+    </p>
+
+</footer>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+    function editProfile() {
+
+        const name = prompt(
+            "Enter your preferred display name:",
+            "Ashima J"
+        );
+
+        if (name && name.trim() !== "") {
+
+            document.querySelector(".profile-info h2").textContent =
+                name.trim();
+
+            alert("Profile updated successfully!");
+
+        }
+
+    }
+
+</script>
+
+</body>
+</html>

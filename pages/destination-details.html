@@ -1,0 +1,2986 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Destination Details | TravelAI</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #FCFAF5;
+            color: #183232;
+            line-height: 1.6;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        nav {
+            background: #164A4A;
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            color: #FFFFFF;
+            font-size: 27px;
+            font-weight: bold;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 7px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links > a,
+        .dropdown > a {
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 9px 10px;
+            border-radius: 6px;
+            transition: 0.25s ease;
+            white-space: nowrap;
+        }
+
+        .nav-links > a:hover,
+        .dropdown > a:hover {
+            color: #DCEFE9;
+            background: rgba(255,255,255,0.08);
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            background: #FFFFFF;
+            min-width: 195px;
+            box-shadow: 0 10px 30px rgba(22,74,74,0.16);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .dropdown-content a {
+            display: block;
+            color: #164A4A;
+            padding: 12px 15px;
+            border-radius: 0;
+        }
+
+        .dropdown-content a:hover {
+            background: #DCEFE9;
+            color: #164A4A;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            min-height: 460px;
+
+            background:
+                linear-gradient(
+                    rgba(22,74,74,0.62),
+                    rgba(22,74,74,0.62)
+                ),
+                url("/images/tour.webp")
+                center/cover;
+
+            display: flex;
+            align-items: center;
+            padding: 70px 7%;
+            color: #FFFFFF;
+        }
+
+        .hero-content {
+            max-width: 850px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #DCEFE9;
+            color: #164A4A;
+            padding: 7px 15px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 18px;
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 6vw, 62px);
+            line-height: 1.1;
+            margin-bottom: 18px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 720px;
+            color: #DCEFE9;
+        }
+
+        /* ================= CONTAINER ================= */
+
+        .container {
+            width: 88%;
+            max-width: 1250px;
+            margin: auto;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        /* ================= SELECTOR ================= */
+
+        .selector-box {
+            background: #FFFFFF;
+            padding: 28px;
+            border: 1px solid #E2EAE7;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(22,74,74,0.08);
+            margin-top: -45px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .selector-box label {
+            display: block;
+            color: #164A4A;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .selector-row {
+            display: flex;
+            align-items: stretch;
+            gap: 15px;
+        }
+
+        select {
+            flex: 1;
+            padding: 14px;
+            border: 1px solid #E2EAE7;
+            border-radius: 10px;
+            background: #FCFAF5;
+            color: #183232;
+            font-size: 15px;
+            outline: none;
+        }
+
+        select:focus {
+            border-color: #267373;
+            box-shadow: 0 0 0 3px rgba(38,115,115,0.10);
+        }
+
+        button,
+        .btn {
+            border: none;
+            background: #267373;
+            color: #FFFFFF;
+            padding: 14px 22px;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.25s ease;
+        }
+
+        button:hover,
+        .btn:hover {
+            background: #164A4A;
+            transform: translateY(-1px);
+        }
+
+        /* ================= OVERVIEW ================= */
+
+        .overview {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 55px;
+            align-items: center;
+        }
+
+        .overview img {
+            width: 100%;
+            height: 430px;
+            object-fit: cover;
+            border-radius: 22px;
+            display: block;
+        }
+
+        .overview-text h2 {
+            color: #164A4A;
+            font-size: 38px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .overview-text p {
+            color: #5E7370;
+            margin-bottom: 16px;
+        }
+
+        .info-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 28px;
+        }
+
+        .info-box {
+            background: #FFFFFF;
+            border: 1px solid #E2EAE7;
+            padding: 18px;
+            border-radius: 12px;
+            border-left: 4px solid #267373;
+        }
+
+        .info-box strong {
+            display: block;
+            color: #164A4A;
+            margin-bottom: 5px;
+        }
+
+        .info-box span {
+            color: #5E7370;
+            font-size: 14px;
+        }
+
+        /* ================= SECTION TITLE ================= */
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .section-title h2 {
+            color: #164A4A;
+            font-size: 34px;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
+
+        .section-title p {
+            color: #5E7370;
+            max-width: 650px;
+            margin: auto;
+            line-height: 1.7;
+        }
+
+        /* ================= CARDS ================= */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+
+        .card {
+            background: #FFFFFF;
+            border: 1px solid #E2EAE7;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 7px 25px rgba(22,74,74,0.07);
+            transition: 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(22,74,74,0.12);
+        }
+
+        .card img {
+            width: 100%;
+            height: 210px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-content {
+            padding: 24px;
+        }
+
+        .card h3 {
+            color: #164A4A;
+            margin-bottom: 9px;
+            font-size: 21px;
+        }
+
+        .card p {
+            color: #5E7370;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* ================= LIGHT SECTION ================= */
+
+        .light-section {
+            background: #DCEFE9;
+        }
+
+        /* ================= BUDGET ================= */
+
+        .budget-section {
+            background: #DCEFE9;
+        }
+
+        .budget-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .budget-card {
+            background: #FFFFFF;
+            border: 1px solid #E2EAE7;
+            padding: 28px 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: 0.3s ease;
+        }
+
+        .budget-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(22,74,74,0.08);
+        }
+
+        .budget-card h3 {
+            color: #164A4A;
+            font-size: 28px;
+            margin-bottom: 6px;
+        }
+
+        .budget-card p {
+            color: #5E7370;
+            font-size: 14px;
+        }
+
+        /* ================= TIPS ================= */
+
+        .tips {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .tip {
+            background: #FFFFFF;
+            border: 1px solid #E2EAE7;
+            padding: 26px;
+            border-radius: 15px;
+            border-left: 5px solid #267373;
+        }
+
+        .tip h3 {
+            color: #164A4A;
+            margin-bottom: 8px;
+        }
+
+        .tip p {
+            color: #5E7370;
+            line-height: 1.7;
+        }
+
+        /* ================= QUICK ACTIONS ================= */
+
+        .quick-actions {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .weather-btn {
+            background: #DCEFE9;
+            color: #164A4A;
+        }
+
+        .weather-btn:hover {
+            background: #267373;
+            color: #FFFFFF;
+        }
+
+        /* ================= CTA ================= */
+
+        .cta {
+            background: #164A4A;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 65px 25px;
+            border-radius: 25px;
+        }
+
+        .cta h2 {
+            color: #FFFFFF;
+            font-size: 36px;
+            margin-bottom: 14px;
+        }
+
+        .cta p {
+            color: #DCEFE9;
+            max-width: 650px;
+            margin: 0 auto 28px;
+            line-height: 1.7;
+        }
+
+        .cta .btn {
+            background: #267373;
+            color: #FFFFFF;
+            margin: 5px;
+        }
+
+        .cta .btn:hover {
+            background: #DCEFE9;
+            color: #164A4A;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            margin-top: 70px;
+            background: #102F2F;
+            color: #DCEFE9;
+            padding: 40px 7%;
+            text-align: center;
+        }
+
+        footer p {
+            margin: 5px 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1050px) {
+
+            nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                justify-content: center;
+            }
+
+            .overview {
+                grid-template-columns: 1fr;
+            }
+
+            .overview img {
+                height: 420px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .budget-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            nav {
+                padding: 16px 5%;
+            }
+
+            .nav-links {
+                gap: 4px;
+            }
+
+            .nav-links > a,
+            .dropdown > a {
+                font-size: 13px;
+                padding: 8px 8px;
+            }
+
+            .hero {
+                min-height: 400px;
+                padding: 50px 6%;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .selector-row {
+                flex-direction: column;
+            }
+
+            .selector-row button {
+                width: 100%;
+            }
+
+            .info-list,
+            .cards,
+            .budget-grid,
+            .tips {
+                grid-template-columns: 1fr;
+            }
+
+            .overview img {
+                height: 300px;
+            }
+
+            .section-title h2 {
+                font-size: 29px;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+
+            .container {
+                width: 90%;
+            }
+
+            .cta {
+                padding: 50px 20px;
+            }
+
+            .cta h2 {
+                font-size: 29px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<nav>
+
+    <a href="../index.html" class="logo">
+        TravelAI
+    </a>
+
+    <div class="nav-links">
+
+        <a href="../index.html">
+            Home
+        </a>
+
+        <div class="dropdown">
+
+            <a href="destinations.html">
+                Destinations ▾
+            </a>
+
+            <div class="dropdown-content">
+
+                <a href="destinations.html">
+                    Explore Destinations
+                </a>
+
+                <a href="destination-details.html">
+                    Destination Details
+                </a>
+
+                <a href="favorites.html">
+                    Favorites
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="dropdown">
+
+            <a href="itinerary.html">
+                Trip Planner ▾
+            </a>
+
+            <div class="dropdown-content">
+
+                <a href="itinerary.html">
+                    My Itinerary
+                </a>
+
+                <a href="itinerary-details.html">
+                    Itinerary Details
+                </a>
+
+                <a href="budget.html">
+                    Budget Planner
+                </a>
+
+                <a href="activities.html">
+                    Activities
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="dropdown">
+
+            <a href="recommendations.html">
+                Recommendations ▾
+            </a>
+
+            <div class="dropdown-content">
+
+                <a href="recommendations.html">
+                    All Recommendations
+                </a>
+
+                <a href="recommendation.html">
+                    AI Recommendation
+                </a>
+
+                <a href="preferences.html">
+                    Preferences
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <a href="hotels.html">
+            Hotels
+        </a>
+
+        <a href="weather.html">
+            Weather
+        </a>
+
+
+        <div class="dropdown">
+
+            <a href="profile.html">
+                Profile ▾
+            </a>
+
+            <div class="dropdown-content">
+
+                <a href="profile.html">
+                    My Profile
+                </a>
+
+                <a href="preferences.html">
+                    Preferences
+                </a>
+
+                <a href="favorites.html">
+                    Favorites
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <a href="about.html">
+            About
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <span class="tag">
+            DESTINATION GUIDE
+        </span>
+
+        <h1 id="heroTitle">
+            Discover Your Destination
+        </h1>
+
+        <p id="heroDescription">
+            Explore detailed travel information, attractions, experiences,
+            budget guidance and useful travel tips.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ================= DESTINATION SELECTOR ================= -->
+
+<div class="container">
+
+    <div class="selector-box">
+
+        <label for="destination">
+            Choose a destination
+        </label>
+
+        <div class="selector-row">
+
+            <select id="destination">
+            </select>
+
+            <button onclick="showDestination()">
+                View Destination
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= OVERVIEW ================= -->
+
+<section>
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>
+                Destination Overview
+            </h2>
+
+            <p>
+                Get everything you need to understand your destination
+                before planning your journey.
+            </p>
+
+        </div>
+
+
+        <div class="overview">
+
+            <img
+                id="destinationImage"
+                src="/images/jaipur.jpg"
+                alt="Destination"
+            >
+
+
+            <div class="overview-text">
+
+                <h2 id="destinationName">
+                    Jaipur
+                </h2>
+
+                <p id="destinationDescription">
+                    Jaipur, the Pink City of India, is known for its magnificent
+                    forts, royal palaces, colorful markets and rich cultural
+                    heritage.
+                </p>
+
+                <p id="destinationExtra">
+                    TravelAI helps you discover the best places to visit,
+                    activities to experience, hotels to stay in and local
+                    foods to try.
+                </p>
+
+
+                <div class="info-list">
+
+                    <div class="info-box">
+
+                        <strong>
+                            📍 Location
+                        </strong>
+
+                        <span id="location">
+                            Rajasthan, India
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <strong>
+                            🌤 Best Time
+                        </strong>
+
+                        <span id="bestTime">
+                            October – March
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <strong>
+                            💰 Average Budget
+                        </strong>
+
+                        <span id="budget">
+                            ₹3,000 – ₹6,000 / day
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <strong>
+                            🕒 Recommended Stay
+                        </strong>
+
+                        <span id="stay">
+                            3 – 5 Days
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="quick-actions">
+
+                    <a
+                        id="weatherLink"
+                        href="weather.html?city=Jaipur"
+                        class="btn weather-btn"
+                    >
+                        🌤 View Weather
+                    </a>
+
+                    <a
+                        id="itineraryLink"
+                        href="itinerary.html?destination=Jaipur"
+                        class="btn"
+                    >
+                        🗓 Plan Itinerary
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= PLACES ================= -->
+
+<section class="light-section">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>
+                Places You Shouldn't Miss
+            </h2>
+
+            <p id="placesSubtitle">
+                Explore some of the most popular attractions and experiences.
+            </p>
+
+        </div>
+
+
+        <div
+            class="cards"
+            id="placesContainer"
+        >
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= BUDGET ================= -->
+
+<section class="budget-section">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>
+                Estimated Travel Budget
+            </h2>
+
+            <p>
+                Get a quick idea of how much you may need for your trip.
+            </p>
+
+        </div>
+
+
+        <div
+            class="budget-grid"
+            id="budgetContainer"
+        >
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= ACTIVITIES ================= -->
+
+<section>
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>
+                Popular Experiences
+            </h2>
+
+            <p>
+                Add activities that match your interests to your itinerary.
+            </p>
+
+        </div>
+
+
+        <div
+            class="cards"
+            id="activitiesContainer"
+        >
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= TRAVEL TIPS ================= -->
+
+<section class="light-section">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>
+                Travel Tips
+            </h2>
+
+            <p>
+                A few useful things to keep in mind before your trip.
+            </p>
+
+        </div>
+
+
+        <div
+            class="tips"
+            id="tipsContainer"
+        >
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CTA ================= -->
+
+<section>
+
+    <div class="container">
+
+        <div class="cta">
+
+            <h2>
+                Ready to Plan Your Trip?
+            </h2>
+
+            <p id="ctaText">
+                Let TravelAI create a personalized itinerary based on your
+                destination, budget, interests and travel preferences.
+            </p>
+
+            <a
+                id="ctaRecommendation"
+                href="recommendation.html"
+                class="btn"
+            >
+                Get AI Recommendation
+            </a>
+
+            <a
+                id="ctaItinerary"
+                href="itinerary.html?destination=Jaipur"
+                class="btn"
+            >
+                Build My Itinerary
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <p>
+        © 2026 TravelAI — AI-Based Personalized Travel Recommendation System
+    </p>
+
+    <p>
+        Plan smarter. Travel better. Explore more.
+    </p>
+
+</footer>
+
+
+<script>
+
+/* =========================================================
+   DESTINATION DATABASE
+   80 DESTINATIONS
+   ========================================================= */
+
+const destinations = {
+
+    /* ================= INDIA ================= */
+
+    goa: {
+        name: "Goa",
+        country: "Goa, India",
+        image: "/images/goa2.png",
+        description: "Goa is known for tropical beaches, Portuguese-inspired architecture, vibrant nightlife and relaxed coastal experiences.",
+        extra: "Discover beautiful beaches, historic churches, local food, water sports and peaceful coastal escapes.",
+        bestTime: "October – May",
+        budget: "₹3,000 – ₹7,000 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Baga Beach", image: "/images/baga.jpeg" }, 
+            { name: "Basilica of Bom Jesus", image: "/images/bom.jpeg" }, 
+            { name: "Dudhsagar Falls", image: "/images/Dudhsagar.webp" }],
+        activities: [{ name: "Beach Day", image: "/images/beachday.jpg" }, 
+            { name: "Water Sports", image: "/images/watersports.jpg" }, 
+            { name: "Goan Food Tour", image: "/images/goan1.jpg" }]
+    },
+
+    munnar: {
+        name: "Munnar",
+        country: "Kerala, India",
+        image: "/images/munnar1.webp",
+        description: "Munnar is a peaceful hill destination known for tea plantations, misty mountains, waterfalls and cool weather.",
+        extra: "Explore scenic tea estates, mountain viewpoints, waterfalls and nature experiences.",
+        bestTime: "September – May",
+        budget: "₹2,500 – ₹5,500 / day",
+        stay: "2 – 4 Days",
+        places: [{ name: "Tea Gardens", image: "/images/teag.jpg" },
+         { name: "Eravikulam National Park", image: "/images/park.jpg" },
+          { name: "Mattupetty Dam", image: "/images/dam.jpeg" }],
+        activities: [{ name: "Tea Estate Walk", image: "/images/walkmunnar.webp" },
+         { name: "Nature Photography", image: "/images/photo.jpg" },
+          { name: "Mountain Trek", image: "/images/trek.jpg" }]
+    },
+
+    ooty: {
+        name: "Ooty",
+        country: "Tamil Nadu, India",
+        image: "/images/ooty1.avif",
+        description: "Ooty is a popular hill station surrounded by tea gardens, forests, lakes and scenic mountain landscapes.",
+        extra: "Enjoy cool weather, gardens, viewpoints, tea plantations and peaceful mountain experiences.",
+        bestTime: "April – June",
+        budget: "₹2,500 – ₹5,000 / day",
+        stay: "2 – 4 Days",
+        places: [{ name: "Ooty Lake", image: "/images/ootylake.webp" },
+         { name: "Botanical Gardens", image: "/images/garden.png" },
+          { name: "Doddabetta Peak", image: "/images/peak.webp" }],
+        activities: [{ name: "Toy Train Ride", image: "/images/toy.webp" },
+         { name: "Tea Experience", image: "/images/teaex.webp" },
+          { name: "Mountain Walk", image: "/images/trekooty.jpg" }]
+    },
+
+    jaipur: {
+        name: "Jaipur",
+        country: "Rajasthan, India",
+        image: "/images/jaipur.jpg",
+        description: "Jaipur, the Pink City of India, is known for magnificent forts, royal palaces, colorful markets and rich cultural heritage.",
+        extra: "Discover historic attractions, traditional cuisine, shopping areas and royal architecture.",
+        bestTime: "October – March",
+        budget: "₹3,000 – ₹6,000 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Amber Fort", image: "/images/amber fort.jpeg" },
+         { name: "City Palace", image: "/images/city palace.jpeg" },
+          { name: "Hawa Mahal", image: "/images/hawa.png" }],
+        activities: [{ name: "Heritage Walk", image: "/images/heritage.jpg" },
+         { name: "Local Food Tour", image: "/images/food.jpg" },
+          { name: "Local Shopping", image: "/images/shopping.jpg" }]
+    },
+
+    kerala: {
+        name: "Kerala",
+        country: "Kerala, India",
+        image: "/images/kerala1.jpg",
+        description: "Kerala is known for peaceful backwaters, lush landscapes, beautiful beaches, wildlife and rich cultural traditions.",
+        extra: "Explore houseboat cruises, hill stations, beaches, wildlife experiences and traditional Kerala cuisine.",
+        bestTime: "October – February",
+        budget: "₹3,000 – ₹6,500 / day",
+        stay: "4 – 7 Days",
+        places: [{ name: "Alleppey Backwaters", image: "/images/alleppey.jpg" },
+         { name: "Munnar", image: "/images/munnar2.webp" },
+          { name: "Varkala Beach", image: "/images/varkala.jpg" }],
+        activities: [{ name: "Houseboat Cruise", image: "/images/houseboat.webp" },
+         { name: "Traditional Food", image: "/images/foodker.jpeg" },
+          { name: "Wildlife Experience", image: "/images/wild.jpg" }]
+    },
+
+    delhi: {
+        name: "Delhi",
+        country: "Delhi, India",
+        image: "https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=1200&q=85",
+        description: "Delhi combines centuries of history with modern city life, monuments, museums, markets and diverse cuisine.",
+        extra: "Explore historic landmarks, cultural attractions, shopping districts and famous food experiences.",
+        bestTime: "October – March",
+        budget: "₹2,500 – ₹6,000 / day",
+        stay: "2 – 4 Days",
+        places: [{ name: "India Gate", image: "/images/gate.jpeg" },
+         { name: "Red Fort", image: "/images/red.webp" },
+          { name: "Humayun's Tomb", image: "/images/Humayun.avif" }],
+        activities: [{ name: "Heritage Tour", image: "/images/hertour.jpg" },
+         { name: "Street Food Tour", image: "/images/delhifood.jpg" },
+          { name: "Market Shopping", image: "/images/delhishop.webp" }]
+    },
+
+    mumbai: {
+        name: "Mumbai",
+        country: "Maharashtra, India",
+        image: "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=1200&q=85",
+        description: "Mumbai is India's energetic coastal metropolis known for Marine Drive, historic architecture, markets and entertainment.",
+        extra: "Explore the city's waterfront, heritage buildings, markets, food culture and vibrant neighborhoods.",
+        bestTime: "November – February",
+        budget: "₹3,000 – ₹7,000 / day",
+        stay: "2 – 4 Days",
+        places: [{ name: "Gateway of India", image: "/images/mumbaigate.jpeg" },
+         { name: "Marine Drive", image: "/images/mumbaimarine.jpg" },
+          { name: "Elephanta Caves", image: "/images/mumbaicaves.jpeg" }],
+        activities: [{ name: "City Tour", image: "/images/mumbaicity.jpeg" },
+         { name: "Street Food Tour", image: "/images/mumbaifood.avif" },
+          { name: "Coastal Walk", image: "/images/mumbaiwalk.webp" }]
+    },
+
+    manali: {
+        name: "Manali",
+        country: "Himachal Pradesh, India",
+        image: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1200&q=85",
+        description: "Manali is a mountain destination surrounded by forests, rivers, valleys and snow-covered peaks.",
+        extra: "Explore mountain activities, scenic locations, adventure experiences and peaceful nature escapes.",
+        bestTime: "October – June",
+        budget: "₹3,000 – ₹7,000 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Solang Valley", image: "/images/solang.avif" },
+         { name: "Hadimba Temple", image: "/images/hidimba.jpeg" },
+          { name: "Old Manali", image: "/images/oldman.webp" }],
+        activities: [{ name: "Mountain Trek", image: "/images/trekman.jpeg" },
+         { name: "River Adventure", image: "/images/riverad.avif" },
+          { name: "Cafe Exploration", image: "/images/cafe.jpg" }]
+    },
+
+    udaipur: {
+        name: "Udaipur",
+        country: "Rajasthan, India",
+        image: "/images/udaipur.webp",
+        description: "Udaipur is famous for magnificent palaces, beautiful lakes, heritage architecture and romantic surroundings.",
+        extra: "Explore royal residences, lakeside views, museums, markets and traditional Rajasthani culture.",
+        bestTime: "October – March",
+        budget: "₹3,500 – ₹7,000 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "City Palace", image: "/images/udaipurpalace.jpeg" },
+         { name: "Lake Pichola", image: "/images/udaipurlake.jpeg" },
+          { name: "Jag Mandir", image: "/images/udaipurjag.jpeg" }],
+        activities: [{ name: "Palace Tour", image: "/images/udaipurtour.jpeg" },
+         { name: "Boat Ride", image: "/images/udaipurboat.jpg" },
+          { name: "Heritage Walk", image: "/images/udaipurhert.jpg" }]
+    },
+
+    varanasi: {
+        name: "Varanasi",
+        country: "Uttar Pradesh, India",
+        image: "/images/varanasi.jpeg",
+        description: "Varanasi is an ancient city known for its ghats, spiritual traditions, temples and cultural heritage.",
+        extra: "Experience the riverside ghats, historic streets, traditional ceremonies and local cuisine.",
+        bestTime: "October – March",
+        budget: "₹2,000 – ₹5,000 / day",
+        stay: "2 – 4 Days",
+        places: [{ name: "Dashashwamedh Ghat", image: "/images/varanasighat.avif" },
+         { name: "Kashi Vishwanath Temple", image: "/images/varanasitemp.jpg" },
+          { name: "Sarnath", image: "/images/varanasisar.jpeg" }],
+        activities: [{ name: "Ganga Boat Ride", image: "/images/varanasiboat.jpg" },
+         { name: "Heritage Walk", image: "/images/varanasiwalk.jpg" },
+          { name: "Local Food Tour", image: "/images/varanasifood.jpeg" }]
+    },
+
+    rishikesh: {
+        name: "Rishikesh",
+        country: "Uttarakhand, India",
+        image: "/images/rishikesh1.avif",
+        description: "Rishikesh combines river landscapes, yoga traditions, mountain scenery and outdoor adventure.",
+        extra: "Enjoy rafting, scenic walks, yoga experiences and peaceful riverside surroundings.",
+        bestTime: "September – November",
+        budget: "₹2,000 – ₹5,000 / day",
+        stay: "2 – 4 Days",
+        places: [{ name: "Laxman Jhula Area", image: "/images/rishikeshlax.webp" },
+         { name: "Triveni Ghat", image: "/images/rishikeshghat.jpg" },
+          { name: "Neer Garh Waterfall", image: "/images/rishikeshfall.webp" }],
+        activities: [{ name: "River Rafting", image: "/images/rishikeshraft.jpeg" },
+         { name: "Yoga Experience", image: "/images/rishikeshyoga.webp" },
+          { name: "Nature Walk", image: "/images/rishikeshwalk.webp" }]
+    },
+
+    darjeeling: {
+        name: "Darjeeling",
+        country: "West Bengal, India",
+        image: "/images/darjeeling6.jpeg",
+        description: "Darjeeling is known for Himalayan views, tea gardens, colonial architecture and scenic mountain landscapes.",
+        extra: "Explore tea estates, viewpoints, mountain railways and peaceful hill-town surroundings.",
+        bestTime: "March – May",
+        budget: "₹2,500 – ₹5,500 / day",
+        stay: "2 – 4 Days",
+        places: [{ name: "Tiger Hill", image: "/images/darjeeling1.jpeg" },
+         { name: "Batasia Loop", image: "/images/darjeeling2.avif" },
+          { name: "Darjeeling Himalayan Railway", image: "/images/darjeeling3.jpeg" }],
+        activities: [{ name: "Tea Garden Visit", image: "/images/darjeeling4.jpeg" },
+         { name: "Toy Train Ride", image: "/images/darjeeling5.jpg" },
+          { name: "Mountain Photography", image: "/images/darjeeling.jpeg" }]
+    },
+
+    amritsar: {
+        name: "Amritsar",
+        country: "Punjab, India",
+        image: "/images/amritsar1.jpeg",
+        description: "Amritsar is a historic city known for the Golden Temple, Punjabi culture and important heritage sites.",
+        extra: "Explore spiritual landmarks, historic sites, markets and authentic Punjabi cuisine.",
+        bestTime: "October – March",
+        budget: "₹2,000 – ₹5,000 / day",
+        stay: "2 – 3 Days",
+        places: [{ name: "Golden Temple", image: "/images/amritsar2.jpeg" },
+         { name: "Jallianwala Bagh", image: "/images/amritsar3.jpeg" },
+          { name: "Wagah Border", image: "/images/amritsar4.jpeg" }],
+        activities: [{ name: "Heritage Tour", image: "/images/amritsar5.jpeg" },
+         { name: "Punjabi Food Tour", image: "/images/amritsar6.jpeg" },
+          { name: "Market Visit", image: "/images/amritsar7.jpg" }]
+    },
+
+    kolkata: {
+        name: "Kolkata",
+        country: "West Bengal, India",
+        image: "/images/kolkata.jpg",
+        description: "Kolkata is known for colonial architecture, literature, art, museums and Bengali food culture.",
+        extra: "Discover historic buildings, cultural attractions, markets and traditional Bengali cuisine.",
+        bestTime: "October – March",
+        budget: "₹2,000 – ₹5,000 / day",
+        stay: "2 – 4 Days",
+        places: [{ name: "Victoria Memorial", image: "/images/kolkata1.jpg" },
+         { name: "Howrah Bridge", image: "/images/kolkata2.jpeg" },
+          { name: "Indian Museum", image: "/images/kolkata3.jpg" }],
+        activities: [{ name: "Heritage Walk", image: "/images/kolkata4.jpeg" },
+         { name: "Bengali Food Tour", image: "/images/kolkata5.avif" },
+          { name: "Museum Visit", image: "/images/kolkata6.webp" }]
+    },
+
+    andaman: {
+        name: "Andaman Islands",
+        country: "Andaman & Nicobar Islands, India",
+        image: "/images/andaman.jpeg",
+        description: "The Andaman Islands offer tropical beaches, clear waters, coral reefs and memorable island experiences.",
+        extra: "Explore beaches, marine life, island landscapes and water-based experiences.",
+        bestTime: "October – May",
+        budget: "₹4,000 – ₹9,000 / day",
+        stay: "4 – 7 Days",
+        places: [{ name: "Radhanagar Beach", image: "/images/andaman1.webp" },
+         { name: "Cellular Jail", image: "/images/andaman2.jpeg" },
+          { name: "Elephant Beach", image: "/images/andaman3.jpg" }],
+        activities: [{ name: "Snorkeling", image: "/images/andaman5.webp" },
+         { name: "Scuba Diving", image: "/images/andaman4.jpg" },
+          { name: "Island Tour", image: "/images/andaman6.jpg" }]
+    },
+
+    ladakh: {
+        name: "Ladakh",
+        country: "Ladakh, India",
+        image: "/images/ladakh.jpg",
+        description: "Ladakh is known for dramatic mountains, high-altitude lakes, monasteries and adventurous Himalayan roads.",
+        extra: "Explore monasteries, mountain landscapes, high-altitude lakes and scenic routes.",
+        bestTime: "May – September",
+        budget: "₹3,500 – ₹8,000 / day",
+        stay: "4 – 7 Days",
+        places: [{ name: "Pangong Lake", image: "/images/ladakh1.jpg" },
+         { name: "Nubra Valley", image: "/images/ladakh2.jpg" },
+          { name: "Leh Palace", image: "/images/ladakh3.webp" }],
+        activities: [{ name: "Mountain Drive", image: "/images/ladakh4.avif" },
+         { name: "Monastery Visit", image: "/images/ladakh5.webp" },
+          { name: "High-Altitude Trek", image: "/images/ladakh6.webp" }]
+    },
+
+    hampi: {
+        name: "Hampi",
+        country: "Karnataka, India",
+        image: "/images/hampi.avif",
+        description: "Hampi is an extraordinary heritage destination filled with ancient ruins, temples and dramatic boulder landscapes.",
+        extra: "Explore historic ruins, temples, monuments and the distinctive landscape of the Vijayanagara region.",
+        bestTime: "October – February",
+        budget: "₹1,500 – ₹4,000 / day",
+        stay: "2 – 3 Days",
+        places: [{ name: "Virupaksha Temple", image: "/images/hampi1.jpeg" },
+         { name: "Vittala Temple", image: "/images/hampi2.jpeg" },
+          { name: "Hampi Bazaar", image: "/images/hampi3.jpeg" }],
+        activities: [{ name: "Heritage Walk", image: "/images/hampi4.jpeg" },
+        { name: "Temple Tour", image: "/images/hampi5.jpg" },
+         { name: "Cycling Tour", image: "/images/hampi6.jpeg" }]
+    },
+
+    pondicherry: {
+        name: "Pondicherry",
+        country: "Puducherry, India",
+        image: "/images/pondi.webp",
+        description: "Pondicherry combines French-inspired streets, coastal cafes, beaches and a relaxed seaside atmosphere.",
+        extra: "Explore heritage streets, cafes, beaches and the unique cultural character of the city.",
+        bestTime: "October – March",
+        budget: "₹2,000 – ₹5,000 / day",
+        stay: "2 – 4 Days",
+        places: [{ name: "Promenade Beach", image: "/images/promenade-beach.jpg" },
+         { name: "French Quarter", image: "/images/french-quarter.jpg" },
+          { name: "Auroville", image: "/images/auroville.avif" }],
+        activities: [{ name: "Cycling Tour", image: "/images/cycling-tour.jpg" },
+         { name: "Cafe Hopping", image: "/images/cafe-hopping.webp" },
+          { name: "Beach Walk", image: "/images/beach-walk.jpg" }]
+    },
+
+    agra: {
+        name: "Agra",
+        country: "Uttar Pradesh, India",
+        image: "/images/agra.jpeg",
+        description: "Agra is famous for the Taj Mahal, historic forts and architectural treasures of the Mughal era.",
+        extra: "Explore Mughal architecture, historic monuments, local markets and traditional cuisine.",
+        bestTime: "October – March",
+        budget: "₹2,000 – ₹5,000 / day",
+        stay: "1 – 3 Days",
+        places: [{ name: "Taj Mahal", image: "/images/taj-mahal.webp" },
+         { name: "Agra Fort", image: "/images/agra-fort.jpg" },
+          { name: "Mehtab Bagh", image: "/images/mehtab-bagh.avif" }],
+        activities: [{ name: "Heritage Tour", image: "/images/agra-heritage-tour.jpg" },
+         { name: "Photography", image: "/images/agra-photography.jpeg" },
+          { name: "Local Food Tour", image: "/images/agra-local-food-tour.jpeg" }]
+    },
+
+    coorg: {
+        name: "Coorg",
+        country: "Karnataka, India",
+        image: "/images/coorg.jpg",
+        description: "Coorg is a peaceful destination known for coffee plantations, waterfalls, forests and Western Ghats scenery.",
+        extra: "Relax among coffee estates, forests and scenic mountain landscapes.",
+        bestTime: "October – March",
+        budget: "₹2,500 – ₹5,500 / day",
+        stay: "2 – 4 Days",
+        places: [{ name: "Abbey Falls", image: "/images/abbey-falls.jpeg" },
+         { name: "Raja's Seat", image: "/images/raja-s-seat.jpg" },
+          { name: "Coffee Plantations", image: "/images/corgoffee-plantations.webp" }],
+        activities: [{ name: "Coffee Estate Visit", image: "/images/coorgffee-estate-visit.png" },
+         { name: "Nature Walk", image: "/images/coorg-nature-walk.png" },
+          { name: "Waterfall Visit", image: "/images/coorg-waterfall-visit.webp" }]
+    },
+
+
+    /* ================= ASIA ================= */
+
+    tokyo: {
+        name: "Tokyo",
+        country: "Tokyo, Japan",
+        image: "/images/tokyo.jpg",
+        description: "Tokyo combines futuristic city life with traditional temples, incredible food, shopping districts and Japanese culture.",
+        extra: "Explore Tokyo's neighborhoods, attractions, food experiences, shopping and cultural activities.",
+        bestTime: "March – May",
+        budget: "¥15,000 – ¥30,000 / day",
+        stay: "4 – 6 Days",
+        places: [{ name: "Shibuya", image: "/images/shibuya.avif" },
+         { name: "Senso-ji Temple", image: "/images/shenso.jpeg" },
+         { name: "Tokyo Skytree", image: "/images/skytree.webp" }],
+        activities: [{ name: "Japanese Food Tour", image: "/images/japanese-food-tour.jpg" }, 
+         { name: "Temple Visit", image: "/images/temple.jpg" }, 
+         { name: "City Exploration", image: "/images/city.webp" }]
+    },
+
+    kyoto: {
+        name: "Kyoto",
+        country: "Kyoto, Japan",
+        image: "/images/kyoto.webp",
+        description: "Kyoto is known for traditional temples, gardens, tea houses and historic neighborhoods.",
+        extra: "Explore Japanese heritage, peaceful gardens, traditional streets and cultural experiences.",
+        bestTime: "March – May",
+        budget: "¥14,000 – ¥28,000 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Fushimi Inari Shrine", image: "/images/fushimi-inari-shrine.jpg" },
+         { name: "Kinkaku-ji", image: "/images/kinkaku-ji.jpeg" },
+          { name: "Arashiyama", image: "/images/arashiyama.jpg" }],
+        activities: [{ name: "Temple Tour", image: "/images/kyoto-temple-tour.jpeg" },
+         { name: "Tea Ceremony", image: "/images/kyoto-tea-ceremony.jpg" },
+          { name: "Traditional Walk", image: "/images/kyoto-traditional-walk.avif" }]
+    },
+
+    seoul: {
+        name: "Seoul",
+        country: "South Korea",
+        image: "/images/seoul.jpg",
+        description: "Seoul combines historic palaces with modern neighborhoods, Korean food, shopping and vibrant city life.",
+        extra: "Explore Korean heritage, modern attractions, markets and local food.",
+        bestTime: "April – June",
+        budget: "₩100,000 – ₩220,000 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Gyeongbokgung Palace", image: "/images/gyeongbokgung-palace.webp" },
+         { name: "Myeongdong", image: "/images/myeongdong.webp" },
+          { name: "Bukchon Hanok Village", image: "/images/bukchon-hanok-village.jpg" }],
+        activities: [{ name: "Korean Food Tour", image: "/images/korean-food-tour.jpeg" },
+         { name: "Palace Visit", image: "/images/seoul-palace-visit.jpg" },
+          { name: "Shopping", image: "/images/seoul-shopping.jpeg" }]
+    },
+
+    bali: {
+        name: "Bali",
+        country: "Indonesia",
+        image: "/images/bali.webp",
+        description: "Bali is known for beaches, temples, rice terraces, tropical landscapes and relaxing island experiences.",
+        extra: "Explore temples, beaches, waterfalls, rice terraces and Balinese culture.",
+        bestTime: "April – October",
+        budget: "₹4,000 – ₹9,000 / day",
+        stay: "4 – 7 Days",
+        places: [{ name: "Uluwatu Temple", image: "/images/uluwatu-temple.jpg" },
+         { name: "Ubud Rice Terraces", image: "/images/ubud-rice-terraces.webp" },
+          { name: "Seminyak Beach", image: "/images/seminyak-beach.webp" }],
+        activities: [{ name: "Temple Tour", image: "/images/bali-temple-tour.jpg" },
+         { name: "Beach Day", image: "/images/bali-beach-day.webp" },
+          { name: "Rice Terrace Walk", image: "/images/rice-terrace-walk.jpeg" }]
+    },
+
+    bangkok: {
+        name: "Bangkok",
+        country: "Thailand",
+        image: "https://images.unsplash.com/photo-1508009603885-50cf7c579365?auto=format&fit=crop&w=1200&q=85",
+        description: "Bangkok offers temples, street food, markets, shopping and vibrant urban experiences.",
+        extra: "Explore temples, markets, local food and the city's lively neighborhoods.",
+        bestTime: "November – February",
+        budget: "₹3,000 – ₹7,000 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Grand Palace", image: "/images/grand-palace.jpg" },
+         { name: "Wat Arun", image: "/images/wat-arun.jpg" },
+          { name: "Chatuchak Market", image: "/images/chatuchak-market.jpg" }],
+        activities: [{ name: "Street Food Tour", image: "/images/street-food-tour.jpg" },
+         { name: "Temple Tour", image: "/images/temple-tour.jpg" },
+          { name: "Market Shopping", image: "/images/market-shopping.jpg" }]
+    },
+
+    phuket: {
+        name: "Phuket",
+        country: "Thailand",
+        image: "https://images.unsplash.com/photo-1589394815804-964ed0be2eb5?auto=format&fit=crop&w=1200&q=85",
+        description: "Phuket offers tropical beaches, island excursions, water activities and coastal resorts.",
+        extra: "Relax on beaches and explore nearby islands and marine experiences.",
+        bestTime: "November – April",
+        budget: "₹4,000 – ₹9,000 / day",
+        stay: "4 – 6 Days",
+        places: [{ name: "Patong Beach", image: "/images/patong-beach.jpg" },
+         { name: "Old Phuket Town", image: "/images/old-phuket-town.jpg" },
+          { name: "Phi Phi Islands", image: "/images/phi-phi-islands.jpg" }],
+        activities: [{ name: "Island Tour", image: "/images/phuket-island-tour.webp" },
+         { name: "Snorkeling", image: "/images/snorkeling.jpg" },
+          { name: "Beach Day", image: "/images/phuket-beach-day.webp" }]
+    },
+
+    singapore: {
+        name: "Singapore",
+        country: "Singapore",
+        image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&w=1200&q=85",
+        description: "Singapore is known for futuristic architecture, gardens, shopping districts and diverse food.",
+        extra: "Explore modern attractions, gardens, neighborhoods and multicultural cuisine.",
+        bestTime: "February – April",
+        budget: "₹8,000 – ₹18,000 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Gardens by the Bay", image: "/images/gardens-by-the-bay.jpg" },
+         { name: "Marina Bay Sands", image: "/images/marina-bay-sands.jpg" },
+          { name: "Sentosa Island", image: "/images/sentosa-island.jpg" }],
+        activities: [{ name: "City Tour", image: "/images/singapore-city-tour.jpg" },
+         { name: "Food Tour", image: "/images/singapore-food-tour.jpg" },
+          { name: "Garden Visit", image: "/images/garden-visit.jpg" }]
+    },
+
+    kualalumpur: {
+        name: "Kuala Lumpur",
+        country: "Malaysia",
+        image: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=1200&q=85",
+        description: "Kuala Lumpur offers skyscrapers, multicultural neighborhoods, shopping and Malaysian cuisine.",
+        extra: "Explore modern landmarks, markets, cultural districts and local food.",
+        bestTime: "December – February",
+        budget: "₹3,000 – ₹7,000 / day",
+        stay: "3 – 4 Days",
+        places: [{ name: "Petronas Towers", image: "/images/petronas-towers.jpg" },
+         { name: "Batu Caves", image: "/images/batu-caves.jpg" },
+          { name: "Bukit Bintang", image: "/images/bukit-bintang.jpg" }],
+        activities: [{ name: "City Tour", image: "/images/kuala-lumpur-city-tour.jpg" }, 
+         { name: "Food Tour", image: "/images/kuala-lumpur-food-tour.jpg" },
+          { name: "Shopping", image: "/images/kuala-lumpur-shopping.jpeg" }]
+    },
+
+    hanoi: {
+        name: "Hanoi",
+        country: "Vietnam",
+        image: "https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?auto=format&fit=crop&w=1200&q=85",
+        description: "Hanoi is known for historic streets, Vietnamese cuisine, lakes and traditional architecture.",
+        extra: "Explore the Old Quarter, local markets, temples and Vietnamese food culture.",
+        bestTime: "October – December",
+        budget: "₹2,500 – ₹6,000 / day",
+        stay: "3 – 4 Days",
+        places: [{ name: "Old Quarter", image: "/images/old-quarter.jpg" },
+         { name: "Hoan Kiem Lake", image: "/images/hoan-kiem-lake.jpg" },
+          { name: "Temple of Literature", image: "/images/temple-of-literature.jpg" }],
+        activities: [{ name: "Street Food Tour", image: "/images/street-food-tour.jpg" },
+         { name: "Cycling Tour", image: "/images/hanoi-cycling-tour.jpg" },
+          { name: "Heritage Walk", image: "/images/hanoi-heritage-walk.jpg" }]
+    },
+
+    hochiminh: {
+        name: "Ho Chi Minh City",
+        country: "Vietnam",
+        image: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=1200&q=85",
+        description: "Ho Chi Minh City combines bustling markets, colonial landmarks, cafes and Vietnamese food.",
+        extra: "Explore markets, museums, historic buildings and vibrant neighborhoods.",
+        bestTime: "December – April",
+        budget: "₹2,500 – ₹6,000 / day",
+        stay: "3 – 4 Days",
+        places: [{ name: "Ben Thanh Market", image: "/images/ben-thanh-market.jpg" },
+         { name: "War Remnants Museum", image: "/images/war-remnants-museum.jpg" },
+          { name: "Notre-Dame Cathedral Area", image: "/images/notre-dame-cathedral-area.jpg" }],
+        activities: [{ name: "Food Tour", image: "/images/ho-chi-minh-food-tour.jpg" },
+         { name: "Market Visit", image: "/images/market-visit.jpg" },
+          { name: "City Tour", image: "/images/ho-chi-minh-city-tour.jpg" }]
+    },
+
+    manila: {
+        name: "Manila",
+        country: "Philippines",
+        image: "/images/manila.jpg",
+        description: "Manila combines historic districts, urban attractions, shopping and access to tropical islands.",
+        extra: "Explore historic areas, museums, markets and Filipino food culture.",
+        bestTime: "December – February",
+        budget: "₹3,000 – ₹7,000 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Intramuros", image: "/images/intramuros.jpg" },
+         { name: "Rizal Park", image: "/images/rizal-park.jpg" },
+          { name: "Manila Bay", image: "/images/manila-bay.jpg" }],
+        activities: [{ name: "Heritage Tour", image: "/images/heritage-tour.jpg" },
+         { name: "Food Tour", image: "/images/manila-food-tour.jpg" },
+          { name: "City Exploration", image: "/images/manila-city-tour.webp" }]
+    },
+
+    maldives: {
+        name: "Maldives",
+        country: "Maldives",
+        image: "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=1200&q=85",
+        description: "The Maldives is known for turquoise lagoons, coral reefs, private beaches and island resorts.",
+        extra: "Relax in tropical surroundings and enjoy marine and island experiences.",
+        bestTime: "November – April",
+        budget: "₹10,000 – ₹30,000 / day",
+        stay: "4 – 7 Days",
+        places: [{ name: "Malé", image: "/images/mal.jpg" },
+         { name: "Maafushi", image: "/images/maafushi.jpg" },
+          { name: "North Malé Atoll", image: "/images/male.jpeg" }],
+        activities: [{ name: "Snorkeling", image: "/images/maldives-snorkeling.jpg" },
+         { name: "Island Cruise", image: "/images/island-cruise.jpg" },
+          { name: "Beach Relaxation", image: "/images/beach-relaxation.jpg" }]
+    },
+
+    kathmandu: {
+        name: "Kathmandu",
+        country: "Nepal",
+        image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1200&q=85",
+        description: "Kathmandu is a gateway to Himalayan adventures and is known for ancient temples and cultural heritage.",
+        extra: "Explore historic squares, temples, local markets and mountain culture.",
+        bestTime: "October – November",
+        budget: "₹2,500 – ₹6,000 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Swayambhunath", image: "/images/swayambhunath.jpg" },
+         { name: "Boudhanath", image: "/images/boudhanath.jpg" },
+          { name: "Pashupatinath Temple", image: "/images/pashupatinath-temple.jpg" }],
+        activities: [{ name: "Temple Tour", image: "/images/temple-tour.jpg" },
+         { name: "Heritage Walk", image: "/images/kathmandu-heritage-walk.jpg" },
+          { name: "Mountain Excursion", image: "/images/mountain-excursion.jpg" }]
+    },
+
+    colombo: {
+        name: "Colombo",
+        country: "Sri Lanka",
+        image: "/images/colombo.webp",
+        description: "Colombo combines coastal scenery, temples, markets, colonial architecture and Sri Lankan cuisine.",
+        extra: "Explore the city, waterfront, cultural sites and local food.",
+        bestTime: "December – March",
+        budget: "₹2,500 – ₹6,000 / day",
+        stay: "2 – 4 Days",
+        places: [{ name: "Galle Face Green", image: "/images/galle-face-green.jpg" },
+         { name: "Gangaramaya Temple", image: "/images/gangaramaya-temple.jpg" },
+          { name: "Colombo Fort", image: "/images/colombo-fort.jpg" }],
+        activities: [{ name: "City Tour", image: "/images/colombo-city-tour.jpg" },
+         { name: "Food Tour", image: "/images/colombo-food-tour.jpg" },
+          { name: "Beach Walk", image: "/images/beach-walk.jpg" }]
+    },
+
+    beijing: {
+        name: "Beijing",
+        country: "China",
+        image: "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=1200&q=85",
+        description: "Beijing is known for imperial landmarks, historic neighborhoods, museums and access to the Great Wall.",
+        extra: "Explore China's historic capital through palaces, temples and cultural landmarks.",
+        bestTime: "April – May",
+        budget: "₹6,000 – ₹14,000 / day",
+        stay: "4 – 6 Days",
+        places: [{ name: "Great Wall", image: "/images/great-wall.jpg" },
+         { name: "Forbidden City", image: "/images/forbidden-city.jpg" },
+          { name: "Temple of Heaven", image: "/images/temple-of-heaven.jpg" }],
+        activities: [{ name: "Heritage Tour", image: "/images/beijing-heritage-tour.jpg" },
+         { name: "Museum Visit", image: "/images/beijing-museum-visit.jpg" },
+          { name: "Local Food Tour", image: "/images/local-food-tour.jpg" }]
+    },
+
+    shanghai: {
+        name: "Shanghai",
+        country: "China",
+        image: "/images/shanghai.webp",
+        description: "Shanghai combines futuristic skylines, historic districts, shopping and modern Chinese culture.",
+        extra: "Explore waterfront views, modern landmarks and historic neighborhoods.",
+        bestTime: "March – May",
+        budget: "₹7,000 – ₹15,000 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "The Bund", image: "/images/the-bund.jpg" },
+         { name: "Yu Garden", image: "/images/yu-garden.jpg" },
+          { name: "Shanghai Tower", image: "/images/shanghai-tower.jpg" }],
+        activities: [{ name: "City Tour", image: "/images/shanghai-city-tour.jpg" },
+         { name: "River Cruise", image: "/images/river-cruise.jpg" },
+          { name: "Food Tour", image: "/images/shanghai-food-tour.jpg" }]
+    },
+
+    hongkong: {
+        name: "Hong Kong",
+        country: "Hong Kong",
+        image: "https://images.unsplash.com/photo-1536599018102-9f803c140fc1?auto=format&fit=crop&w=1200&q=85",
+        description: "Hong Kong offers dramatic skylines, markets, islands, shopping and Cantonese cuisine.",
+        extra: "Experience the city's skyline, markets, food and coastal landscapes.",
+        bestTime: "October – December",
+        budget: "₹8,000 – ₹18,000 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Victoria Peak", image: "/images/victoria-peak.jpg" },
+         { name: "Tsim Sha Tsui", image: "/images/tsim-sha-tsui.jpg" },
+          { name: "Lantau Island", image: "/images/lantau-island.jpg" }],
+        activities: [{ name: "City Tour", image: "/images/hong-kong-city-tour.jpg" }, 
+        { name: "Dim Sum Tour", image: "/images/dim-sum-tour.jpg" },
+         { name: "Harbour Cruise", image: "/images/harbour-cruise.jpg" }]
+    },
+
+    taipei: {
+        name: "Taipei",
+        country: "Taiwan",
+        image: "https://images.unsplash.com/photo-1470004914212-05527e49370b?auto=format&fit=crop&w=1200&q=85",
+        description: "Taipei is known for night markets, temples, mountain scenery and lively modern neighborhoods.",
+        extra: "Explore Taiwanese food, cultural landmarks, shopping and natural surroundings.",
+        bestTime: "October – December",
+        budget: "₹4,000 – ₹9,000 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Taipei 101", image: "/images/taipei-101.jpg" },
+         { name: "Shilin Night Market", image: "/images/shilin-night-market.jpg" },
+          { name: "Longshan Temple", image: "/images/longshan-temple.jpg" }],
+        activities: [{ name: "Night Market Tour", image: "/images/night-market-tour.jpg" },
+         { name: "Temple Visit", image: "/images/temple-visit.jpg" },
+          { name: "City Exploration", image: "/images/taipei-city-exploration.jpg" }]
+    },
+
+    siemreap: {
+        name: "Siem Reap",
+        country: "Cambodia",
+        image: "https://images.unsplash.com/photo-1603262110263-fb0112e7cc33?auto=format&fit=crop&w=1200&q=85",
+        description: "Siem Reap is famous for Angkor temples, Cambodian culture, local markets and surrounding countryside.",
+        extra: "Explore ancient temples and discover local Cambodian culture.",
+        bestTime: "November – February",
+        budget: "₹2,500 – ₹6,000 / day",
+        stay: "3 – 4 Days",
+        places: [{ name: "Angkor Wat", image: "/images/angkor-wat.jpg" },
+         { name: "Bayon Temple", image: "/images/bayon-temple.jpg" },
+          { name: "Ta Prohm", image: "/images/ta-prohm.jpg" }],
+        activities: [{ name: "Temple Tour", image: "/images/temple-tour.jpg" },
+         { name: "Cycling Tour", image: "/images/siem-reap-cycling-tour.jpg" },
+          { name: "Local Food Tour", image: "/images/siem-reap-local-food-tour.jpg" }]
+    },
+
+    dubai: {
+        name: "Dubai",
+        country: "United Arab Emirates",
+        image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=85",
+        description: "Dubai is known for iconic architecture, luxury shopping, desert adventures and modern attractions.",
+        extra: "Explore skyscrapers, shopping areas, desert landscapes and waterfront attractions.",
+        bestTime: "November – March",
+        budget: "₹8,000 – ₹20,000 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Burj Khalifa", image: "/images/burj-khalifa.jpg" },
+         { name: "Palm Jumeirah", image: "/images/palm-jumeirah.jpg" },
+          { name: "Dubai Mall", image: "/images/dubai-mall.jpg" }],
+        activities: [{ name: "Desert Safari", image: "/images/desert-safari.jpg" },
+         { name: "City Tour", image: "/images/dubai-city-tour.jpg" },
+          { name: "Shopping", image: "/images/dubai-shopping.jpg" }]
+    },
+
+
+    /* ================= EUROPE ================= */
+
+    paris: {
+        name: "Paris",
+        country: "France",
+        image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1200&q=85",
+        description: "Paris is known for iconic architecture, museums, cafes, historic neighborhoods and world-famous cultural attractions.",
+        extra: "Explore art, architecture, food, fashion and historic landmarks while building a personalized Paris itinerary.",
+        bestTime: "April – June",
+        budget: "€120 – €250 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Eiffel Tower", image: "/images/eiffel-tower.jpg" },
+         { name: "Louvre Museum", image: "/images/louvre-museum.jpg" },
+          { name: "Montmartre", image: "/images/montmartre.jpg" }],
+        activities: [{ name: "Museum Tour", image: "/images/paris-museum-tour.jpg" },
+         { name: "French Food Experience", image: "/images/french-food-experience.jpg" },
+          { name: "Seine River Cruise", image: "/images/seine-river-cruise.jpg" }]
+    },
+
+    london: {
+        name: "London",
+        country: "United Kingdom",
+        image: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1200&q=85",
+        description: "London is known for historic landmarks, museums, royal attractions and diverse neighborhoods.",
+        extra: "Explore British history, architecture, museums and modern city culture.",
+        bestTime: "May – September",
+        budget: "£120 – £250 / day",
+        stay: "4 – 6 Days",
+        places: [{ name: "Big Ben", image: "/images/big-ben.jpg" },
+         { name: "Tower of London", image: "/images/tower-of-london.jpg" },
+          { name: "Buckingham Palace", image: "/images/buckingham-palace.jpg" }],
+        activities: [{ name: "Museum Tour", image: "/images/london-museum-tour.jpg" },
+         { name: "City Walk", image: "/images/london-city-walk.jpg" },
+          { name: "River Cruise", image: "/images/london-river-cruise.jpg" }]
+    },
+
+    rome: {
+        name: "Rome",
+        country: "Italy",
+        image: "https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1200&q=85",
+        description: "Rome is filled with ancient ruins, famous piazzas, museums and iconic Italian landmarks.",
+        extra: "Explore ancient history, architecture, Italian cuisine and cultural attractions.",
+        bestTime: "April – June",
+        budget: "€110 – €230 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Colosseum", image: "/images/colosseum.jpg" },
+         { name: "Trevi Fountain", image: "/images/trevi-fountain.jpg" },
+          { name: "Vatican City", image: "/images/vatican-city.jpg" }],
+        activities: [{ name: "Ancient Rome Tour", image: "/images/ancient-rome-tour.jpg" },
+         { name: "Food Tour", image: "/images/rome-food-tour.jpg" },
+          { name: "Museum Visit", image: "/images/rome-museum-visit.jpg" }]
+    },
+
+    venice: {
+        name: "Venice",
+        country: "Italy",
+        image: "https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?auto=format&fit=crop&w=1200&q=85",
+        description: "Venice is known for canals, historic bridges, artistic treasures and charming streets.",
+        extra: "Explore the waterways, historic neighborhoods and artistic heritage of Venice.",
+        bestTime: "April – June",
+        budget: "€120 – €250 / day",
+        stay: "2 – 4 Days",
+        places: [{ name: "St. Mark's Square", image: "/images/st-mark-s-square.jpg" },
+         { name: "Rialto Bridge", image: "/images/rialto-bridge.webp" },
+          { name: "Doge's Palace", image: "/images/doge-s-palace.jpg" }],
+        activities: [{ name: "Gondola Ride", image: "/images/gondola-ride.jpg" },
+        { name: "Walking Tour", image: "/images/venice-walking-tour.jpg" },
+         { name: "Italian Food Tour", image: "/images/italian-food-tour.jpg" }]
+    },
+
+    florence: {
+        name: "Florence",
+        country: "Italy",
+        image: "/images/florence.jpeg",
+        description: "Florence is famous for Renaissance art, historic architecture, galleries and Tuscan culture.",
+        extra: "Discover art, architecture, museums and traditional Tuscan experiences.",
+        bestTime: "April – June",
+        budget: "€110 – €220 / day",
+        stay: "2 – 4 Days",
+        places: [{ name: "Duomo", image: "/images/duomo.jpg" },
+         { name: "Uffizi Gallery", image: "/images/uffizi-gallery.jpg" },
+          { name: "Ponte Vecchio", image: "/images/ponte-vecchio.jpg" }],
+        activities: [{ name: "Art Tour", image: "/images/art-tour.jpg" },
+         { name: "Food Experience", image: "/images/food-experience.jpg" },
+          { name: "Historic Walk", image: "/images/historic-walk.jpg" }]
+    },
+
+    barcelona: {
+        name: "Barcelona",
+        country: "Spain",
+        image: "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?auto=format&fit=crop&w=1200&q=85",
+        description: "Barcelona combines Gaudi architecture, Mediterranean beaches, markets and Spanish cuisine.",
+        extra: "Explore architecture, beaches, food markets and lively neighborhoods.",
+        bestTime: "May – June",
+        budget: "€100 – €220 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Sagrada Familia", image: "/images/sagrada-familia.jpg" },
+         { name: "Park Güell", image: "/images/park-g-ell.jpg" },
+          { name: "Gothic Quarter", image: "/images/gothic-quarter.jpg" }],
+        activities: [{ name: "Architecture Tour", image: "/images/architecture-tour.jpg" },
+         { name: "Beach Day", image: "/images/barcelona-beach-day.jpg" },
+          { name: "Tapas Tour", image: "/images/tapas-tour.jpg" }]
+    },
+
+    madrid: {
+        name: "Madrid",
+        country: "Spain",
+        image: "/images/madrid.jpeg",
+        description: "Madrid is known for museums, royal landmarks, plazas, parks and vibrant Spanish culture.",
+        extra: "Explore art, history, parks, food and lively city neighborhoods.",
+        bestTime: "April – June",
+        budget: "€100 – €220 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Royal Palace", image: "/images/royal-palace.jpg" },
+         { name: "Prado Museum", image: "/images/prado-museum.jpg" },
+          { name: "Retiro Park", image: "/images/retiro-park.jpg" }],
+        activities: [{ name: "Museum Tour", image: "/images/madrid-museum-tour.jpg" },
+         { name: "Tapas Tour", image: "/images/tapas-tour.jpg" },
+          { name: "City Walk", image: "/images/madrid-city-walk.jpg" }]
+    },
+
+    amsterdam: {
+        name: "Amsterdam",
+        country: "Netherlands",
+        image: "https://images.unsplash.com/photo-1534351590666-13e3e96b5017?auto=format&fit=crop&w=1200&q=85",
+        description: "Amsterdam is known for canals, museums, cycling routes, historic streets and Dutch culture.",
+        extra: "Explore canals, museums, neighborhoods and cycling-friendly streets.",
+        bestTime: "April – May",
+        budget: "€110 – €230 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Canal Ring", image: "/images/canal-ring.jpg" },
+         { name: "Rijksmuseum", image: "/images/rijksmuseum.jpg" },
+          { name: "Jordaan", image: "/images/jordaan.jpg" }],
+        activities: [{ name: "Canal Cruise", image: "/images/canal-cruise.jpg" },
+         { name: "Cycling Tour", image: "/images/amsterdam-cycling-tour.jpg" },
+          { name: "Museum Visit", image: "/images/amsterdam-museum-visit.jpg" }]
+    },
+
+    berlin: {
+        name: "Berlin",
+        country: "Germany",
+        image: "https://images.unsplash.com/photo-1560969184-10fe8719e047?auto=format&fit=crop&w=1200&q=85",
+        description: "Berlin combines museums, modern art, historic landmarks and a creative urban atmosphere.",
+        extra: "Explore German history, museums, neighborhoods and contemporary culture.",
+        bestTime: "May – September",
+        budget: "€90 – €200 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Brandenburg Gate", image: "/images/brandenburg-gate.jpg" },
+         { name: "Museum Island", image: "/images/museum-island.jpg" },
+          { name: "Berlin Wall Memorial", image: "/images/berlin-wall-memorial.jpg" }],
+        activities: [{ name: "History Tour", image: "/images/history-tour.jpg" }, 
+        { name: "Museum Tour", image: "/images/berlin-museum-tour.jpg" }, 
+        { name: "City Walk", image: "/images/berlin-city-walk.jpg" }]
+    },
+
+    munich: {
+        name: "Munich",
+        country: "Germany",
+        image: "https://images.unsplash.com/photo-1595867818082-083862f3d630?auto=format&fit=crop&w=1200&q=85",
+        description: "Munich is known for Bavarian culture, historic architecture, parks and nearby Alpine landscapes.",
+        extra: "Explore city landmarks, museums, parks and Bavarian traditions.",
+        bestTime: "May – September",
+        budget: "€100 – €220 / day",
+        stay: "3 – 4 Days",
+        places: [{ name: "Marienplatz", image: "/images/marienplatz.jpg" }, 
+        { name: "Nymphenburg Palace", image: "/images/nymphenburg-palace.jpg" }, 
+        { name: "English Garden", image: "/images/english-garden.jpg" }],
+        activities: [{ name: "City Tour", image: "/images/munich-city-tour.jpg" }, 
+        { name: "Bavarian Food Tour", image: "/images/bavarian-food-tour.jpg" }, 
+        { name: "Day Trip", image: "/images/day-trip.jpg" }]
+    },
+
+    vienna: {
+        name: "Vienna",
+        country: "Austria",
+        image: "https://images.unsplash.com/photo-1516550893923-42d28e5677af?auto=format&fit=crop&w=1200&q=85",
+        description: "Vienna is known for grand palaces, classical music, museums and elegant architecture.",
+        extra: "Explore imperial heritage, museums, music and Austrian cuisine.",
+        bestTime: "April – June",
+        budget: "€100 – €220 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Schönbrunn Palace", image: "/images/sch-nbrunn-palace.jpg" }, 
+        { name: "St. Stephen's Cathedral", image: "/images/st-stephen-s-cathedral.jpg" }, 
+        { name: "Belvedere Palace", image: "/images/belvedere-palace.jpg" }],
+        activities: [{ name: "Palace Tour", image: "/images/palace-tour.jpg" }, 
+        { name: "Classical Music Experience", image: "/images/classical-music-experience.jpg" }, 
+        { name: "Cafe Visit", image: "/images/cafe-visit.jpg" }]
+    },
+
+    prague: {
+        name: "Prague",
+        country: "Czech Republic",
+        image: "https://images.unsplash.com/photo-1519677100203-a0e668c92439?auto=format&fit=crop&w=1200&q=85",
+        description: "Prague is known for historic squares, castles, bridges and beautiful medieval streets.",
+        extra: "Explore the historic center, architecture, river views and local cuisine.",
+        bestTime: "April – June",
+        budget: "€70 – €160 / day",
+        stay: "3 – 4 Days",
+        places: [{ name: "Prague Castle", image: "/images/prague-castle.jpg" }, 
+        { name: "Charles Bridge", image: "/images/charles-bridge.jpg" }, 
+        { name: "Old Town Square", image: "/images/old-town-square.jpg" }],
+        activities: [{ name: "Historic Walk", image: "/images/prague-historic-walk.jpg" }, 
+        { name: "Castle Tour", image: "/images/castle-tour.jpg" }, 
+        { name: "Food Experience", image: "/images/food-experience.jpg" }]
+    },
+
+    budapest: {
+        name: "Budapest",
+        country: "Hungary",
+        image: "https://images.unsplash.com/photo-1541849546-216549ae216d?auto=format&fit=crop&w=1200&q=85",
+        description: "Budapest combines grand architecture, thermal baths, river views and Hungarian culture.",
+        extra: "Explore historic landmarks, thermal baths and the Danube waterfront.",
+        bestTime: "April – October",
+        budget: "€70 – €160 / day",
+        stay: "3 – 4 Days",
+        places: [{ name: "Buda Castle", image: "/images/buda-castle.jpg" }, 
+        { name: "Parliament Building", image: "/images/parliament-building.jpg" }, 
+        { name: "Fisherman's Bastion", image: "/images/fisherman-s-bastion.jpg" }],
+        activities: [{ name: "Thermal Bath", image: "/images/thermal-bath.jpg" }, 
+        { name: "Danube Cruise", image: "/images/danube-cruise.jpg" }, 
+        { name: "Food Tour", image: "/images/budapest-food-tour.jpg" }]
+    },
+
+    athens: {
+        name: "Athens",
+        country: "Greece",
+        image: "https://images.unsplash.com/photo-1603565816030-6b389eeb23cb?auto=format&fit=crop&w=1200&q=85",
+        description: "Athens is known for ancient monuments, archaeological sites, Mediterranean food and lively neighborhoods.",
+        extra: "Explore ancient Greek history, museums, markets and local cuisine.",
+        bestTime: "April – June",
+        budget: "€80 – €180 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Acropolis", image: "/images/acropolis.jpg" }, 
+        { name: "Parthenon", image: "/images/parthenon.jpg" }, 
+        { name: "Plaka", image: "/images/plaka.jpg" }],
+        activities: [{ name: "Ancient History Tour", image: "/images/ancient-history-tour.jpg" }, 
+        { name: "Food Tour", image: "/images/athens-food-tour.jpg" }, 
+        { name: "Museum Visit", image: "/images/athens-museum-visit.jpg" }]
+    },
+
+    santorini: {
+        name: "Santorini",
+        country: "Greece",
+        image: "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=1200&q=85",
+        description: "Santorini is known for dramatic cliffs, whitewashed villages, sunsets and Aegean views.",
+        extra: "Enjoy island scenery, coastal villages and Mediterranean experiences.",
+        bestTime: "May – September",
+        budget: "€130 – €300 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Oia", image: "/images/oia.jpg" }, 
+        { name: "Fira", image: "/images/fira.jpg" },
+         { name: "Red Beach", image: "/images/red-beach.jpg" }],
+        activities: [{ name: "Sunset Experience", image: "/images/sunset-experience.jpg" },
+         { name: "Boat Cruise", image: "/images/boat-cruise.jpg" },
+          { name: "Village Walk", image: "/images/village-walk.jpg" }]
+    },
+
+    lisbon: {
+        name: "Lisbon",
+        country: "Portugal",
+        image: "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?auto=format&fit=crop&w=1200&q=85",
+        description: "Lisbon is known for colorful streets, viewpoints, historic trams and Portuguese cuisine.",
+        extra: "Explore historic neighborhoods, viewpoints, food and waterfront areas.",
+        bestTime: "March – June",
+        budget: "€80 – €180 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Belém Tower", image: "/images/bel-m-tower.jpg" },
+         { name: "Alfama", image: "/images/alfama.webp" },
+          { name: "Praça do Comércio", image: "/images/pra-a-do-com-rcio.jpg" }],
+        activities: [{ name: "Tram Ride", image: "/images/tram-ride.jpg" },
+         { name: "Food Tour", image: "/images/lisbon-food-tour.jpg" },
+          { name: "Historic Walk", image: "/images/lisbon-historic-walk.jpg" }]
+    },
+
+    zurich: {
+        name: "Zurich",
+        country: "Switzerland",
+        image: "https://images.unsplash.com/photo-1527668752968-14dc70a27c95?auto=format&fit=crop&w=1200&q=85",
+        description: "Zurich offers lakeside scenery, elegant streets, Swiss cuisine and access to Alpine landscapes.",
+        extra: "Explore the city center, lake, museums and nearby mountain destinations.",
+        bestTime: "June – September",
+        budget: "CHF 140 – CHF 300 / day",
+        stay: "2 – 4 Days",
+        places: [{ name: "Lake Zurich", image: "/images/lake-zurich.jpg" },
+         { name: "Old Town", image: "/images/old-town.jpg" },
+          { name: "Uetliberg", image: "/images/uetliberg.jpg" }],
+        activities: [{ name: "Lake Cruise", image: "/images/lake-zurich.jpg" },
+         { name: "City Walk", image: "/images/zurich-city-walk.jpg" },
+          { name: "Mountain Excursion", image: "/images/mountain-excursion.jpg" }]
+    },
+
+    interlaken: {
+        name: "Interlaken",
+        country: "Switzerland",
+        image: "/images/interlaken.jpeg",
+        description: "Interlaken is surrounded by dramatic Alpine scenery, lakes, hiking trails and outdoor adventures.",
+        extra: "Explore mountain landscapes and outdoor activities in the Swiss Alps.",
+        bestTime: "June – September",
+        budget: "CHF 150 – CHF 320 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Lake Thun", image: "/images/lake-thun.jpg" },
+         { name: "Lake Brienz", image: "/images/lake-brienz.jpg" },
+          { name: "Harder Kulm", image: "/images/harder-kulm.jpg" }],
+        activities: [{ name: "Mountain Hiking", image: "/images/mountain-hiking.jpg" },
+         { name: "Paragliding", image: "/images/paragliding.jpg" },
+          { name: "Lake Cruise", image: "/images/interlaken-lake-cruise.jpg" }]
+    },
+
+    reykjavik: {
+        name: "Reykjavik",
+        country: "Iceland",
+        image: "https://images.unsplash.com/photo-1504829857797-ddff29c27927?auto=format&fit=crop&w=1200&q=85",
+        description: "Reykjavik is a gateway to Icelandic landscapes, geothermal attractions and Northern Lights experiences.",
+        extra: "Explore Iceland's natural landscapes, geothermal areas and scenic routes.",
+        bestTime: "September – March",
+        budget: "€140 – €300 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Hallgrímskirkja", image: "/images/hallgr-mskirkja.jpg" },
+         { name: "Blue Lagoon", image: "/images/blue-lagoon.jpg" },
+          { name: "Golden Circle", image: "/images/golden-circle.jpg" }],
+        activities: [{ name: "Northern Lights Tour", image: "/images/northern-lights-tour.jpg" },
+         { name: "Geothermal Experience", image: "/images/geothermal-experience.jpg" },
+          { name: "Nature Tour", image: "/images/nature-tour.jpg" }]
+    },
+
+    copenhagen: {
+        name: "Copenhagen",
+        country: "Denmark",
+        image: "https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?auto=format&fit=crop&w=1200&q=85",
+        description: "Copenhagen is known for colorful waterfront streets, historic landmarks, cycling culture and Scandinavian cuisine.",
+        extra: "Explore royal palaces, canals, museums, cycling routes and Danish food.",
+        bestTime: "May – September",
+        budget: "DKK 900 – DKK 2,000 / day",
+        stay: "3 – 4 Days",
+        places: [{ name: "Nyhavn", image: "/images/nyhavn.jpg" }, 
+        { name: "Tivoli Gardens", image: "/images/tivoli-gardens.jpg" },
+         { name: "Amalienborg Palace", image: "/images/amalienborg-palace.jpg" }],
+        activities: [{ name: "Cycling Tour", image: "/images/copenhagen-cycling-tour.jpg" },
+         { name: "Canal Cruise", image: "/images/copenhagen-canal-cruise.jpg" },
+          { name: "Danish Food Tour", image: "/images/danish-food-tour.jpg" }]
+    },
+
+
+    /* ================= INTERNATIONAL ================= */
+
+    newyork: {
+        name: "New York",
+        country: "USA",
+        image: "https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?auto=format&fit=crop&w=1200&q=85",
+        description: "New York is known for iconic skyscrapers, museums, Broadway, diverse neighborhoods and world-class food.",
+        extra: "Explore famous landmarks, cultural attractions, shopping districts and neighborhoods.",
+        bestTime: "April – June",
+        budget: "$180 – $350 / day",
+        stay: "4 – 6 Days",
+        places: [{ name: "Times Square", image: "/images/times-square.jpg" },
+         { name: "Central Park", image: "/images/central-park.jpg" },
+          { name: "Statue of Liberty", image: "/images/statue-of-liberty.jpg" }],
+        activities: [{ name: "City Tour", image: "/images/new-york-city-tour.jpg" }, 
+        { name: "Museum Visit", image: "/images/new-york-museum-visit.jpg" },
+         { name: "Broadway Experience", image: "/images/broadway-experience.jpg" }]
+    },
+
+    losangeles: {
+        name: "Los Angeles",
+        country: "USA",
+        image: "https://images.unsplash.com/photo-1534190760961-74e8c1c5c3da?auto=format&fit=crop&w=1200&q=85",
+        description: "Los Angeles is known for beaches, entertainment districts, scenic drives and California's creative culture.",
+        extra: "Explore Hollywood, beaches, museums and scenic neighborhoods.",
+        bestTime: "March – May",
+        budget: "$180 – $350 / day",
+        stay: "4 – 6 Days",
+        places: [{ name: "Hollywood", image: "/images/hollywood.jpg" },
+         { name: "Santa Monica", image: "/images/santa-monica.jpg" },
+          { name: "Griffith Observatory", image: "/images/griffith-observatory.jpg" }],
+        activities: [{ name: "Beach Day", image: "/images/los-angeles-beach-day.jpg" }, 
+        { name: "Studio Tour", image: "/images/studio-tour.jpg" },
+         { name: "City Drive", image: "/images/city-drive.jpg" }]
+    },
+
+    sanfrancisco: {
+        name: "San Francisco",
+        country: "USA",
+        image: "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=1200&q=85",
+        description: "San Francisco is known for iconic bridges, waterfront neighborhoods, hills and diverse cultural experiences.",
+        extra: "Explore famous viewpoints, neighborhoods, waterfront areas and local culture.",
+        bestTime: "September – November",
+        budget: "$170 – $330 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Golden Gate Bridge", image: "/images/golden-gate-bridge.jpg" },
+         { name: "Fisherman's Wharf", image: "/images/fisherman-s-wharf.jpg" },
+          { name: "Alcatraz Island", image: "/images/alcatraz-island.jpg" }],
+        activities: [{ name: "City Tour", image: "/images/san-francisco-city-tour.jpg" },
+         { name: "Cable Car Ride", image: "/images/cable-car-ride.jpg" },
+          { name: "Waterfront Walk", image: "/images/waterfront-walk.jpg" }]
+    },
+
+    vancouver: {
+        name: "Vancouver",
+        country: "Canada",
+        image: "https://images.unsplash.com/photo-1559511260-66a654ae982a?auto=format&fit=crop&w=1200&q=85",
+        description: "Vancouver combines city attractions with mountains, forests, waterfront scenery and outdoor activities.",
+        extra: "Explore parks, waterfronts, mountains and the city's multicultural neighborhoods.",
+        bestTime: "June – September",
+        budget: "CAD 180 – CAD 350 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Stanley Park", image: "/images/stanley-park.jpg" },
+         { name: "Granville Island", image: "/images/granville-island.jpg" },
+          { name: "Capilano Suspension Bridge", image: "/images/capilano-suspension-bridge.jpg" }],
+        activities: [{ name: "Nature Walk", image: "/images/nature-walk.jpg" },
+         { name: "City Tour", image: "/images/vancouver-city-tour.jpg" },
+          { name: "Mountain Excursion", image: "/images/mountain-excursion.jpg" }]
+    },
+
+    toronto: {
+        name: "Toronto",
+        country: "Canada",
+        image: "https://images.unsplash.com/photo-1517090504586-fde19ea6066f?auto=format&fit=crop&w=1200&q=85",
+        description: "Toronto is known for diverse neighborhoods, waterfront attractions, museums and urban culture.",
+        extra: "Explore the city skyline, cultural districts, markets and waterfront.",
+        bestTime: "June – September",
+        budget: "CAD 160 – CAD 320 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "CN Tower", image: "/images/cn-tower.jpg" },
+         { name: "Distillery District", image: "/images/distillery-district.jpg" },
+          { name: "Toronto Islands", image: "/images/toronto-islands.jpg" }],
+        activities: [{ name: "City Tour", image: "/images/toronto-city-tour.jpg" },
+         { name: "Food Tour", image: "/images/toronto-food-tour.jpg" },
+          { name: "Waterfront Walk", image: "/images/waterfront-walk.jpg" }]
+    },
+
+    sydney: {
+        name: "Sydney",
+        country: "Australia",
+        image: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=1200&q=85",
+        description: "Sydney is known for beaches, the Opera House, harbor views, coastal walks and vibrant city life.",
+        extra: "Explore famous landmarks, beaches, harbor areas and coastal scenery.",
+        bestTime: "September – November",
+        budget: "AUD 180 – AUD 350 / day",
+        stay: "4 – 6 Days",
+        places: [{ name: "Sydney Opera House", image: "/images/sydney-opera-house.jpg" },
+         { name: "Bondi Beach", image: "/images/bondi-beach.jpg" },
+          { name: "Harbour Bridge", image: "/images/harbour-bridge.jpg" }],
+        activities: [{ name: "Coastal Walk", image: "/images/coastal-walk.jpg" },
+         { name: "Harbour Cruise", image: "/images/harbour-cruise.jpg" },
+          { name: "Beach Day", image: "/images/sydney-beach-day.jpg" }]
+    },
+
+    melbourne: {
+        name: "Melbourne",
+        country: "Australia",
+        image: "https://images.unsplash.com/photo-1514395462725-fb4566210144?auto=format&fit=crop&w=1200&q=85",
+        description: "Melbourne is known for art, cafes, sporting culture, laneways and creative neighborhoods.",
+        extra: "Explore cafes, galleries, markets and Melbourne's distinctive neighborhoods.",
+        bestTime: "March – May",
+        budget: "AUD 160 – AUD 320 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Federation Square", image: "/images/federation-square.jpg" },
+         { name: "Queen Victoria Market", image: "/images/queen-victoria-market.jpg" },
+          { name: "Great Ocean Road", image: "/images/great-ocean-road.jpg" }],
+        activities: [{ name: "Cafe Tour", image: "/images/melbourne-cafe.jpg" },
+         { name: "Street Art Walk", image: "/images/street-art-walk.jpg" },
+          { name: "Day Trip", image: "/images/day-trip.jpg" }]
+    },
+
+    queenstown: {
+        name: "Queenstown",
+        country: "New Zealand",
+        image: "https://images.unsplash.com/photo-1507699622108-4be3abd695ad?auto=format&fit=crop&w=1200&q=85",
+        description: "Queenstown is surrounded by mountains and lakes and is famous for outdoor adventure activities.",
+        extra: "Explore alpine landscapes, hiking trails and adventure experiences.",
+        bestTime: "December – February",
+        budget: "NZD 180 – NZD 350 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Lake Wakatipu", image: "/images/lake-wakatipu.jpg" },
+         { name: "Queenstown Gardens", image: "/images/queenstown-gardens.jpg" },
+          { name: "Skyline Queenstown", image: "/images/skyline-queenstown.jpg" }],
+        activities: [{ name: "Bungee Jumping", image: "/images/bungee-jumping.jpg" },
+         { name: "Hiking", image: "/images/hiking.jpg" },
+          { name: "Lake Cruise", image: "/images/queenstown-lake-cruise.jpg" }]
+    },
+
+    capetown: {
+        name: "Cape Town",
+        country: "South Africa",
+        image: "https://images.unsplash.com/photo-1580060839134-75a5edca2e99?auto=format&fit=crop&w=1200&q=85",
+        description: "Cape Town is known for dramatic coastlines, Table Mountain, vineyards and outdoor experiences.",
+        extra: "Explore mountains, beaches, scenic routes and cultural attractions.",
+        bestTime: "November – March",
+        budget: "ZAR 2,000 – ZAR 4,500 / day",
+        stay: "4 – 6 Days",
+        places: [{ name: "Table Mountain", image: "/images/table-mountain.jpg" },
+         { name: "V&A Waterfront", image: "/images/v.avif" },
+          { name: "Cape Point", image: "/images/cape-point.jpg" }],
+        activities: [{ name: "Mountain Hike", image: "/images/mountain-hike.jpg" },
+         { name: "Wine Tour", image: "/images/wine-tour.jpg" },
+          { name: "Coastal Drive", image: "/images/coastal-drive.jpg" }]
+    },
+
+    cairo: {
+        name: "Cairo",
+        country: "Egypt",
+        image: "https://images.unsplash.com/photo-1568322445389-f64ac2515020?auto=format&fit=crop&w=1200&q=85",
+        description: "Cairo is known for ancient monuments, museums, markets and the remarkable history of Egypt.",
+        extra: "Explore ancient Egyptian heritage, markets and museums.",
+        bestTime: "October – April",
+        budget: "$70 – $160 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Pyramids of Giza", image: "/images/pyramids-of-giza.jpg" },
+         { name: "Egyptian Museum", image: "/images/egyptian-museum.jpg" },
+          { name: "Khan el-Khalili", image: "/images/khan-el-khalili.jpg" }],
+        activities: [{ name: "Historical Tour", image: "/images/historical-tour.jpg" },
+         { name: "Museum Visit", image: "/images/cairo-museum-visit.jpg" },
+          { name: "Market Walk", image: "/images/market-walk.jpg" }]
+    },
+
+    marrakech: {
+        name: "Marrakech",
+        country: "Morocco",
+        image: "https://images.unsplash.com/photo-1597212618440-806262de4f6b?auto=format&fit=crop&w=1200&q=85",
+        description: "Marrakech is known for colorful souks, historic palaces, gardens and traditional Moroccan culture.",
+        extra: "Explore markets, architecture, gardens and Moroccan food traditions.",
+        bestTime: "March – May",
+        budget: "MAD 800 – MAD 1,800 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Jemaa el-Fnaa", image: "/images/jemaa-el-fnaa.jpg" },
+         { name: "Bahia Palace", image: "/images/bahia-palace.jpg" },
+          { name: "Majorelle Garden", image: "/images/majorelle-garden.jpg" }],
+        activities: [{ name: "Souk Tour", image: "/images/souk-tour.jpg" },
+         { name: "Food Experience", image: "/images/marrakech-food-experience.jpg" },
+          { name: "Heritage Walk", image: "/images/marrakech-heritage-walk.jpg" }]
+    },
+
+    nairobi: {
+        name: "Nairobi",
+        country: "Kenya",
+        image: "/images/nairobi.avif",
+        description: "Nairobi combines urban experiences with wildlife adventures and access to Kenya's famous national parks.",
+        extra: "Explore wildlife, museums, markets and Kenyan culture.",
+        bestTime: "June – October",
+        budget: "KES 15,000 – KES 35,000 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Nairobi National Park", image: "/images/nairobi-national-park.jpg" }, 
+        { name: "Giraffe Centre", image: "/images/giraffe-centre.jpg" },
+         { name: "Karen Blixen Museum", image: "/images/karen-blixen-museum.jpg" }],
+        activities: [{ name: "Safari Experience", image: "/images/safari-experience.jpg" }, 
+        { name: "Wildlife Visit", image: "/images/wildlife-visit.jpg" }, 
+        { name: "Cultural Tour", image: "/images/cultural-tour.jpg" }]
+    },
+
+    rio: {
+        name: "Rio de Janeiro",
+        country: "Brazil",
+        image: "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=1200&q=85",
+        description: "Rio de Janeiro is known for iconic beaches, mountain viewpoints, music, food and Brazilian culture.",
+        extra: "Explore beaches, viewpoints, neighborhoods and cultural attractions.",
+        bestTime: "December – March",
+        budget: "BRL 700 – BRL 1,500 / day",
+        stay: "4 – 6 Days",
+        places: [{ name: "Christ the Redeemer", image: "/images/christ-the-redeemer.jpg" }, 
+        { name: "Copacabana Beach", image: "/images/copacabana-beach.jpg" }, 
+        { name: "Sugarloaf Mountain", image: "/images/sugarloaf-mountain.jpg" }],
+        activities: [{ name: "Beach Day", image: "/images/rio-beach-day.jpg" },
+         { name: "City Tour", image: "/images/rio-city-tour.jpg" }, 
+         { name: "Mountain Cable Car", image: "/images/mountain-cable-car.jpg" }]
+    },
+
+    buenosaires: {
+        name: "Buenos Aires",
+        country: "Argentina",
+        image: "https://images.unsplash.com/photo-1589909202802-8f4aadce1849?auto=format&fit=crop&w=1200&q=85",
+        description: "Buenos Aires is known for European-inspired architecture, tango, food and lively cultural neighborhoods.",
+        extra: "Explore historic districts, tango culture, cafes and Argentine cuisine.",
+        bestTime: "March – May",
+        budget: "USD 80 – USD 180 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Recoleta", image: "/images/recoleta.jpg" }, 
+        { name: "La Boca", image: "/images/la-boca.jpg" },
+         { name: "Plaza de Mayo", image: "/images/plaza-de-mayo.jpg" }],
+        activities: [{ name: "Tango Experience", image: "/images/tango-experience.jpg" },
+         { name: "Food Tour", image: "/images/buenos-aires-food-tour.jpg" },
+          { name: "Architecture Walk", image: "/images/architecture-walk.jpg" }]
+    },
+
+    mexicocity: {
+        name: "Mexico City",
+        country: "Mexico",
+        image: "/images/mexico.webp",
+        description: "Mexico City is known for museums, historic districts, markets, architecture and Mexican cuisine.",
+        extra: "Explore cultural landmarks, museums, markets and local food.",
+        bestTime: "March – May",
+        budget: "MXN 1,500 – MXN 3,500 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Zócalo", image: "/images/zocalo.webp" },
+         { name: "Frida Kahlo Museum", image: "/images/frida-kahlo-museum.jpg" },
+          { name: "Chapultepec", image: "/images/chapultepec.jpg" }],
+        activities: [{ name: "Food Tour", image: "/images/mexico-city-food-tour.jpg" },
+         { name: "Museum Tour", image: "/images/mexico-museum.jpeg" },
+          { name: "Historic Walk", image: "/images/mexico-city-historic-walk.jpg" }]
+    },
+
+    borabora: {
+        name: "Bora Bora",
+        country: "French Polynesia",
+        image: "/images/bora.webp",
+        description: "Bora Bora is famous for turquoise lagoons, overwater resorts and spectacular tropical surroundings.",
+        extra: "Relax among clear waters, beaches and beautiful island landscapes.",
+        bestTime: "May – October",
+        budget: "₹20,000 – ₹50,000 / day",
+        stay: "4 – 7 Days",
+        places: [{ name: "Mount Otemanu", image: "/images/mount-otemanu.jpg" },
+         { name: "Matira Beach", image: "/images/matira-beach.jpg" },
+          { name: "Bora Bora Lagoon", image: "/images/bora-bora-lagoon.jpg" }],
+        activities: [{ name: "Lagoon Cruise", image: "/images/bora-cruise.jpg" },
+         { name: "Snorkeling", image: "/images/bora-bora-snorkeling.jpg" },
+          { name: "Beach Relaxation", image: "/images/bbeach-relaxation.jpeg" }]
+    },
+
+    honolulu: {
+        name: "Honolulu",
+        country: "USA",
+        image: "/images/hono.avif",
+        description: "Honolulu is known for tropical beaches, island scenery, water activities and Hawaiian culture.",
+        extra: "Explore beaches, volcanic landscapes and Hawaiian cultural experiences.",
+        bestTime: "April – June",
+        budget: "$180 – $350 / day",
+        stay: "4 – 6 Days",
+        places: [{ name: "Waikiki Beach", image: "/images/waikiki-beach.jpg" },
+         { name: "Diamond Head", image: "/images/diamond-head.jpg" },
+          { name: "Pearl Harbor", image: "/images/pearl-harbor.jpg" }],
+        activities: [{ name: "Surfing", image: "/images/surfing.jpg" },
+         { name: "Beach Day", image: "/images/honolulu-beach-day.jpg" }, 
+         { name: "Island Tour", image: "/images/hono-island-tour.jpg" }]
+    },
+
+    istanbul: {
+        name: "Istanbul",
+        country: "Turkey",
+        image: "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=1200&q=85",
+        description: "Istanbul combines European and Asian influences with historic mosques, bazaars and rich cultural traditions.",
+        extra: "Explore historic neighborhoods, markets, architecture and Turkish cuisine.",
+        bestTime: "April – May",
+        budget: "TRY 2,500 – TRY 6,000 / day",
+        stay: "3 – 5 Days",
+        places: [{ name: "Hagia Sophia", image: "/images/hagia-sophia.jpg" },
+         { name: "Blue Mosque", image: "/images/blue-mosque.jpg" },
+          { name: "Grand Bazaar", image: "/images/grand-bazaar.jpg" }],
+        activities: [{ name: "Bosphorus Cruise", image: "/images/bosphorus-cruise.jpg" },
+         { name: "Food Tour", image: "/images/istanbul-food-tour.jpg" },
+          { name: "Historic Walk", image: "/images/istanbul-walk.jpg" }]
+    },
+
+    patagonia: {
+        name: "Patagonia",
+        country: "Argentina / Chile",
+        image: "/images/patagonia.jpg",
+        description: "Patagonia is known for glaciers, mountains, lakes and vast wilderness landscapes in southern South America.",
+        extra: "Explore dramatic natural scenery, hiking routes, glaciers and remote landscapes.",
+        bestTime: "November – March",
+        budget: "$120 – $280 / day",
+        stay: "5 – 10 Days",
+        places: [{ name: "Torres del Paine", image: "/images/torres-del-paine.jpg" },
+         { name: "Perito Moreno Glacier", image: "/images/perito-moreno-glacier.jpg" },
+          { name: "El Chaltén", image: "/images/el-chalt-n.jpg" }],
+        activities: [{ name: "Glacier Trek", image: "/images/glacier-trek.jpg" },
+         { name: "Mountain Hiking", image: "/images/mountain-hiking.jpg" },
+          { name: "Nature Photography", image: "/images/nature-photography.jpg" }]
+    },
+
+    seychelles: {
+        name: "Seychelles",
+        country: "Seychelles",
+        image: "/images/sey.jpg",
+        description: "Seychelles is known for pristine beaches, granite islands, coral reefs and peaceful tropical escapes.",
+        extra: "Explore beautiful beaches, marine life, island landscapes and tropical nature.",
+        bestTime: "April – May",
+        budget: "₹12,000 – ₹30,000 / day",
+        stay: "4 – 7 Days",
+        places: [{ name: "Anse Source d'Argent", image: "/images/anse-source-d-argent.jpg" },
+         { name: "Mahé", image: "/images/mah.jpg" },
+          { name: "Praslin", image: "/images/praslin.jpg" }],
+        activities: [{ name: "Snorkeling", image: "/images/seychelles-snorkeling.jpg" },
+         { name: "Island Hopping", image: "/images/island-hopping.jpg" },
+          { name: "Beach Day", image: "/images/seychelles-beach-day.avif" }]
+    }
+
+};
+
+
+/* =========================================================
+   DESTINATION SELECTOR
+   ========================================================= */
+
+const destinationSelect =
+    document.getElementById("destination");
+
+Object.keys(destinations).forEach(key => {
+
+    const option =
+        document.createElement("option");
+
+    option.value = key;
+    option.textContent =
+        destinations[key].name;
+
+    destinationSelect.appendChild(option);
+
+});
+
+
+/* =========================================================
+   DEFAULT DATA HELPERS
+   ========================================================= */
+
+function createPlaceData(data) {
+
+    return data.places.map(place => {
+
+        return {
+            name: place.name,
+            image: place.image,
+            description:
+                "Explore " +
+                place.name +
+                " and experience one of the highlights of " +
+                data.name +
+                "."
+        };
+
+    });
+
+}
+
+
+function createActivityData(data) {
+
+    return data.activities.map(activity => {
+
+        return {
+            name: activity.name,
+            image: activity.image,
+            description:
+                "Enjoy " +
+                activity.name +
+                " while discovering the unique experiences of " +
+                data.name +
+                "."
+        };
+
+    });
+
+}
+
+
+function createBudgetData(data) {
+
+    const currency =
+        data.budget.split(/[0-9]/)[0].trim();
+
+    if (currency === "€") {
+
+        return [
+            ["€100", "Accommodation / Night"],
+            ["€40", "Food / Day"],
+            ["€20", "Local Transport / Day"],
+            ["€50", "Activities / Day"]
+        ];
+
+    }
+
+    if (currency === "£") {
+
+        return [
+            ["£100", "Accommodation / Night"],
+            ["£40", "Food / Day"],
+            ["£20", "Local Transport / Day"],
+            ["£50", "Activities / Day"]
+        ];
+
+    }
+
+    if (currency === "$") {
+
+        return [
+            ["$120", "Accommodation / Night"],
+            ["$45", "Food / Day"],
+            ["$25", "Local Transport / Day"],
+            ["$60", "Activities / Day"]
+        ];
+
+    }
+
+    if (
+        data.budget.includes("¥") ||
+        data.budget.includes("₩")
+    ) {
+
+        return [
+            ["15,000", "Accommodation / Night"],
+            ["4,000", "Food / Day"],
+            ["2,000", "Transport / Day"],
+            ["5,000", "Activities / Day"]
+        ];
+
+    }
+
+    return [
+        ["₹1,500", "Accommodation / Night"],
+        ["₹700", "Food / Day"],
+        ["₹500", "Local Transport / Day"],
+        ["₹1,000", "Activities / Day"]
+    ];
+
+}
+
+
+function createTipsData(data) {
+
+    return [
+
+        [
+            "🌤 Check the Weather",
+            "Check the local weather conditions before planning outdoor activities in " +
+            data.name +
+            "."
+        ],
+
+        [
+            "🎒 Pack Smart",
+            "Carry clothing and essentials suitable for the season and activities you plan to enjoy."
+        ],
+
+        [
+            "🍛 Try Local Experiences",
+            "Explore local food, culture and experiences instead of limiting your trip to major attractions."
+        ],
+
+        [
+            "💳 Keep Emergency Funds",
+            "Keep some extra money available for unexpected travel expenses."
+        ]
+
+    ];
+
+}
+
+
+/* =========================================================
+   LOAD DESTINATION DETAILS
+   ========================================================= */
+
+function loadDestination(key) {
+
+    key = key.toLowerCase();
+
+    const data =
+        destinations[key];
+
+    if (!data) {
+        return;
+    }
+
+
+    /* ================= HERO ================= */
+
+    document.getElementById("heroTitle").textContent =
+        "Discover " + data.name;
+
+    document.getElementById("heroDescription").textContent =
+        data.description;
+
+
+    /* ================= MAIN OVERVIEW ================= */
+
+    document.getElementById("destinationName").textContent =
+        data.name;
+
+    document.getElementById("destinationDescription").textContent =
+        data.description;
+
+    document.getElementById("destinationExtra").textContent =
+        data.extra;
+
+    document.getElementById("destinationImage").src =
+        data.image;
+
+    document.getElementById("destinationImage").alt =
+        data.name;
+
+    document.getElementById("location").textContent =
+        data.country;
+
+    document.getElementById("bestTime").textContent =
+        data.bestTime;
+
+    document.getElementById("budget").textContent =
+        data.budget;
+
+    document.getElementById("stay").textContent =
+        data.stay;
+
+
+    /* ================= DROPDOWN ================= */
+
+    document.getElementById("destination").value =
+        key;
+
+
+    /* ================= WEATHER ================= */
+
+    document.getElementById("weatherLink").href =
+        "weather.html?city=" +
+        encodeURIComponent(data.name);
+
+
+    /* ================= ITINERARY ================= */
+
+    document.getElementById("itineraryLink").href =
+        "itinerary.html?destination=" +
+        encodeURIComponent(data.name);
+
+    document.getElementById("ctaItinerary").href =
+        "itinerary.html?destination=" +
+        encodeURIComponent(data.name);
+
+
+    /* ================= PLACES ================= */
+
+    const placesContainer =
+        document.getElementById("placesContainer");
+
+    placesContainer.innerHTML = "";
+
+    const places =
+        createPlaceData(data);
+
+    places.forEach(place => {
+
+        placesContainer.innerHTML += `
+
+            <div class="card">
+
+                <img
+                    src="${place.image}"
+                    alt="${place.name}"
+                    loading="lazy"
+                >
+
+                <div class="card-content">
+
+                    <h3>
+                        ${place.name}
+                    </h3>
+
+                    <p>
+                        ${place.description}
+                    </p>
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+
+    /* ================= BUDGET ================= */
+
+    const budgetContainer =
+        document.getElementById("budgetContainer");
+
+    budgetContainer.innerHTML = "";
+
+    const budgetItems =
+        createBudgetData(data);
+
+    budgetItems.forEach(item => {
+
+        budgetContainer.innerHTML += `
+
+            <div class="budget-card">
+
+                <h3>
+                    ${item[0]}
+                </h3>
+
+                <p>
+                    ${item[1]}
+                </p>
+
+            </div>
+
+        `;
+
+    });
+
+
+    /* ================= ACTIVITIES ================= */
+
+    const activitiesContainer =
+        document.getElementById("activitiesContainer");
+
+    activitiesContainer.innerHTML = "";
+
+    const activities =
+        createActivityData(data);
+
+    activities.forEach(activity => {
+
+        activitiesContainer.innerHTML += `
+
+            <div class="card">
+
+                <img
+                    src="${activity.image}"
+                    alt="${activity.name}"
+                    loading="lazy"
+                >
+
+                <div class="card-content">
+
+                    <h3>
+                        ${activity.name}
+                    </h3>
+
+                    <p>
+                        ${activity.description}
+                    </p>
+
+                    <a
+                        href="activities.html"
+                        class="btn"
+                    >
+                        Explore Activity
+                    </a>
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+
+    /* ================= TIPS ================= */
+
+    const tipsContainer =
+        document.getElementById("tipsContainer");
+
+    tipsContainer.innerHTML = "";
+
+    const tips =
+        createTipsData(data);
+
+    tips.forEach(tip => {
+
+        tipsContainer.innerHTML += `
+
+            <div class="tip">
+
+                <h3>
+                    ${tip[0]}
+                </h3>
+
+                <p>
+                    ${tip[1]}
+                </p>
+
+            </div>
+
+        `;
+
+    });
+
+
+    /* ================= PAGE TITLE ================= */
+
+    document.title =
+        data.name + " | TravelAI";
+
+
+    /* ================= URL ================= */
+
+    const newUrl =
+        "destination-details.html?place=" +
+        encodeURIComponent(key);
+
+    window.history.replaceState(
+        {},
+        "",
+        newUrl
+    );
+
+}
+
+
+/* =========================================================
+   DROPDOWN BUTTON
+   ========================================================= */
+
+function showDestination() {
+
+    const selected =
+        document.getElementById("destination").value;
+
+    loadDestination(selected);
+
+    document.getElementById("destinationName")
+        .scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+}
+
+
+/* =========================================================
+   AUTOMATIC DROPDOWN CHANGE
+   ========================================================= */
+
+document
+    .getElementById("destination")
+    .addEventListener(
+        "change",
+        function() {
+
+            loadDestination(this.value);
+
+            document.getElementById("destinationName")
+                .scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+        }
+    );
+
+
+/* =========================================================
+   LOAD DESTINATION FROM URL
+   ========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        const place =
+            params.get("place");
+
+
+        if (place) {
+
+            const destinationKey =
+                place.trim().toLowerCase();
+
+            if (destinations[destinationKey]) {
+                loadDestination(destinationKey);
+                return;
+            }
+
+            /* Also allow the destination name itself in the URL. */
+            const matchedKey =
+                Object.keys(destinations).find(key =>
+                    destinations[key].name.toLowerCase() ===
+                    place.trim().toLowerCase()
+                );
+
+            if (matchedKey) {
+                loadDestination(matchedKey);
+                return;
+            }
+        }
+
+        /*
+           No valid destination was supplied.
+           Do NOT silently load Jaipur.
+           Load the first destination in the database instead.
+        */
+        const firstDestination =
+            Object.keys(destinations)[0];
+
+        if (firstDestination) {
+            loadDestination(firstDestination);
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+</html>

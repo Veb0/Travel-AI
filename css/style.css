@@ -1,0 +1,976 @@
+:root {
+--primary: #164A4A;
+--primary-light: #267373;
+--primary-dark: #102F2F;
+
+
+--accent: #D99A5B;
+
+--sand: #F3E8D5;
+--cream: #FCFAF5;
+--light-teal: #DCEFE9;
+
+--text: #183232;
+--muted: #5E7370;
+
+--white: #FFFFFF;
+
+--border: #E2EAE7;
+
+--shadow: 0 10px 30px rgba(22, 74, 74, 0.08);
+
+
+}
+
+/* =========================================================
+RESET
+========================================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  }
+
+html {
+scroll-behavior: smooth;
+}
+
+body {
+font-family: Arial, Helvetica, sans-serif;
+background: var(--cream);
+color: var(--text);
+line-height: 1.6;
+}
+
+/* =========================================================
+NAVIGATION
+========================================================= */
+
+nav {
+background: var(--primary);
+color: var(--white);
+
+
+padding: 18px 6%;
+
+display: flex;
+justify-content: space-between;
+align-items: center;
+
+position: sticky;
+top: 0;
+z-index: 1000;
+
+box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+
+
+}
+
+.logo {
+color: var(--white);
+text-decoration: none;
+
+
+font-size: 28px;
+font-weight: bold;
+letter-spacing: 1px;
+
+
+}
+
+.nav-links {
+display: flex;
+align-items: center;
+gap: 24px;
+}
+
+.nav-links a {
+color: var(--white);
+text-decoration: none;
+
+
+font-size: 15px;
+transition: 0.3s;
+
+
+}
+
+.nav-links a:hover {
+color: var(--accent);
+}
+
+/* ==============================
+   NAVBAR DROPDOWN
+   ============================== */
+
+.dropdown {
+    position: relative;
+}
+
+/* Invisible bridge so dropdown doesn't disappear
+   while moving the mouse downward */
+.dropdown::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 10px;
+}
+
+/* Dropdown menu */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+
+    background: #FFFFFF;
+    min-width: 215px;
+
+    border-radius: 10px;
+    overflow: hidden;
+
+    box-shadow: 0 10px 25px rgba(22, 74, 74, 0.15);
+
+    z-index: 1001;
+}
+
+/* Show dropdown when hovering */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Dropdown links */
+.dropdown-content a {
+    display: block;
+
+    padding: 12px 16px;
+
+    color: #164A4A;
+    text-decoration: none;
+
+    white-space: nowrap;
+
+    font-size: 15px;
+
+    transition: 0.3s;
+}
+
+/* Dropdown link hover */
+.dropdown-content a:hover {
+    background: #DCEFE9;
+    color: #164A4A;
+}
+/* =========================================================
+HERO SECTIONS
+========================================================= */
+
+.hero {
+min-height: 70vh;
+
+
+display: flex;
+align-items: center;
+
+padding: 80px 7%;
+
+background:
+    linear-gradient(
+        rgba(22, 74, 74, 0.48),
+        rgba(22, 74, 74, 0.48)
+    ),
+    url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1800&q=90");
+
+background-size: cover;
+background-position: center;
+
+
+}
+
+.hero-content {
+max-width: 760px;
+color: var(--white);
+}
+
+.eyebrow {
+display: inline-block;
+
+
+padding: 8px 17px;
+
+border-radius: 30px;
+
+background: rgba(255, 255, 255, 0.18);
+
+font-size: 13px;
+letter-spacing: 2px;
+
+margin-bottom: 20px;
+
+
+}
+
+.hero h1 {
+font-size: clamp(42px, 6vw, 76px);
+
+
+line-height: 1.05;
+
+margin-bottom: 25px;
+
+
+}
+
+.hero p {
+font-size: 18px;
+
+
+max-width: 680px;
+
+margin-bottom: 30px;
+
+color: #F3F7F4;
+
+
+}
+
+/* =========================================================
+HERO BUTTONS
+========================================================= */
+
+.hero-buttons {
+display: flex;
+gap: 15px;
+flex-wrap: wrap;
+}
+
+/* =========================================================
+GENERAL BUTTONS
+========================================================= */
+
+.btn {
+display: inline-block;
+
+
+padding: 14px 27px;
+
+border-radius: 30px;
+
+text-decoration: none;
+
+font-weight: bold;
+
+transition: 0.3s;
+
+
+}
+
+.btn-primary {
+background: var(--accent);
+color: var(--text);
+}
+
+.btn-primary:hover {
+background: var(--white);
+
+
+transform: translateY(-3px);
+
+
+}
+
+.btn-secondary {
+background: transparent;
+
+
+border: 1px solid var(--white);
+
+color: var(--white);
+
+
+}
+
+.btn-secondary:hover {
+background: var(--white);
+color: var(--primary);
+}
+
+/* =========================================================
+GENERAL SECTIONS
+========================================================= */
+
+section {
+padding: 90px 7%;
+}
+
+.section-heading {
+max-width: 750px;
+
+
+margin-bottom: 50px;
+
+
+}
+
+.section-heading span {
+color: var(--primary-light);
+
+
+font-weight: bold;
+
+letter-spacing: 2px;
+
+font-size: 13px;
+
+
+}
+
+.section-heading h2 {
+font-size: 42px;
+
+
+line-height: 1.2;
+
+margin: 12px 0;
+
+
+}
+
+.section-heading p {
+color: var(--muted);
+
+
+font-size: 17px;
+
+
+}
+
+/* =========================================================
+CARDS
+========================================================= */
+
+.card,
+.feature-card,
+.destination-card,
+.hotel-card,
+.activity-card,
+.recommendation-card,
+.preference-card,
+.info-card,
+.stat-card {
+background: var(--cream);
+
+
+border: 1px solid var(--border);
+
+border-radius: 20px;
+
+box-shadow: var(--shadow);
+
+transition: 0.3s;
+
+
+}
+
+.card:hover,
+.feature-card:hover,
+.destination-card:hover,
+.hotel-card:hover,
+.activity-card:hover,
+.recommendation-card:hover,
+.preference-card:hover {
+transform: translateY(-5px);
+
+
+box-shadow:
+    0 16px 35px rgba(22, 74, 74, 0.13);
+
+
+}
+
+/* =========================================================
+FEATURE CARDS
+========================================================= */
+
+.features {
+display: grid;
+
+
+grid-template-columns: repeat(3, 1fr);
+
+gap: 28px;
+
+
+}
+
+.feature-card {
+padding: 35px;
+}
+
+.feature-icon {
+width: 60px;
+height: 60px;
+
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+background: var(--light-teal);
+
+border-radius: 16px;
+
+font-size: 30px;
+
+margin-bottom: 20px;
+
+
+}
+
+.feature-card h3 {
+font-size: 22px;
+
+
+margin-bottom: 12px;
+
+
+}
+
+.feature-card p {
+color: var(--muted);
+}
+
+/* =========================================================
+DESTINATION SECTIONS
+========================================================= */
+
+.destinations {
+background: var(--sand);
+}
+
+.destination-grid {
+display: grid;
+
+
+grid-template-columns: repeat(3, 1fr);
+
+gap: 28px;
+
+
+}
+
+.destination-card {
+overflow: hidden;
+}
+
+.destination-card img {
+width: 100%;
+height: 250px;
+
+
+object-fit: cover;
+
+display: block;
+
+
+}
+
+.destination-info {
+padding: 27px;
+}
+
+.destination-info h3 {
+font-size: 24px;
+
+
+margin-bottom: 8px;
+
+
+}
+
+.destination-info p {
+color: var(--muted);
+
+
+margin-bottom: 18px;
+
+
+}
+
+/* =========================================================
+SMALL BUTTON
+========================================================= */
+
+.small-btn {
+display: inline-block;
+
+
+background: var(--primary-light);
+
+color: var(--white);
+
+padding: 10px 19px;
+
+border-radius: 25px;
+
+text-decoration: none;
+
+font-size: 14px;
+
+transition: 0.3s;
+
+
+}
+
+.small-btn:hover {
+background: var(--primary);
+}
+
+/* =========================================================
+AI SECTION
+========================================================= */
+
+.ai-section {
+display: grid;
+
+
+grid-template-columns: 1fr 1fr;
+
+gap: 70px;
+
+align-items: center;
+
+
+}
+
+.ai-image img {
+width: 100%;
+
+
+display: block;
+
+border-radius: 25px;
+
+
+}
+
+.ai-content h2 {
+font-size: 42px;
+
+
+line-height: 1.2;
+
+margin-bottom: 20px;
+
+
+}
+
+.ai-content p {
+color: var(--muted);
+
+
+font-size: 17px;
+
+margin-bottom: 25px;
+
+
+}
+
+.ai-list {
+list-style: none;
+
+
+margin-bottom: 30px;
+
+
+}
+
+.ai-list li {
+position: relative;
+
+
+padding-left: 30px;
+
+margin: 14px 0;
+
+
+}
+
+.ai-list li::before {
+content: "✓";
+
+
+position: absolute;
+
+left: 0;
+
+color: var(--primary-light);
+
+font-weight: bold;
+
+
+}
+
+/* =========================================================
+FORMS
+========================================================= */
+
+input,
+select,
+textarea {
+width: 100%;
+
+
+padding: 13px 15px;
+
+border: 1px solid var(--border);
+
+border-radius: 10px;
+
+background: var(--white);
+
+color: var(--text);
+
+font-family: inherit;
+
+font-size: 15px;
+
+outline: none;
+
+transition: 0.3s;
+
+
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+border-color: var(--primary-light);
+
+
+box-shadow:
+    0 0 0 3px rgba(38, 115, 115, 0.12);
+
+
+}
+
+label {
+display: block;
+
+
+margin-bottom: 7px;
+
+font-weight: bold;
+
+color: var(--text);
+
+
+}
+
+/* =========================================================
+FORM CONTAINERS
+========================================================= */
+
+.form-container,
+.form-card,
+.planner-card,
+.preference-container {
+background: var(--cream);
+
+
+padding: 35px;
+
+border-radius: 20px;
+
+border: 1px solid var(--border);
+
+box-shadow: var(--shadow);
+
+
+}
+
+/* =========================================================
+TAGS
+========================================================= */
+
+.tag,
+.badge,
+.interest-tag {
+display: inline-block;
+
+
+background: var(--light-teal);
+
+color: var(--primary);
+
+padding: 7px 13px;
+
+border-radius: 20px;
+
+font-size: 13px;
+
+margin: 4px;
+
+
+}
+
+/* =========================================================
+PROGRESS BARS
+========================================================= */
+
+.progress {
+width: 100%;
+
+
+height: 9px;
+
+background: #E5ECE9;
+
+border-radius: 20px;
+
+overflow: hidden;
+
+
+}
+
+.progress-bar {
+height: 100%;
+
+
+background: var(--primary-light);
+
+border-radius: 20px;
+
+
+}
+
+/* =========================================================
+TABLES
+========================================================= */
+
+table {
+width: 100%;
+
+
+border-collapse: collapse;
+
+background: var(--cream);
+
+border-radius: 15px;
+
+overflow: hidden;
+
+box-shadow: var(--shadow);
+
+
+}
+
+th {
+background: var(--primary);
+
+
+color: var(--white);
+
+padding: 14px;
+
+text-align: left;
+
+
+}
+
+td {
+padding: 14px;
+
+
+border-bottom: 1px solid var(--border);
+
+
+}
+
+tr:hover td {
+background: var(--light-teal);
+}
+
+/* =========================================================
+CTA
+========================================================= */
+
+.cta {
+background: var(--primary);
+
+
+color: var(--white);
+
+text-align: center;
+
+border-radius: 25px;
+
+margin: 0 7% 90px;
+
+padding: 70px 30px;
+
+
+}
+
+.cta h2 {
+font-size: 42px;
+
+
+margin-bottom: 15px;
+
+
+}
+
+.cta p {
+max-width: 650px;
+
+
+margin: 0 auto 30px;
+
+color: var(--light-teal);
+
+
+}
+
+/* =========================================================
+FOOTER
+========================================================= */
+
+footer {
+background: var(--primary-dark);
+
+
+color: var(--light-teal);
+
+text-align: center;
+
+padding: 38px 20px;
+
+
+}
+
+footer p {
+margin: 5px 0;
+}
+
+/* =========================================================
+SPECIAL BACKGROUND SECTIONS
+========================================================= */
+
+.bg-sand {
+background: var(--sand);
+}
+
+.bg-teal {
+background: var(--primary);
+color: var(--white);
+}
+
+.bg-light-teal {
+background: var(--light-teal);
+}
+
+/* =========================================================
+LINKS
+========================================================= */
+
+a {
+color: var(--primary-light);
+}
+
+a:hover {
+color: var(--accent);
+}
+
+/* =========================================================
+IMAGES
+========================================================= */
+
+img {
+max-width: 100%;
+}
+
+/* =========================================================
+RESPONSIVE — TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+
+.nav-links {
+    gap: 14px;
+}
+
+.features,
+.destination-grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.ai-section {
+    grid-template-columns: 1fr;
+}
+
+
+}
+
+/* =========================================================
+RESPONSIVE — MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+
+nav {
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+.nav-links {
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+    gap: 12px;
+}
+
+.hero {
+    min-height: 75vh;
+
+    padding: 65px 6%;
+}
+
+.hero h1 {
+    font-size: 48px;
+}
+
+section {
+    padding: 65px 6%;
+}
+
+.features,
+.destination-grid {
+    grid-template-columns: 1fr;
+}
+
+.section-heading h2,
+.ai-content h2,
+.cta h2 {
+    font-size: 34px;
+}
+
+.cta {
+    margin: 0 6% 65px;
+
+    padding: 60px 25px;
+}
+
+.dropdown-content {
+    position: static;
+
+    margin-top: 8px;
+}
+
+}

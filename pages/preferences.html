@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preferences | TravelAI</title>
+<link rel="stylesheet" href="../css/style.css">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#FCFAF5;
+    color:#183232;
+    line-height:1.6;
+}
+
+nav{
+    background:#164A4A;
+    padding:18px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    box-shadow:0 3px 15px rgba(22,74,74,.12);
+}
+
+.logo{
+    color:#FCFAF5;
+    text-decoration:none;
+    font-size:28px;
+    font-weight:bold;
+    letter-spacing:1px;
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:24px;
+}
+
+.nav-links a{
+    color:#FCFAF5;
+    text-decoration:none;
+    font-size:15px;
+}
+
+.nav-links a:hover{color:#267373}
+
+.dropdown{position:relative}
+
+.dropdown::after{
+    content:"";
+    position:absolute;
+    top:100%;
+    left:0;
+    width:100%;
+    height:10px;
+}
+
+.dropdown-content{
+    display:none;
+    position:absolute;
+    top:calc(100% + 5px);
+    left:0;
+    min-width:215px;
+    background:#fff;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(22,74,74,.15);
+    z-index:1001;
+}
+
+.dropdown-content a{
+    display:block;
+    color:#164A4A;
+    padding:12px 16px;
+    white-space:nowrap;
+}
+
+.dropdown-content a:hover{
+    background:#DCEFE9;
+    color:#164A4A;
+}
+
+.dropdown:hover .dropdown-content{display:block}
+
+.hero{
+    min-height:400px;
+    display:flex;
+    align-items:center;
+    padding:70px 7%;
+    color:#fff;
+    background:
+        linear-gradient(rgba(22,74,74,.68),rgba(22,74,74,.68)),
+        url("https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1800&q=90")
+        center/cover;
+}
+
+.hero-content{max-width:820px}
+
+.eyebrow{
+    display:inline-block;
+    background:#267373;
+    color:#fff;
+    padding:7px 15px;
+    border-radius:30px;
+    font-size:12px;
+    font-weight:bold;
+    letter-spacing:1px;
+    margin-bottom:18px;
+}
+
+.hero h1{
+    font-size:55px;
+    line-height:1.1;
+    margin-bottom:16px;
+}
+
+.hero p{
+    max-width:700px;
+    font-size:18px;
+    color:#DCEFE9;
+}
+
+.container{
+    width:88%;
+    max-width:1250px;
+    margin:auto;
+}
+
+section{padding:70px 0}
+
+.preferences-wrapper{
+    margin-top:-55px;
+    position:relative;
+    z-index:5;
+}
+
+.preferences-panel{
+    background:#fff;
+    border-radius:22px;
+    padding:35px;
+    box-shadow:0 10px 35px rgba(22,74,74,.12);
+}
+
+.preferences-panel h2{
+    color:#164A4A;
+    margin-bottom:8px;
+}
+
+.preferences-panel>p{
+    color:#5E7370;
+    margin-bottom:28px;
+}
+
+.interests-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-bottom:35px;
+}
+
+.interest{
+    padding:18px;
+    border:1px solid #E2EAE7;
+    border-radius:13px;
+    cursor:pointer;
+    background:#fff;
+    transition:.25s;
+}
+
+.interest:hover{
+    transform:translateY(-3px);
+    border-color:#267373;
+}
+
+.interest.selected{
+    background:#DCEFE9;
+    border-color:#267373;
+}
+
+.interest strong{
+    display:block;
+    color:#164A4A;
+}
+
+.interest small{
+    color:#5E7370;
+}
+
+.settings-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:22px;
+}
+
+.form-group label{
+    display:block;
+    color:#164A4A;
+    font-weight:bold;
+    font-size:13px;
+    margin-bottom:7px;
+}
+
+.form-group select,
+.form-group input[type=range]{
+    width:100%;
+}
+
+.form-group select{
+    padding:12px;
+    border:1px solid #E2EAE7;
+    border-radius:9px;
+    background:#fff;
+    color:#164A4A;
+}
+
+.range-value{
+    display:flex;
+    justify-content:space-between;
+    color:#5E7370;
+    font-size:13px;
+    margin-top:6px;
+}
+
+.actions{
+    margin-top:30px;
+    display:flex;
+    gap:12px;
+}
+
+.btn{
+    display:inline-block;
+    padding:13px 22px;
+    border-radius:9px;
+    border:0;
+    text-decoration:none;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.primary{
+    background:#267373;
+    color:#fff;
+}
+
+.secondary{
+    background:#DCEFE9;
+    color:#164A4A;
+}
+
+.primary:hover{
+    background:#164A4A;
+}
+
+.secondary:hover{
+    background:#267373;
+    color:#fff;
+}
+
+.summary-box{
+    background:#fff;
+    padding:28px;
+    border-radius:18px;
+    box-shadow:0 6px 22px rgba(22,74,74,.07);
+}
+
+.summary-box h3{
+    color:#164A4A;
+    margin-bottom:15px;
+}
+
+.summary-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+}
+
+.summary-tag{
+    background:#DCEFE9;
+    color:#164A4A;
+    padding:8px 12px;
+    border-radius:20px;
+    font-size:12px;
+}
+
+.personalization{
+    background:#DCEFE9;
+}
+
+.personalization-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+    align-items:center;
+}
+
+.personalization img{
+    width:100%;
+    border-radius:20px;
+}
+
+.personalization h2{
+    color:#164A4A;
+    font-size:36px;
+    margin:8px 0 15px;
+}
+
+.personalization p{
+    color:#5E7370;
+}
+
+.benefits{
+    margin-top:20px;
+    display:grid;
+    gap:10px;
+}
+
+.benefit{
+    color:#164A4A;
+    font-weight:bold;
+}
+
+.cta{
+    background:#164A4A;
+    color:#fff;
+    padding:55px 30px;
+    border-radius:22px;
+    text-align:center;
+}
+
+.cta h2{font-size:34px;margin-bottom:12px}
+
+.cta p{
+    color:#DCEFE9;
+    max-width:650px;
+    margin:0 auto 25px;
+}
+
+footer{
+    background:#102F2F;
+    color:#DCEFE9;
+    text-align:center;
+    padding:35px 20px;
+    margin-top:60px;
+}
+
+@media(max-width:800px){
+    nav{
+        flex-direction:column;
+        gap:18px;
+    }
+
+    .nav-links{
+        flex-wrap:wrap;
+        justify-content:center;
+    }
+
+    .interests-grid,
+    .settings-grid,
+    .personalization-grid{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{font-size:40px}
+
+    .actions{
+        flex-direction:column;
+    }
+
+    .actions .btn{
+        text-align:center;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <a href="../index.html" class="logo">TravelAI</a>
+
+    <div class="nav-links">
+        <a href="../index.html">Home</a>
+
+        <div class="dropdown">
+            <a href="destinations.html">Destinations ▾</a>
+            <div class="dropdown-content">
+                <a href="destinations.html">Explore Destinations</a>
+                <a href="destination-details.html">Destination Details</a>
+                <a href="favorites.html">Favorites</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="itinerary.html">Trip Planner ▾</a>
+            <div class="dropdown-content">
+                <a href="itinerary.html">My Itinerary</a>
+                <a href="itinerary-details.html">Itinerary Details</a>
+                <a href="budget.html">Budget Planner</a>
+                <a href="activities.html">Activities</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="recommendations.html">Recommendations ▾</a>
+            <div class="dropdown-content">
+                <a href="recommendations.html">All Recommendations</a>
+                <a href="recommendation.html">AI Recommendation</a>
+                <a href="preferences.html">Preferences</a>
+            </div>
+        </div>
+
+        <a href="hotels.html">Hotels</a>
+        <a href="weather.html">Weather</a>
+
+        <div class="dropdown">
+            <a href="profile.html">Profile ▾</a>
+            <div class="dropdown-content">
+                <a href="profile.html">My Profile</a>
+                <a href="preferences.html">Preferences</a>
+                <a href="favorites.html">Favorites</a>
+            </div>
+        </div>
+
+        <a href="about.html">About</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="hero-content">
+        <span class="eyebrow">PERSONALIZE YOUR EXPERIENCE</span>
+        <h1>Tell TravelAI What You Love</h1>
+        <p>
+            Select your interests, travel style and preferences.
+            TravelAI will use them to create recommendations that
+            match the way you want to explore.
+        </p>
+    </div>
+</section>
+
+<section style="padding-top:0">
+    <div class="container preferences-wrapper">
+
+        <div class="preferences-panel">
+
+            <h2>Your Travel Interests</h2>
+            <p>Select as many interests as you want.</p>
+
+            <div class="interests-grid">
+
+                <div class="interest" onclick="toggleInterest(this,'Adventure')">
+                    <strong>🏔️ Adventure</strong>
+                    <small>Trekking and outdoor activities</small>
+                </div>
+
+                <div class="interest" onclick="toggleInterest(this,'Beaches')">
+                    <strong>🏖️ Beaches</strong>
+                    <small>Coasts and water experiences</small>
+                </div>
+
+                <div class="interest" onclick="toggleInterest(this,'Culture')">
+                    <strong>🏛️ Culture</strong>
+                    <small>Heritage and traditions</small>
+                </div>
+
+                <div class="interest" onclick="toggleInterest(this,'Food')">
+                    <strong>🍜 Food</strong>
+                    <small>Local cuisine and food tours</small>
+                </div>
+
+                <div class="interest" onclick="toggleInterest(this,'Nature')">
+                    <strong>🌿 Nature</strong>
+                    <small>Forests and landscapes</small>
+                </div>
+
+                <div class="interest" onclick="toggleInterest(this,'Shopping')">
+                    <strong>🛍️ Shopping</strong>
+                    <small>Markets and local shopping</small>
+                </div>
+
+                <div class="interest" onclick="toggleInterest(this,'Photography')">
+                    <strong>📸 Photography</strong>
+                    <small>Scenic and visual experiences</small>
+                </div>
+
+                <div class="interest" onclick="toggleInterest(this,'Wellness')">
+                    <strong>🧘 Wellness</strong>
+                    <small>Spa and relaxation</small>
+                </div>
+
+                <div class="interest" onclick="toggleInterest(this,'Nightlife')">
+                    <strong>🌙 Nightlife</strong>
+                    <small>Evening entertainment</small>
+                </div>
+
+            </div>
+
+            <h2>Travel Preferences</h2>
+            <p>These settings help TravelAI refine your recommendations.</p>
+
+            <div class="settings-grid">
+
+                <div class="form-group">
+                    <label>Preferred Travel Style</label>
+                    <select id="travelStyle">
+                        <option>Balanced</option>
+                        <option>Budget Friendly</option>
+                        <option>Luxury</option>
+                        <option>Adventure</option>
+                        <option>Relaxed</option>
+                        <option>Family Friendly</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Accommodation Preference</label>
+                    <select id="hotelPreference">
+                        <option>Any Accommodation</option>
+                        <option>Budget Hotel</option>
+                        <option>Standard Hotel</option>
+                        <option>Luxury Hotel</option>
+                        <option>Resort</option>
+                        <option>Hostel</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Food Preference</label>
+                    <select id="foodPreference">
+                        <option>Any Food</option>
+                        <option>Vegetarian</option>
+                        <option>Vegan</option>
+                        <option>Non-Vegetarian</option>
+                        <option>Local Cuisine</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Transportation</label>
+                    <select id="transportPreference">
+                        <option>Any</option>
+                        <option>Public Transport</option>
+                        <option>Taxi / Cab</option>
+                        <option>Rental Car</option>
+                        <option>Walking</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Preferred Trip Pace</label>
+                    <select id="tripPace">
+                        <option>Balanced</option>
+                        <option>Relaxed</option>
+                        <option>Moderate</option>
+                        <option>Fast Paced</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Maximum Daily Budget</label>
+
+                    <input
+                        type="range"
+                        id="budgetRange"
+                        min="1000"
+                        max="20000"
+                        value="7000"
+                        step="500"
+                        oninput="updateBudget(this.value)"
+                    >
+
+                    <div class="range-value">
+                        <span>₹1,000</span>
+                        <strong id="budgetValue">₹7,000 / day</strong>
+                        <span>₹20,000</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="actions">
+                <button class="btn primary" onclick="savePreferences()">
+                    Save Preferences
+                </button>
+
+                <button class="btn secondary" onclick="resetPreferences()">
+                    Reset
+                </button>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="summary-box">
+            <h3>Your Selected Interests</h3>
+            <div class="summary-list" id="summaryList"></div>
+        </div>
+    </div>
+</section>
+
+<section class="personalization">
+    <div class="container">
+        <div class="personalization-grid">
+
+            <img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1000&q=85">
+
+            <div>
+                <span class="eyebrow">SMART PERSONALIZATION</span>
+                <h2>Recommendations That Learn Your Style</h2>
+
+                <p>
+                    TravelAI compares your selected interests and travel
+                    preferences with destination profiles instead of using
+                    one fixed destination.
+                </p>
+
+                <div class="benefits">
+                    <div class="benefit">✓ More Relevant Destinations</div>
+                    <div class="benefit">✓ Better Itineraries</div>
+                    <div class="benefit">✓ Budget-Aware Suggestions</div>
+                    <div class="benefit">✓ Personalized Experiences</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="cta">
+            <h2>Ready for Personalized Recommendations?</h2>
+            <p>
+                Your preferences will be used to calculate destination
+                matches dynamically.
+            </p>
+
+            <a href="recommendation.html" class="btn secondary">
+                Get AI Recommendations
+            </a>
+
+            <a href="destinations.html" class="btn secondary">
+                Explore Destinations
+            </a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 TravelAI — AI-Based Personalized Travel Recommendation System</p>
+    <p>Plan smarter. Travel better. Explore more.</p>
+</footer>
+
+<script>
+
+let selectedInterests = [];
+
+const saved = localStorage.getItem("travelPreferences");
+
+if(saved){
+    const prefs = JSON.parse(saved);
+
+    selectedInterests = prefs.interests || [];
+
+    if(prefs.travelStyle)
+        document.getElementById("travelStyle").value = prefs.travelStyle;
+
+    if(prefs.hotelPreference)
+        document.getElementById("hotelPreference").value = prefs.hotelPreference;
+
+    if(prefs.foodPreference)
+        document.getElementById("foodPreference").value = prefs.foodPreference;
+
+    if(prefs.transportPreference)
+        document.getElementById("transportPreference").value = prefs.transportPreference;
+
+    if(prefs.tripPace)
+        document.getElementById("tripPace").value = prefs.tripPace;
+
+    if(prefs.budget){
+        document.getElementById("budgetRange").value = prefs.budget;
+        updateBudget(prefs.budget);
+    }
+}
+
+function toggleInterest(element,interest){
+
+    element.classList.toggle("selected");
+
+    if(selectedInterests.includes(interest)){
+        selectedInterests =
+            selectedInterests.filter(item => item !== interest);
+    }else{
+        selectedInterests.push(interest);
+    }
+
+    updateSummary();
+}
+
+function updateSummary(){
+
+    const summary = document.getElementById("summaryList");
+
+    summary.innerHTML = "";
+
+    if(selectedInterests.length === 0){
+        summary.innerHTML =
+            '<span class="summary-tag">No interests selected</span>';
+        return;
+    }
+
+    selectedInterests.forEach(interest => {
+
+        const tag = document.createElement("span");
+
+        tag.className = "summary-tag";
+        tag.textContent = "✓ " + interest;
+
+        summary.appendChild(tag);
+    });
+}
+
+function updateBudget(value){
+
+    document.getElementById("budgetValue").textContent =
+        "₹" + Number(value).toLocaleString("en-IN") + " / day";
+}
+
+function savePreferences(){
+
+    const preferences = {
+
+        interests:selectedInterests,
+
+        travelStyle:
+            document.getElementById("travelStyle").value,
+
+        hotelPreference:
+            document.getElementById("hotelPreference").value,
+
+        foodPreference:
+            document.getElementById("foodPreference").value,
+
+        transportPreference:
+            document.getElementById("transportPreference").value,
+
+        tripPace:
+            document.getElementById("tripPace").value,
+
+        budget:
+            Number(document.getElementById("budgetRange").value)
+    };
+
+    localStorage.setItem(
+        "travelPreferences",
+        JSON.stringify(preferences)
+    );
+
+    alert(
+        "Preferences saved successfully!\n\n" +
+        "Your AI recommendations will now be based on these preferences."
+    );
+}
+
+function resetPreferences(){
+
+    selectedInterests = [];
+
+    document.querySelectorAll(".interest")
+        .forEach(item => item.classList.remove("selected"));
+
+    document.getElementById("travelStyle").selectedIndex = 0;
+    document.getElementById("hotelPreference").selectedIndex = 0;
+    document.getElementById("foodPreference").selectedIndex = 0;
+    document.getElementById("transportPreference").selectedIndex = 0;
+    document.getElementById("tripPace").selectedIndex = 0;
+
+    document.getElementById("budgetRange").value = 7000;
+
+    updateBudget(7000);
+    updateSummary();
+
+    localStorage.removeItem("travelPreferences");
+}
+
+document.querySelectorAll(".interest").forEach(item => {
+
+    const text = item.querySelector("strong").textContent
+        .replace(/^[^\s]+\s/,"")
+        .trim();
+
+    if(selectedInterests.includes(text)){
+        item.classList.add("selected");
+    }
+});
+
+updateSummary();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2676 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../css/style.css">
+
+    <title>Destinations | TravelAI</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #FCFAF5;
+            color: #183232;
+            line-height: 1.6;
+        }
+
+
+        /* ================= NAVBAR ================= */
+
+        nav {
+            background: #164A4A;
+            color: #FCFAF5;
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 3px 15px rgba(22, 74, 74, 0.12);
+        }
+
+        .logo {
+            color: #FCFAF5;
+            text-decoration: none;
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-links > a,
+        .dropdown > a {
+            color: #FCFAF5;
+            text-decoration: none;
+            font-size: 15px;
+            transition: 0.3s;
+            white-space: nowrap;
+        }
+
+        .nav-links > a:hover,
+        .dropdown > a:hover {
+            color: #267373;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 10px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: calc(100% + 5px);
+            left: 0;
+            background: #FFFFFF;
+            min-width: 215px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(22, 74, 74, 0.15);
+            z-index: 1001;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 12px 16px;
+            color: #164A4A;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .dropdown-content a:hover {
+            background: #DCEFE9;
+            color: #164A4A;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+
+        /* ================= HERO ================= */
+
+        .hero {
+            min-height: 440px;
+            display: flex;
+            align-items: center;
+            padding: 70px 7%;
+
+            background:
+                linear-gradient(
+                    rgba(22,74,74,0.63),
+                    rgba(22,74,74,0.63)
+                ),
+                url("https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1800&q=90")
+                center/cover;
+        }
+
+        .hero-content {
+            max-width: 760px;
+            color: #FFFFFF;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            color: #DCEFE9;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 6vw, 58px);
+            line-height: 1.1;
+            margin-bottom: 18px;
+            color: #FFFFFF;
+        }
+
+        .hero p {
+            max-width: 680px;
+            font-size: 18px;
+            line-height: 1.7;
+            color: #DCEFE9;
+        }
+
+
+        /* ================= CONTAINER ================= */
+
+        .container {
+            width: 88%;
+            max-width: 1250px;
+            margin: auto;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+
+        /* ================= SEARCH PANEL ================= */
+
+        .search-panel {
+            position: relative;
+            z-index: 2;
+            margin-top: -45px;
+            background: #FFFFFF;
+            border: 1px solid #E2EAE7;
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 10px 35px rgba(22,74,74,0.08);
+        }
+
+        .search-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr 1fr auto;
+            gap: 18px;
+            align-items: end;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            color: #164A4A;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            height: 48px;
+            padding: 0 14px;
+            border: 1px solid #E2EAE7;
+            border-radius: 10px;
+            background: #FCFAF5;
+            color: #183232;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            border-color: #267373;
+            box-shadow: 0 0 0 3px rgba(38,115,115,0.10);
+        }
+
+        .search-btn {
+            height: 48px;
+            border: none;
+            border-radius: 10px;
+            padding: 0 25px;
+            background: #267373;
+            color: #FFFFFF;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.25s ease;
+        }
+
+        .search-btn:hover {
+            background: #164A4A;
+            transform: translateY(-1px);
+        }
+
+
+        /* ================= SECTION HEADING ================= */
+
+        .section-heading {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 42px;
+        }
+
+        .section-heading h2 {
+            color: #164A4A;
+            font-size: 35px;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
+
+        .section-heading p {
+            color: #5E7370;
+            line-height: 1.7;
+        }
+
+
+        /* ================= FILTERS ================= */
+
+        .filters {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 35px;
+        }
+
+        .filter {
+            border: 1px solid #E2EAE7;
+            background: #FFFFFF;
+            color: #164A4A;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.25s ease;
+        }
+
+        .filter:hover {
+            background: #DCEFE9;
+            border-color: #267373;
+        }
+
+        .filter.active {
+            background: #267373;
+            color: #FFFFFF;
+            border-color: #267373;
+        }
+
+
+        /* ================= DESTINATION GRID ================= */
+
+        .destination-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            align-items: stretch;
+        }
+
+        .destination-card {
+            display: flex;
+            flex-direction: column;
+            background: #FFFFFF;
+            border: 1px solid #E2EAE7;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 7px 25px rgba(22,74,74,0.07);
+            transition: 0.3s ease;
+        }
+
+        .destination-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(22,74,74,0.12);
+        }
+
+        .image-wrap {
+            position: relative;
+            height: 235px;
+            overflow: hidden;
+        }
+
+        .image-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: 0.4s ease;
+        }
+
+        .destination-card:hover .image-wrap img {
+            transform: scale(1.04);
+        }
+
+
+        /* ================= HEART ================= */
+
+        .heart {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 0;
+            border: none;
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.94);
+            color: #267373;
+
+            font-size: 22px;
+            cursor: pointer;
+
+            box-shadow: 0 5px 15px rgba(22,74,74,0.15);
+            transition: 0.25s ease;
+        }
+
+        .heart:hover {
+            background: #267373;
+            color: #FFFFFF;
+        }
+
+        .heart.favorited {
+            background: #267373;
+            color: #FFFFFF;
+        }
+
+
+        /* ================= DESTINATION CONTENT ================= */
+
+        .destination-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            padding: 24px;
+        }
+
+        .destination-location {
+            color: #267373;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .destination-content h3 {
+            color: #164A4A;
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        .destination-content p {
+            color: #5E7370;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 18px;
+        }
+
+        .destination-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-top: auto;
+            margin-bottom: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #E2EAE7;
+            color: #5E7370;
+            font-size: 13px;
+        }
+
+        .card-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 44px;
+            padding: 10px 14px;
+            border-radius: 9px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            transition: 0.25s ease;
+        }
+
+        .btn-primary {
+            background: #267373;
+            color: #FFFFFF;
+        }
+
+        .btn-primary:hover {
+            background: #164A4A;
+        }
+
+        .btn-secondary {
+            background: #DCEFE9;
+            color: #164A4A;
+        }
+
+        .btn-secondary:hover {
+            background: #164A4A;
+            color: #FFFFFF;
+        }
+
+
+        /* ================= FEATURED ================= */
+
+        .featured {
+            background: #DCEFE9;
+        }
+
+        .featured-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: stretch;
+            background: #FFFFFF;
+            border: 1px solid #E2EAE7;
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 10px 35px rgba(22,74,74,0.08);
+        }
+
+        .featured-box img {
+            width: 100%;
+            height: 100%;
+            min-height: 450px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .featured-content {
+            padding: 55px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .featured-content > span {
+            color: #267373;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+        }
+
+        .featured-content h2 {
+            color: #164A4A;
+            font-size: 42px;
+            line-height: 1.1;
+            margin-bottom: 15px;
+        }
+
+        .featured-content p {
+            color: #5E7370;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .feature-list li {
+            color: #183232;
+            margin-bottom: 9px;
+        }
+
+        .featured-content .btn {
+            width: 180px;
+            max-width: 100%;
+        }
+
+
+        /* ================= CTA ================= */
+
+        .cta {
+            background: #164A4A;
+            color: #FFFFFF;
+            text-align: center;
+            padding: 65px 30px;
+            border-radius: 25px;
+        }
+
+        .cta h2 {
+            color: #FFFFFF;
+            font-size: 36px;
+            margin-bottom: 14px;
+        }
+
+        .cta p {
+            max-width: 700px;
+            margin: 0 auto 28px;
+            color: #DCEFE9;
+            line-height: 1.7;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 48px;
+            padding: 13px 24px;
+            background: #267373;
+            color: #FFFFFF;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.25s ease;
+        }
+
+        .cta-btn:hover {
+            background: #DCEFE9;
+            color: #164A4A;
+        }
+
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            margin-top: 70px;
+            padding: 40px 7%;
+            background: #102F2F;
+            color: #DCEFE9;
+            text-align: center;
+        }
+
+        footer p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1100px) {
+
+            nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .search-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .search-btn {
+                width: 100%;
+            }
+
+            .destination-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .featured-box {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-box img {
+                min-height: 350px;
+                height: 350px;
+            }
+        }
+
+        @media (max-width: 750px) {
+
+            nav {
+                padding: 16px 5%;
+            }
+
+            .nav-links {
+                gap: 12px;
+            }
+
+            .dropdown-content {
+                position: static;
+                margin-top: 10px;
+            }
+
+            .hero {
+                min-height: 390px;
+                padding: 50px 6%;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .search-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-panel {
+                padding: 22px;
+            }
+
+            .destination-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-heading h2 {
+                font-size: 30px;
+            }
+
+            .featured-content {
+                padding: 35px 25px;
+            }
+
+            .featured-content h2 {
+                font-size: 35px;
+            }
+
+            .featured-box img {
+                min-height: 280px;
+                height: 280px;
+            }
+
+            .cta {
+                padding: 50px 20px;
+            }
+
+            .cta h2 {
+                font-size: 30px;
+            }
+
+            .container {
+                width: 90%;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .card-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                gap: 7px;
+            }
+
+            .filter {
+                padding: 9px 15px;
+                font-size: 13px;
+            }
+
+            .hero h1 {
+                font-size: 35px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<nav>
+
+    <a href="../index.html" class="logo">
+        TravelAI
+    </a>
+
+    <div class="nav-links">
+
+        <a href="../index.html">Home</a>
+
+        <div class="dropdown">
+
+            <a href="destinations.html">
+                Destinations ▾
+            </a>
+
+            <div class="dropdown-content">
+
+                <a href="destinations.html">
+                    Explore Destinations
+                </a>
+
+                <a href="destination-details.html">
+                    Destination Details
+                </a>
+
+                <a href="favorites.html">
+                    Favorites
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="dropdown">
+
+            <a href="itinerary.html">
+                Trip Planner ▾
+            </a>
+
+            <div class="dropdown-content">
+
+                <a href="itinerary.html">
+                    My Itinerary
+                </a>
+
+                <a href="itinerary-details.html">
+                    Itinerary Details
+                </a>
+
+                <a href="budget.html">
+                    Budget Planner
+                </a>
+
+                <a href="activities.html">
+                    Activities
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="dropdown">
+
+            <a href="recommendations.html">
+                Recommendations ▾
+            </a>
+
+            <div class="dropdown-content">
+
+                <a href="recommendations.html">
+                    All Recommendations
+                </a>
+
+                <a href="recommendation.html">
+                    AI Recommendation
+                </a>
+
+                <a href="preferences.html">
+                    Preferences
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <a href="hotels.html">
+            Hotels
+        </a>
+
+        <a href="weather.html">
+            Weather
+        </a>
+
+
+        <div class="dropdown">
+
+            <a href="profile.html">
+                Profile ▾
+            </a>
+
+            <div class="dropdown-content">
+
+                <a href="profile.html">
+                    My Profile
+                </a>
+
+                <a href="preferences.html">
+                    Preferences
+                </a>
+
+                <a href="favorites.html">
+                    Favorites
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <a href="about.html">
+            About
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <span class="eyebrow">
+            EXPLORE THE WORLD
+        </span>
+
+        <h1>
+            Find Your Next Destination
+        </h1>
+
+        <p>
+            Discover beautiful places, unique experiences and unforgettable
+            journeys with personalized recommendations from TravelAI.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SEARCH ================= -->
+
+<div class="container">
+
+    <div class="search-panel">
+
+        <div class="search-grid">
+
+            <div class="input-group">
+
+                <label>
+                    Search Destination
+                </label>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="e.g. Goa, Paris, Tokyo..."
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>
+                    Region
+                </label>
+
+                <select id="region">
+
+                    <option value="all">
+                        All Regions
+                    </option>
+
+                    <option value="india">
+                        India
+                    </option>
+
+                    <option value="asia">
+                        Asia
+                    </option>
+
+                    <option value="europe">
+                        Europe
+                    </option>
+
+                    <option value="international">
+                        International
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label>
+                    Travel Style
+                </label>
+
+                <select id="travelStyle">
+
+                    <option value="all">
+                        Any Style
+                    </option>
+
+                    <option value="adventure">
+                        Adventure
+                    </option>
+
+                    <option value="relaxation">
+                        Relaxation
+                    </option>
+
+                    <option value="culture">
+                        Culture
+                    </option>
+
+                    <option value="nature">
+                        Nature
+                    </option>
+
+                    <option value="luxury">
+                        Luxury
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <button
+                class="search-btn"
+                onclick="searchDestinations()"
+            >
+                Search
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= DESTINATIONS ================= -->
+
+<section>
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <h2>
+                Popular Destinations
+            </h2>
+
+            <p>
+                Explore destinations selected for different travel styles,
+                interests and budgets.
+            </p>
+
+        </div>
+
+
+        <div class="filters">
+
+            <button
+                class="filter active"
+                onclick="filterCards('all', this)"
+            >
+                All
+            </button>
+
+            <button
+                class="filter"
+                onclick="filterCards('india', this)"
+            >
+                India
+            </button>
+
+            <button
+                class="filter"
+                onclick="filterCards('asia', this)"
+            >
+                Asia
+            </button>
+
+            <button
+                class="filter"
+                onclick="filterCards('europe', this)"
+            >
+                Europe
+            </button>
+
+            <button
+                class="filter"
+                onclick="filterCards('international', this)"
+            >
+                International
+            </button>
+
+        </div>
+
+
+        <div class="destination-grid" id="destinationGrid">
+
+            <!-- Destination cards are generated from the JavaScript
+                 destination database below. -->
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FEATURED ================= -->
+
+<section class="featured">
+
+    <div class="container">
+
+        <div class="featured-box">
+
+            <img
+                src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=1200&q=90"
+                alt="Kerala"
+            >
+
+            <div class="featured-content">
+
+                <span>FEATURED DESTINATION</span>
+
+                <h2>Kerala</h2>
+
+                <p>
+                    A perfect blend of nature, culture, wellness and
+                    unforgettable local experiences.
+                </p>
+
+                <ul class="feature-list">
+
+                    <li>✓ Hill station experiences</li>
+                    <li>✓ Traditional Kerala cuisine</li>
+                    <li>✓ Wildlife and nature</li>
+                    <li>✓ Cultural experiences</li>
+
+                </ul>
+
+                <a
+                    href="destination-details.html?place=kerala"
+                    class="btn btn-primary"
+                >
+                    Explore Kerala
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CTA ================= -->
+
+<section>
+
+    <div class="container">
+
+        <div class="cta">
+
+            <h2>
+                Not Sure Where to Go?
+            </h2>
+
+            <p>
+                Tell TravelAI about your interests, budget, preferred travel
+                style and available time. Our recommendation system can help
+                you explore destinations that match your preferences.
+            </p>
+
+            <a
+                href="recommendation.html"
+                class="cta-btn"
+            >
+                Get AI Recommendation
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <p>
+        © 2026 TravelAI — AI-Based Personalized Travel Recommendation System
+    </p>
+
+    <p>
+        Plan smarter. Travel better. Explore more.
+    </p>
+
+</footer>
+
+
+<script>
+
+/* =========================================================
+   DESTINATION DATABASE
+   ========================================================= */
+
+const destinations = [
+
+    /* ================= INDIA ================= */
+
+    {
+        name: "Goa",
+        country: "INDIA",
+        region: "india",
+        category: "BEACH",
+        style: "relaxation",
+        season: "Oct – May",
+        price: "₹₹",
+        description: "Relax on tropical beaches, explore Portuguese-inspired architecture and enjoy vibrant coastal experiences.",
+        image: "/images/goa1.jpg"
+    },
+
+    {
+        name: "Munnar",
+        country: "INDIA",
+        region: "india",
+        category: "NATURE",
+        style: "nature",
+        season: "Sep – Mar",
+        price: "₹₹",
+        description: "Explore misty tea plantations, waterfalls, mountain viewpoints and peaceful hill landscapes.",
+        image: "/images/munnar.jpeg"
+    },
+
+    {
+        name: "Ooty",
+        country: "INDIA",
+        region: "india",
+        category: "HILLS",
+        style: "nature",
+        season: "Apr – Jun",
+        price: "₹₹",
+        description: "Enjoy cool weather, tea gardens, scenic viewpoints and peaceful mountain escapes.",
+        image: "/images/ooty.jpg"
+    },
+
+    {
+        name: "Jaipur",
+        country: "INDIA",
+        region: "india",
+        category: "CULTURE",
+        style: "culture",
+        season: "Oct – Mar",
+        price: "₹₹",
+        description: "Discover royal palaces, historic forts, colorful markets and traditional Rajasthani culture.",
+        image: "https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Kerala",
+        country: "INDIA",
+        region: "india",
+        category: "NATURE",
+        style: "nature",
+        season: "Oct – Feb",
+        price: "₹₹₹",
+        description: "Experience peaceful backwaters, lush landscapes, beaches, wildlife and authentic Kerala cuisine.",
+        image: "/images/kerala.webp"
+    },
+
+    {
+        name: "Delhi",
+        country: "INDIA",
+        region: "india",
+        category: "CITY",
+        style: "culture",
+        season: "Oct – Mar",
+        price: "₹₹",
+        description: "Explore historic monuments, bustling markets, museums and the diverse food culture of India's capital.",
+        image: "https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Mumbai",
+        country: "INDIA",
+        region: "india",
+        category: "CITY",
+        style: "culture",
+        season: "Nov – Feb",
+        price: "₹₹₹",
+        description: "Discover Marine Drive, historic architecture, markets, nightlife and the energetic spirit of Mumbai.",
+        image: "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Manali",
+        country: "INDIA",
+        region: "india",
+        category: "MOUNTAINS",
+        style: "adventure",
+        season: "Oct – Jun",
+        price: "₹₹",
+        description: "Enjoy mountain scenery, adventure activities, valleys and peaceful Himalayan landscapes.",
+        image: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Udaipur",
+        country: "INDIA",
+        region: "india",
+        category: "HERITAGE",
+        style: "culture",
+        season: "Oct – Mar",
+        price: "₹₹₹",
+        description: "Experience magnificent palaces, lakes, heritage hotels and romantic Rajasthani architecture.",
+        image: "/images/udaipur.webp"
+    },
+
+    {
+        name: "Varanasi",
+        country: "INDIA",
+        region: "india",
+        category: "CULTURE",
+        style: "culture",
+        season: "Oct – Mar",
+        price: "₹₹",
+        description: "Experience ancient ghats, spiritual traditions, evening ceremonies and the historic heart of India.",
+        image: "https://images.unsplash.com/photo-1561361058-c24cecae35ca?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Rishikesh",
+        country: "INDIA",
+        region: "india",
+        category: "ADVENTURE",
+        style: "adventure",
+        season: "Sep – Nov",
+        price: "₹₹",
+        description: "Combine river rafting, yoga, mountain scenery and outdoor adventure along the Ganges.",
+        image: "/images/rishikesh.webp"
+    },
+
+    {
+        name: "Darjeeling",
+        country: "INDIA",
+        region: "india",
+        category: "HILLS",
+        style: "nature",
+        season: "Mar – May",
+        price: "₹₹",
+        description: "See Himalayan views, tea gardens, colonial architecture and beautiful mountain landscapes.",
+        image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Amritsar",
+        country: "INDIA",
+        region: "india",
+        category: "HERITAGE",
+        style: "culture",
+        season: "Oct – Mar",
+        price: "₹₹",
+        description: "Visit the Golden Temple, experience Punjabi culture and explore historic landmarks.",
+        image: "/images/amritsar.jpg"
+    },
+
+    {
+        name: "Kolkata",
+        country: "INDIA",
+        region: "india",
+        category: "CULTURE",
+        style: "culture",
+        season: "Oct – Mar",
+        price: "₹₹",
+        description: "Explore colonial architecture, literature, art, museums and the famous Bengali food culture.",
+        image: "https://images.unsplash.com/photo-1558431382-27e303142255?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Andaman Islands",
+        country: "INDIA",
+        region: "india",
+        category: "ISLAND",
+        style: "relaxation",
+        season: "Oct – May",
+        price: "₹₹₹",
+        description: "Discover clear waters, coral reefs, tropical beaches and unforgettable island experiences.",
+        image: "/images/andaman.webp"
+    },
+
+    {
+        name: "Ladakh",
+        country: "INDIA",
+        region: "india",
+        category: "ADVENTURE",
+        style: "adventure",
+        season: "May – Sep",
+        price: "₹₹₹",
+        description: "Explore dramatic mountains, high-altitude lakes, monasteries and adventurous Himalayan roads.",
+        image: "/images/ladakh.avif"
+    },
+
+    {
+        name: "Hampi",
+        country: "INDIA",
+        region: "india",
+        category: "HERITAGE",
+        style: "culture",
+        season: "Oct – Feb",
+        price: "₹",
+        description: "Walk through ancient ruins, temples and enormous boulder landscapes from the Vijayanagara era.",
+        image: "/images/hampi.jpeg"
+    },
+
+    {
+        name: "Pondicherry",
+        country: "INDIA",
+        region: "india",
+        category: "COASTAL",
+        style: "relaxation",
+        season: "Oct – Mar",
+        price: "₹₹",
+        description: "Enjoy French-inspired streets, coastal cafes, beaches and a relaxed seaside atmosphere.",
+        image: "/images/pondi.jpeg"
+    },
+
+    {
+        name: "Agra",
+        country: "INDIA",
+        region: "india",
+        category: "HERITAGE",
+        style: "culture",
+        season: "Oct – Mar",
+        price: "₹₹",
+        description: "Visit the Taj Mahal, historic forts and architectural treasures of the Mughal era.",
+        image: "https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Coorg",
+        country: "INDIA",
+        region: "india",
+        category: "NATURE",
+        style: "nature",
+        season: "Oct – Mar",
+        price: "₹₹",
+        description: "Escape into coffee plantations, waterfalls, forests and peaceful Western Ghats scenery.",
+        image: "/images/coorg.avif"
+    },
+
+
+    /* ================= ASIA ================= */
+
+    {
+        name: "Tokyo",
+        country: "JAPAN",
+        region: "asia",
+        category: "CITY",
+        style: "culture",
+        season: "Mar – May",
+        price: "₹₹₹",
+        description: "Experience futuristic city life, traditional temples, incredible food and Japanese culture.",
+        image: "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Kyoto",
+        country: "JAPAN",
+        region: "asia",
+        category: "CULTURE",
+        style: "culture",
+        season: "Mar – May",
+        price: "₹₹₹",
+        description: "Discover traditional temples, gardens, tea houses and beautiful historic neighborhoods.",
+        image: "/images/kyoto.webp"
+    },
+
+    {
+        name: "Seoul",
+        country: "SOUTH KOREA",
+        region: "asia",
+        category: "CITY",
+        style: "culture",
+        season: "Apr – Jun",
+        price: "₹₹₹",
+        description: "Explore palaces, modern neighborhoods, Korean food, shopping and vibrant city life.",
+        image: "/images/seoul.jpg"
+    },
+
+    {
+        name: "Bali",
+        country: "INDONESIA",
+        region: "asia",
+        category: "ISLAND",
+        style: "relaxation",
+        season: "Apr – Oct",
+        price: "₹₹",
+        description: "Relax on beaches, explore temples, rice terraces and tropical landscapes.",
+        image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Bangkok",
+        country: "THAILAND",
+        region: "asia",
+        category: "CITY",
+        style: "culture",
+        season: "Nov – Feb",
+        price: "₹₹",
+        description: "Enjoy temples, street food, markets, nightlife and the energy of Thailand's capital.",
+        image: "/images/bangkok.jpeg"
+    },
+
+    {
+        name: "Phuket",
+        country: "THAILAND",
+        region: "asia",
+        category: "BEACH",
+        style: "relaxation",
+        season: "Nov – Apr",
+        price: "₹₹",
+        description: "Enjoy tropical beaches, island excursions, water activities and coastal resorts.",
+        image: "/images/phuket.avif"
+    },
+
+    {
+        name: "Singapore",
+        country: "SINGAPORE",
+        region: "asia",
+        category: "CITY",
+        style: "luxury",
+        season: "Feb – Apr",
+        price: "₹₹₹",
+        description: "Explore futuristic architecture, gardens, shopping districts and world-class food.",
+        image: "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Kuala Lumpur",
+        country: "MALAYSIA",
+        region: "asia",
+        category: "CITY",
+        style: "culture",
+        season: "Dec – Feb",
+        price: "₹₹",
+        description: "Discover skyscrapers, multicultural neighborhoods, shopping and Malaysian cuisine.",
+        image: "https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Hanoi",
+        country: "VIETNAM",
+        region: "asia",
+        category: "CULTURE",
+        style: "culture",
+        season: "Oct – Dec",
+        price: "₹₹",
+        description: "Experience historic streets, Vietnamese cuisine, lakes and traditional architecture.",
+        image: "/images/hanoi.avif"
+    },
+
+    {
+        name: "Ho Chi Minh City",
+        country: "VIETNAM",
+        region: "asia",
+        category: "CITY",
+        style: "culture",
+        season: "Dec – Apr",
+        price: "₹₹",
+        description: "Explore bustling markets, French colonial landmarks, cafes and Vietnamese food.",
+        image: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Manila",
+        country: "PHILIPPINES",
+        region: "asia",
+        category: "CITY",
+        style: "relaxation",
+        season: "Dec – Feb",
+        price: "₹₹",
+        description: "Combine historic districts, urban attractions, shopping and access to tropical islands.",
+        image: "/images/manila.jpg"
+    },
+
+    {
+        name: "Maldives",
+        country: "MALDIVES",
+        region: "asia",
+        category: "BEACH",
+        style: "luxury",
+        season: "Nov – Apr",
+        price: "₹₹₹",
+        description: "Stay among turquoise lagoons, coral reefs, private beaches and island resorts.",
+        image: "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Kathmandu",
+        country: "NEPAL",
+        region: "asia",
+        category: "MOUNTAINS",
+        style: "adventure",
+        season: "Oct – Nov",
+        price: "₹₹",
+        description: "Explore Himalayan culture, ancient temples and gateways to mountain adventures.",
+        image: "/images/kathmandu.webp"
+    },
+
+    {
+        name: "Colombo",
+        country: "SRI LANKA",
+        region: "asia",
+        category: "COASTAL",
+        style: "relaxation",
+        season: "Dec – Mar",
+        price: "₹₹",
+        description: "Discover coastal scenery, temples, markets and Sri Lankan cuisine.",
+        image: "/images/colombo.webp"
+    },
+
+    {
+        name: "Beijing",
+        country: "CHINA",
+        region: "asia",
+        category: "HERITAGE",
+        style: "culture",
+        season: "Apr – May",
+        price: "₹₹₹",
+        description: "Visit imperial landmarks, historic neighborhoods, museums and the Great Wall region.",
+        image: "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Shanghai",
+        country: "CHINA",
+        region: "asia",
+        category: "CITY",
+        style: "culture",
+        season: "Mar – May",
+        price: "₹₹₹",
+        description: "Experience futuristic skylines, historic districts, shopping and modern Chinese culture.",
+        image: "/images/shanghai.webp"
+    },
+
+    {
+        name: "Hong Kong",
+        country: "HONG KONG",
+        region: "asia",
+        category: "CITY",
+        style: "luxury",
+        season: "Oct – Dec",
+        price: "₹₹₹",
+        description: "Explore dramatic skylines, markets, islands, shopping and Cantonese cuisine.",
+        image: "https://images.unsplash.com/photo-1536599018102-9f803c140fc1?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Taipei",
+        country: "TAIWAN",
+        region: "asia",
+        category: "CITY",
+        style: "culture",
+        season: "Oct – Dec",
+        price: "₹₹",
+        description: "Discover night markets, temples, mountain scenery and a lively modern city.",
+        image: "/images/taipei.jpg"
+    },
+
+    {
+        name: "Siem Reap",
+        country: "CAMBODIA",
+        region: "asia",
+        category: "HERITAGE",
+        style: "culture",
+        season: "Nov – Feb",
+        price: "₹₹",
+        description: "Explore Angkor temples, Cambodian culture, local markets and surrounding countryside.",
+        image: "/images/siem.avif"
+    },
+
+    {
+        name: "Dubai",
+        country: "UAE",
+        region: "asia",
+        category: "LUXURY",
+        style: "luxury",
+        season: "Nov – Mar",
+        price: "₹₹₹",
+        description: "Experience iconic architecture, luxury shopping, desert adventures and modern attractions.",
+        image: "/images/dubai.jpeg"
+    },
+
+
+    /* ================= EUROPE ================= */
+
+    {
+        name: "Paris",
+        country: "FRANCE",
+        region: "europe",
+        category: "CULTURE",
+        style: "culture",
+        season: "Apr – Jun",
+        price: "₹₹₹",
+        description: "Explore iconic architecture, museums, cafes and romantic streets in the French capital.",
+        image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "London",
+        country: "UNITED KINGDOM",
+        region: "europe",
+        category: "CITY",
+        style: "culture",
+        season: "May – Sep",
+        price: "₹₹₹",
+        description: "Discover historic landmarks, museums, royal attractions and vibrant neighborhoods.",
+        image: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Rome",
+        country: "ITALY",
+        region: "europe",
+        category: "HERITAGE",
+        style: "culture",
+        season: "Apr – Jun",
+        price: "₹₹₹",
+        description: "Walk through ancient ruins, famous piazzas, museums and world-renowned Italian landmarks.",
+        image: "https://images.unsplash.com/photo-1529260830199-42c24126f198?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Venice",
+        country: "ITALY",
+        region: "europe",
+        category: "ROMANTIC",
+        style: "relaxation",
+        season: "Apr – Jun",
+        price: "₹₹₹",
+        description: "Experience canals, historic bridges, artistic treasures and charming Venetian streets.",
+        image: "https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Florence",
+        country: "ITALY",
+        region: "europe",
+        category: "ART",
+        style: "culture",
+        season: "Apr – Jun",
+        price: "₹₹₹",
+        description: "Explore Renaissance art, historic architecture, galleries and Tuscan culture.",
+        image: "/images/florence.jpeg"
+    },
+
+    {
+        name: "Barcelona",
+        country: "SPAIN",
+        region: "europe",
+        category: "CITY",
+        style: "culture",
+        season: "May – Jun",
+        price: "₹₹₹",
+        description: "Discover Gaudi architecture, Mediterranean beaches, markets and Spanish cuisine.",
+        image: "/images/barcelona.avif"
+    },
+
+    {
+        name: "Madrid",
+        country: "SPAIN",
+        region: "europe",
+        category: "CITY",
+        style: "culture",
+        season: "Apr – Jun",
+        price: "₹₹₹",
+        description: "Explore museums, royal landmarks, plazas, parks and vibrant Spanish nightlife.",
+        image: "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Amsterdam",
+        country: "NETHERLANDS",
+        region: "europe",
+        category: "CITY",
+        style: "relaxation",
+        season: "Apr – May",
+        price: "₹₹₹",
+        description: "Enjoy canals, museums, cycling routes, historic streets and Dutch culture.",
+        image: "/images/amsterdam.jpg"
+    },
+
+    {
+        name: "Berlin",
+        country: "GERMANY",
+        region: "europe",
+        category: "CITY",
+        style: "culture",
+        season: "May – Sep",
+        price: "₹₹₹",
+        description: "Discover museums, modern art, historic landmarks and Berlin's creative atmosphere.",
+        image: "https://images.unsplash.com/photo-1560969184-10fe8719e047?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Munich",
+        country: "GERMANY",
+        region: "europe",
+        category: "CITY",
+        style: "culture",
+        season: "May – Sep",
+        price: "₹₹₹",
+        description: "Explore Bavarian culture, historic architecture, parks and nearby Alpine landscapes.",
+        image: "https://images.unsplash.com/photo-1595867818082-083862f3d630?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Vienna",
+        country: "AUSTRIA",
+        region: "europe",
+        category: "CULTURE",
+        style: "culture",
+        season: "Apr – Jun",
+        price: "₹₹₹",
+        description: "Experience grand palaces, classical music, museums and elegant Austrian architecture.",
+        image: "https://images.unsplash.com/photo-1516550893923-42d28e5677af?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Prague",
+        country: "CZECH REPUBLIC",
+        region: "europe",
+        category: "HERITAGE",
+        style: "culture",
+        season: "Apr – Jun",
+        price: "₹₹",
+        description: "Walk through historic squares, castles, bridges and beautiful medieval streets.",
+        image: "https://images.unsplash.com/photo-1519677100203-a0e668c92439?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Budapest",
+        country: "HUNGARY",
+        region: "europe",
+        category: "CITY",
+        style: "relaxation",
+        season: "Apr – Oct",
+        price: "₹₹",
+        description: "Explore grand architecture, thermal baths, river views and vibrant Hungarian culture.",
+        image: "https://images.unsplash.com/photo-1541849546-216549ae216d?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Athens",
+        country: "GREECE",
+        region: "europe",
+        category: "HERITAGE",
+        style: "culture",
+        season: "Apr – Jun",
+        price: "₹₹₹",
+        description: "Discover ancient monuments, archaeological sites, Mediterranean food and lively neighborhoods.",
+        image: "https://images.unsplash.com/photo-1603565816030-6b389eeb23cb?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Santorini",
+        country: "GREECE",
+        region: "europe",
+        category: "ISLAND",
+        style: "relaxation",
+        season: "May – Sep",
+        price: "₹₹₹",
+        description: "Enjoy dramatic cliffs, whitewashed villages, sunsets and beautiful Aegean views.",
+        image: "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Lisbon",
+        country: "PORTUGAL",
+        region: "europe",
+        category: "CITY",
+        style: "relaxation",
+        season: "Mar – Jun",
+        price: "₹₹",
+        description: "Explore colorful streets, viewpoints, historic trams and Portuguese cuisine.",
+        image: "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Zurich",
+        country: "SWITZERLAND",
+        region: "europe",
+        category: "CITY",
+        style: "luxury",
+        season: "Jun – Sep",
+        price: "₹₹₹",
+        description: "Enjoy lakeside scenery, elegant streets, Swiss cuisine and easy access to the Alps.",
+        image: "/images/zurich.webp"
+    },
+
+    {
+        name: "Interlaken",
+        country: "SWITZERLAND",
+        region: "europe",
+        category: "MOUNTAINS",
+        style: "adventure",
+        season: "Jun – Sep",
+        price: "₹₹₹",
+        description: "Experience dramatic Alpine scenery, lakes, hiking and outdoor adventures.",
+        image: "/images/interlaken.jpeg"
+    },
+
+    {
+        name: "Reykjavik",
+        country: "ICELAND",
+        region: "europe",
+        category: "NATURE",
+        style: "adventure",
+        season: "Sep – Mar",
+        price: "₹₹₹",
+        description: "Explore Icelandic landscapes, geothermal attractions and routes toward the Northern Lights.",
+        image: "/images/rey.avif"
+    },
+
+    {
+    name: "Copenhagen",
+    country: "DENMARK",
+    region: "europe",
+    category: "CITY",
+    style: "culture",
+    season: "May – Sep",
+    price: "₹₹₹",
+    description: "Explore colorful waterfront streets, historic landmarks, royal palaces, cycling culture and Scandinavian cuisine.",
+    image: "https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?auto=format&fit=crop&w=1000&q=85"
+    },
+
+
+    /* ================= INTERNATIONAL ================= */
+
+    {
+        name: "New York",
+        country: "USA",
+        region: "international",
+        category: "CITY",
+        style: "luxury",
+        season: "Apr – Jun",
+        price: "₹₹₹",
+        description: "Experience iconic skyscrapers, museums, Broadway, diverse neighborhoods and world-class food.",
+        image: "https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Los Angeles",
+        country: "USA",
+        region: "international",
+        category: "CITY",
+        style: "luxury",
+        season: "Mar – May",
+        price: "₹₹₹",
+        description: "Explore beaches, entertainment districts, scenic drives and the creative heart of California.",
+        image: "https://images.unsplash.com/photo-1534190760961-74e8c1c5c3da?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "San Francisco",
+        country: "USA",
+        region: "international",
+        category: "CITY",
+        style: "culture",
+        season: "Sep – Nov",
+        price: "₹₹₹",
+        description: "Discover iconic bridges, waterfront neighborhoods, hills and diverse cultural experiences.",
+        image: "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Vancouver",
+        country: "CANADA",
+        region: "international",
+        category: "NATURE",
+        style: "nature",
+        season: "Jun – Sep",
+        price: "₹₹₹",
+        description: "Combine city attractions with mountains, forests, waterfront scenery and outdoor activities.",
+        image: "https://images.unsplash.com/photo-1559511260-66a654ae982a?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Toronto",
+        country: "CANADA",
+        region: "international",
+        category: "CITY",
+        style: "culture",
+        season: "Jun – Sep",
+        price: "₹₹₹",
+        description: "Explore diverse neighborhoods, waterfront attractions, museums and Canada's urban culture.",
+        image: "https://images.unsplash.com/photo-1517090504586-fde19ea6066f?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Sydney",
+        country: "AUSTRALIA",
+        region: "international",
+        category: "COASTAL",
+        style: "relaxation",
+        season: "Sep – Nov",
+        price: "₹₹₹",
+        description: "Enjoy beaches, the Opera House, harbor views, coastal walks and vibrant city life.",
+        image: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Melbourne",
+        country: "AUSTRALIA",
+        region: "international",
+        category: "CITY",
+        style: "culture",
+        season: "Mar – May",
+        price: "₹₹₹",
+        description: "Discover art, cafes, sporting culture, laneways and creative neighborhoods.",
+        image: "https://images.unsplash.com/photo-1514395462725-fb4566210144?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Queenstown",
+        country: "NEW ZEALAND",
+        region: "international",
+        category: "ADVENTURE",
+        style: "adventure",
+        season: "Dec – Feb",
+        price: "₹₹₹",
+        description: "Experience mountains, lakes, hiking and some of the world's most famous adventure activities.",
+        image: "/images/queen.jpg"
+    },
+
+    {
+        name: "Cape Town",
+        country: "SOUTH AFRICA",
+        region: "international",
+        category: "NATURE",
+        style: "adventure",
+        season: "Nov – Mar",
+        price: "₹₹₹",
+        description: "Explore dramatic coastlines, Table Mountain, vineyards and diverse outdoor experiences.",
+        image: "https://images.unsplash.com/photo-1580060839134-75a5edca2e99?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Cairo",
+        country: "EGYPT",
+        region: "international",
+        category: "HERITAGE",
+        style: "culture",
+        season: "Oct – Apr",
+        price: "₹₹",
+        description: "Discover ancient monuments, museums, markets and the remarkable history of Egypt.",
+        image: "https://images.unsplash.com/photo-1568322445389-f64ac2515020?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Marrakech",
+        country: "MOROCCO",
+        region: "international",
+        category: "CULTURE",
+        style: "culture",
+        season: "Mar – May",
+        price: "₹₹",
+        description: "Explore colorful souks, historic palaces, gardens and traditional Moroccan culture.",
+        image: "https://images.unsplash.com/photo-1597212618440-806262de4f6b?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Nairobi",
+        country: "KENYA",
+        region: "international",
+        category: "WILDLIFE",
+        style: "adventure",
+        season: "Jun – Oct",
+        price: "₹₹₹",
+        description: "Combine city experiences with wildlife adventures and access to Kenya's famous national parks.",
+        image: "/images/nairobi.avif"
+    },
+
+    {
+        name: "Rio de Janeiro",
+        country: "BRAZIL",
+        region: "international",
+        category: "COASTAL",
+        style: "relaxation",
+        season: "Dec – Mar",
+        price: "₹₹₹",
+        description: "Enjoy iconic beaches, mountain viewpoints, music, food and vibrant Brazilian culture.",
+        image: "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Buenos Aires",
+        country: "ARGENTINA",
+        region: "international",
+        category: "CITY",
+        style: "culture",
+        season: "Mar – May",
+        price: "₹₹",
+        description: "Discover European-inspired architecture, tango, food and lively cultural neighborhoods.",
+        image: "/images/buenos.jpg"
+    },
+
+    {
+        name: "Mexico City",
+        country: "MEXICO",
+        region: "international",
+        category: "CULTURE",
+        style: "culture",
+        season: "Mar – May",
+        price: "₹₹",
+        description: "Explore museums, historic districts, markets, architecture and Mexican cuisine.",
+        image: "/images/mexico.webp"
+    },
+
+    {
+        name: "Bora Bora",
+        country: "FRENCH POLYNESIA",
+        region: "international",
+        category: "ISLAND",
+        style: "luxury",
+        season: "May – Oct",
+        price: "₹₹₹",
+        description: "Relax in turquoise lagoons, overwater resorts and spectacular tropical surroundings.",
+        image: "/images/bora.webp"
+    },
+
+    {
+        name: "Honolulu",
+        country: "USA",
+        region: "international",
+        category: "BEACH",
+        style: "relaxation",
+        season: "Apr – Jun",
+        price: "₹₹₹",
+        description: "Enjoy tropical beaches, island scenery, water activities and Hawaiian culture.",
+        image: "/images/hono.avif"
+    },
+
+    {
+        name: "Istanbul",
+        country: "TURKEY",
+        region: "international",
+        category: "CULTURE",
+        style: "culture",
+        season: "Apr – May",
+        price: "₹₹",
+        description: "Experience a fascinating blend of European and Asian influences, historic mosques and bazaars.",
+        image: "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=1000&q=85"
+    },
+
+    {
+        name: "Patagonia",
+        country: "ARGENTINA / CHILE",
+        region: "international",
+        category: "ADVENTURE",
+        style: "adventure",
+        season: "Nov – Mar",
+        price: "₹₹₹",
+        description: "Explore glaciers, mountains, lakes and vast wilderness landscapes in southern South America.",
+        image: "/images/Patagonia.jpg"
+    },
+
+    {
+        name: "Seychelles",
+        country: "SEYCHELLES",
+        region: "international",
+        category: "ISLAND",
+        style: "luxury",
+        season: "Apr – May",
+        price: "₹₹₹",
+        description: "Discover pristine beaches, granite islands, coral reefs and peaceful tropical escapes.",
+        image: "/images/sey.jpg"
+    }
+
+];
+
+
+/* =========================================================
+   FAVORITES
+   ========================================================= */
+
+const FAVORITES_KEY = "travelAIFavorites";
+
+
+function getFavorites() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(FAVORITES_KEY)
+        ) || [];
+
+    } catch (error) {
+
+        return [];
+
+    }
+
+}
+
+
+function saveFavorites(favorites) {
+
+    localStorage.setItem(
+        FAVORITES_KEY,
+        JSON.stringify(favorites)
+    );
+
+}
+
+
+/* =========================================================
+   CREATE DESTINATION CARD
+   ========================================================= */
+
+function createDestinationCard(destination) {
+
+    const slug =
+        destination.name
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-|-$/g, "");
+
+    return `
+
+        <div
+            class="destination-card"
+            data-region="${destination.region}"
+            data-name="${destination.name.toLowerCase()}"
+            data-style="${destination.style}"
+        >
+
+            <div class="image-wrap">
+
+                <img
+                    src="${destination.image}"
+                    alt="${destination.name}"
+                    loading="lazy"
+                >
+
+                <button
+                    class="heart"
+                    data-favorite-slug="${slug}"
+                    onclick="toggleFavorite(this)"
+                    aria-label="Add ${destination.name} to favorites"
+                >
+                    ♡
+                </button>
+
+            </div>
+
+
+            <div class="destination-content">
+
+                <div class="destination-location">
+                    ${destination.country} • ${destination.category}
+                </div>
+
+                <h3>
+                    ${destination.name}
+                </h3>
+
+                <p>
+                    ${destination.description}
+                </p>
+
+
+                <div class="destination-meta">
+
+                    <span>
+                        🌤 ${destination.season}
+                    </span>
+
+                    <span>
+                        ${destination.price}
+                    </span>
+
+                </div>
+
+
+                <div class="card-buttons">
+
+                    <a
+                        href="destination-details.html?place=${slug}"
+                        class="btn btn-primary"
+                    >
+                        View Details
+                    </a>
+
+                    <a
+                        href="itinerary.html?destination=${encodeURIComponent(destination.name)}"
+                        class="btn btn-secondary"
+                    >
+                        Plan Trip
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   RENDER DESTINATIONS
+   ========================================================= */
+
+function renderDestinations() {
+
+    const grid =
+        document.getElementById("destinationGrid");
+
+    if (!grid) {
+        return;
+    }
+
+    grid.innerHTML =
+        destinations
+            .map(createDestinationCard)
+            .join("");
+
+    loadFavoriteStates();
+
+}
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+function searchDestinations() {
+
+    const input =
+        document
+            .getElementById("searchInput")
+            .value
+            .toLowerCase()
+            .trim();
+
+    const selectedRegion =
+        document
+            .getElementById("region")
+            .value;
+
+    const selectedStyle =
+        document
+            .getElementById("travelStyle")
+            .value;
+
+    const cards =
+        document.querySelectorAll(
+            ".destination-card"
+        );
+
+
+    cards.forEach(card => {
+
+        const name =
+            card.dataset.name;
+
+        const region =
+            card.dataset.region;
+
+        const style =
+            card.dataset.style;
+
+
+        const matchesName =
+            name.includes(input);
+
+        const matchesRegion =
+            selectedRegion === "all" ||
+            region === selectedRegion;
+
+        const matchesStyle =
+            selectedStyle === "all" ||
+            style === selectedStyle;
+
+
+        card.style.display =
+            matchesName &&
+            matchesRegion &&
+            matchesStyle
+                ? "flex"
+                : "none";
+
+    });
+
+
+    /* Keep the active region button synchronized */
+
+    document
+        .querySelectorAll(".filter")
+        .forEach(filter => {
+
+            filter.classList.remove("active");
+
+        });
+
+
+    const matchingFilter =
+        document.querySelector(
+            `.filter[onclick*="'${selectedRegion}'"]`
+        );
+
+    if (matchingFilter) {
+
+        matchingFilter.classList.add("active");
+
+    }
+
+}
+
+
+/* =========================================================
+   REGION FILTER
+   ========================================================= */
+
+function filterCards(region, button) {
+
+    document
+        .querySelectorAll(".filter")
+        .forEach(filter => {
+
+            filter.classList.remove("active");
+
+        });
+
+
+    button.classList.add("active");
+
+
+    document
+        .querySelectorAll(".destination-card")
+        .forEach(card => {
+
+            card.style.display =
+                region === "all" ||
+                card.dataset.region === region
+                    ? "flex"
+                    : "none";
+
+        });
+
+
+    const regionSelect =
+        document.getElementById("region");
+
+    if (regionSelect) {
+
+        regionSelect.value = region;
+
+    }
+
+
+    /*
+        Reset the search text when
+        selecting a region filter.
+    */
+
+    const searchInput =
+        document.getElementById("searchInput");
+
+    if (searchInput) {
+
+        searchInput.value = "";
+
+    }
+
+}
+
+
+/* =========================================================
+   FAVORITES
+   ========================================================= */
+
+function toggleFavorite(button) {
+
+    const slug =
+        button.dataset.favoriteSlug;
+
+    const destination =
+        destinations.find(item => {
+
+            const itemSlug =
+                item.name
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]+/g, "-")
+                    .replace(/^-|-$/g, "");
+
+            return itemSlug === slug;
+
+        });
+
+
+    if (!destination) {
+
+        return;
+
+    }
+
+
+    let favorites =
+        getFavorites();
+
+
+    const existingIndex =
+        favorites.findIndex(item =>
+            item.slug === slug
+        );
+
+
+    if (existingIndex >= 0) {
+
+        favorites.splice(
+            existingIndex,
+            1
+        );
+
+        setFavoriteButton(
+            button,
+            false
+        );
+
+    } else {
+
+        favorites.push({
+
+            type: "destination",
+
+            name: destination.name,
+
+            slug: slug,
+
+            category: destination.category,
+
+            description:
+                destination.description,
+
+            image:
+                destination.image,
+
+            detail1:
+                destination.season,
+
+            detail2:
+                destination.price
+
+        });
+
+
+        setFavoriteButton(
+            button,
+            true
+        );
+
+    }
+
+
+    saveFavorites(favorites);
+
+}
+
+
+/* =========================================================
+   FAVORITE BUTTON STATE
+   ========================================================= */
+
+function setFavoriteButton(
+    button,
+    isFavorite
+) {
+
+    if (isFavorite) {
+
+        button.innerHTML = "♥";
+
+        button.style.background =
+            "#267373";
+
+        button.style.color =
+            "#FFFFFF";
+
+        button.classList.add(
+            "favorited"
+        );
+
+    } else {
+
+        button.innerHTML = "♡";
+
+        button.style.background =
+            "rgba(255,255,255,0.94)";
+
+        button.style.color =
+            "#267373";
+
+        button.classList.remove(
+            "favorited"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD SAVED FAVORITES
+   ========================================================= */
+
+function loadFavoriteStates() {
+
+    const favorites =
+        getFavorites();
+
+
+    document
+        .querySelectorAll(
+            ".heart[data-favorite-slug]"
+        )
+        .forEach(button => {
+
+            const slug =
+                button.dataset.favoriteSlug;
+
+            const isFavorite =
+                favorites.some(
+                    item =>
+                        item.slug === slug
+                );
+
+
+            setFavoriteButton(
+                button,
+                isFavorite
+            );
+
+        });
+
+}
+
+
+/* =========================================================
+   SEARCH WITH ENTER KEY
+   ========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        renderDestinations();
+
+
+        const searchInput =
+            document.getElementById(
+                "searchInput"
+            );
+
+        if (searchInput) {
+
+            searchInput.addEventListener(
+                "keydown",
+                function(event) {
+
+                    if (event.key === "Enter") {
+
+                        searchDestinations();
+
+                    }
+
+                }
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   STORAGE SYNC
+   ========================================================= */
+
+window.addEventListener(
+    "storage",
+    function(event) {
+
+        if (
+            event.key === FAVORITES_KEY
+        ) {
+
+            loadFavoriteStates();
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

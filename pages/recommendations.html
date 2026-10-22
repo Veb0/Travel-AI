@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Recommendations | TravelAI</title>
+<link rel="stylesheet" href="../css/style.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#FCFAF5;
+    color:#183232;
+    line-height:1.6;
+}
+
+nav{
+    background:#164A4A;
+    padding:18px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.logo{
+    color:#FCFAF5;
+    text-decoration:none;
+    font-size:28px;
+    font-weight:bold;
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:24px;
+}
+
+.nav-links a{
+    color:#FCFAF5;
+    text-decoration:none;
+    font-size:15px;
+}
+
+.nav-links a:hover{
+    color:#267373;
+}
+
+.dropdown{
+    position:relative;
+}
+
+.dropdown::after{
+    content:"";
+    position:absolute;
+    top:100%;
+    left:0;
+    width:100%;
+    height:10px;
+}
+
+.dropdown-content{
+    display:none;
+    position:absolute;
+    top:calc(100% + 5px);
+    left:0;
+    min-width:215px;
+    background:#fff;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(22,74,74,.15);
+    z-index:1001;
+}
+
+.dropdown-content a{
+    display:block;
+    color:#164A4A;
+    padding:12px 16px;
+    white-space:nowrap;
+}
+
+.dropdown-content a:hover{
+    background:#DCEFE9;
+}
+
+.dropdown:hover .dropdown-content{
+    display:block;
+}
+
+.hero{
+    min-height:420px;
+    display:flex;
+    align-items:center;
+    padding:70px 7%;
+    color:#fff;
+    background:
+        linear-gradient(rgba(22,74,74,.68),rgba(22,74,74,.68)),
+        url("https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1800&q=90")
+        center/cover;
+}
+
+.hero-content{
+    max-width:850px;
+}
+
+.eyebrow{
+    display:inline-block;
+    background:#267373;
+    color:#fff;
+    padding:7px 15px;
+    border-radius:30px;
+    font-size:12px;
+    font-weight:bold;
+    letter-spacing:1px;
+    margin-bottom:18px;
+}
+
+.hero h1{
+    font-size:55px;
+    line-height:1.1;
+    margin-bottom:17px;
+}
+
+.hero p{
+    max-width:720px;
+    font-size:18px;
+    color:#DCEFE9;
+}
+
+.container{
+    width:88%;
+    max-width:1250px;
+    margin:auto;
+}
+
+section{
+    padding:70px 0;
+}
+
+.intro-card{
+    background:#fff;
+    border-radius:20px;
+    padding:32px;
+    margin-top:-45px;
+    position:relative;
+    z-index:5;
+    box-shadow:0 10px 35px rgba(22,74,74,.10);
+}
+
+.intro-card h2{
+    color:#164A4A;
+    margin-bottom:8px;
+}
+
+.intro-card p{
+    color:#5E7370;
+}
+
+.personalized-box{
+    margin-top:25px;
+    background:#DCEFE9;
+    border-radius:15px;
+    padding:20px;
+}
+
+.personalized-box strong{
+    color:#164A4A;
+}
+
+.filter-box{
+    background:#DCEFE9;
+    padding:23px;
+    border-radius:17px;
+    margin-bottom:35px;
+}
+
+.filter-row{
+    display:grid;
+    grid-template-columns:1.5fr 1fr 1fr auto;
+    gap:12px;
+    align-items:end;
+}
+
+.filter-group label{
+    display:block;
+    font-size:12px;
+    font-weight:bold;
+    color:#164A4A;
+    margin-bottom:6px;
+}
+
+.filter-group input,
+.filter-group select{
+    width:100%;
+    padding:12px;
+    border:1px solid #E2EAE7;
+    border-radius:9px;
+    background:#fff;
+    color:#164A4A;
+}
+
+.btn{
+    display:inline-block;
+    padding:12px 18px;
+    border-radius:9px;
+    border:0;
+    text-decoration:none;
+    font-weight:bold;
+    font-size:13px;
+    cursor:pointer;
+}
+
+.primary{
+    background:#267373;
+    color:#fff;
+}
+
+.secondary{
+    background:#DCEFE9;
+    color:#164A4A;
+}
+
+.primary:hover{
+    background:#164A4A;
+}
+
+.secondary:hover{
+    background:#267373;
+    color:#fff;
+}
+
+.recommendation-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+}
+
+.destination-card{
+    background:#fff;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 7px 25px rgba(22,74,74,.08);
+    border:1px solid #E2EAE7;
+    transition:.3s;
+}
+
+.destination-card:hover{
+    transform:translateY(-5px);
+}
+
+.destination-image{
+    height:220px;
+    background-size:cover;
+    background-position:center;
+}
+
+.jaipur{
+    background-image:url("/images/jaipur.jpg");
+}
+
+.goa{
+    background-image:url("/images/goa1.jpg");
+}
+
+.munnar{
+    background-image:url("/images/munnar.jpeg");
+}
+
+.kerala{
+    background-image:url("/images/kerala.jpg");
+}
+
+.ooty{
+    background-image:url("/images/ooty.jpg");
+}
+
+.manali{
+    background-image:url("/images/manali.jpeg");
+}
+
+.delhi{
+    background-image:url("https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=900&q=85");
+}
+
+.paris{
+    background-image:url("https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=900&q=85");
+}
+
+.tokyo{
+    background-image:url("https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=900&q=85");
+}
+
+.destination-content{
+    padding:23px;
+}
+
+.match-score{
+    display:inline-block;
+    background:#DCEFE9;
+    color:#164A4A;
+    padding:6px 10px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.destination-content h3{
+    color:#164A4A;
+    font-size:23px;
+}
+
+.location{
+    color:#267373;
+    font-size:12px;
+    margin-bottom:10px;
+}
+
+.destination-content p{
+    color:#5E7370;
+    font-size:13px;
+    margin-bottom:17px;
+}
+
+.card-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+}
+
+.budget{
+    color:#267373;
+    font-weight:bold;
+    font-size:12px;
+}
+
+.section-heading{
+    margin-bottom:30px;
+}
+
+.section-heading h2{
+    color:#164A4A;
+    font-size:34px;
+}
+
+.section-heading p{
+    color:#5E7370;
+}
+
+.style-section{
+    background:#DCEFE9;
+}
+
+.style-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+}
+
+.style-card{
+    background:#fff;
+    padding:27px 22px;
+    border-radius:16px;
+    text-align:center;
+}
+
+.style-icon{
+    font-size:34px;
+    margin-bottom:9px;
+}
+
+.style-card h3{
+    color:#164A4A;
+}
+
+.style-card p{
+    font-size:12px;
+    color:#5E7370;
+}
+
+.cta{
+    background:#164A4A;
+    color:#fff;
+    border-radius:23px;
+    padding:60px 30px;
+    text-align:center;
+}
+
+.cta h2{
+    font-size:35px;
+    margin-bottom:12px;
+}
+
+.cta p{
+    color:#DCEFE9;
+    max-width:680px;
+    margin:0 auto 25px;
+}
+
+footer{
+    background:#102F2F;
+    color:#DCEFE9;
+    text-align:center;
+    padding:35px 20px;
+    margin-top:60px;
+}
+
+@media(max-width:1050px){
+
+    .recommendation-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .filter-row{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .style-grid{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:800px){
+
+    nav{
+        flex-direction:column;
+        gap:15px;
+    }
+
+    .nav-links{
+        flex-wrap:wrap;
+        justify-content:center;
+    }
+
+    .recommendation-grid,
+    .style-grid{
+        grid-template-columns:1fr;
+    }
+
+    .filter-row{
+        grid-template-columns:1fr;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+    <a href="../index.html" class="logo">TravelAI</a>
+
+    <div class="nav-links">
+        <a href="../index.html">Home</a>
+
+        <div class="dropdown">
+            <a href="destinations.html">Destinations ▾</a>
+            <div class="dropdown-content">
+                <a href="destinations.html">Explore Destinations</a>
+                <a href="destination-details.html">Destination Details</a>
+                <a href="favorites.html">Favorites</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="itinerary.html">Trip Planner ▾</a>
+            <div class="dropdown-content">
+                <a href="itinerary.html">My Itinerary</a>
+                <a href="itinerary-details.html">Itinerary Details</a>
+                <a href="budget.html">Budget Planner</a>
+                <a href="activities.html">Activities</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <a href="recommendations.html">Recommendations ▾</a>
+            <div class="dropdown-content">
+                <a href="recommendations.html">All Recommendations</a>
+                <a href="recommendation.html">AI Recommendation</a>
+                <a href="preferences.html">Preferences</a>
+            </div>
+        </div>
+
+        <a href="hotels.html">Hotels</a>
+        <a href="weather.html">Weather</a>
+
+        <div class="dropdown">
+            <a href="profile.html">Profile ▾</a>
+            <div class="dropdown-content">
+                <a href="profile.html">My Profile</a>
+                <a href="preferences.html">Preferences</a>
+                <a href="favorites.html">Favorites</a>
+            </div>
+        </div>
+
+        <a href="about.html">About</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="hero-content">
+        <span class="eyebrow">PERSONALIZED TRAVEL DISCOVERY</span>
+        <h1>Recommendations Made for Your Journey</h1>
+        <p>
+            Explore destinations selected around your travel interests,
+            preferred experiences, budget and travel style.
+        </p>
+    </div>
+</section>
+
+<section style="padding-top:0">
+    <div class="container">
+
+        <div class="intro-card">
+
+            <h2>Explore Your Personalized Suggestions</h2>
+
+            <p>
+                TravelAI compares your preferences with destination
+                characteristics to calculate a personalized match.
+            </p>
+
+            <div class="personalized-box">
+                <strong id="profileText">
+                    Loading your preferences...
+                </strong>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<section style="padding-top:20px">
+
+<div class="container">
+
+<div class="section-heading">
+    <h2>Find Recommendations</h2>
+    <p>
+        Use the filters below or update your preferences to change your results.
+    </p>
+</div>
+
+<div class="filter-box">
+
+<div class="filter-row">
+
+<div class="filter-group">
+<label>Search Destination</label>
+<input
+    type="text"
+    id="searchInput"
+    placeholder="e.g. Goa, Tokyo..."
+    onkeyup="filterCards()">
+</div>
+
+<div class="filter-group">
+<label>Travel Style</label>
+
+<select id="styleFilter" onchange="filterCards()">
+<option value="all">All Styles</option>
+<option value="culture">Culture</option>
+<option value="nature">Nature</option>
+<option value="beach">Beach</option>
+<option value="adventure">Adventure</option>
+<option value="wellness">Wellness</option>
+<option value="city">City</option>
+</select>
+
+</div>
+
+<div class="filter-group">
+<label>Budget</label>
+
+<select id="budgetFilter" onchange="filterCards()">
+<option value="all">Any Budget</option>
+<option value="budget">Budget</option>
+<option value="moderate">Moderate</option>
+<option value="premium">Premium</option>
+</select>
+
+</div>
+
+<button class="btn primary" onclick="resetFilters()">
+Reset
+</button>
+
+</div>
+</div>
+
+<div class="recommendation-grid" id="recommendationGrid">
+
+<!-- CARDS -->
+
+<div class="destination-card"
+data-name="jaipur"
+data-style="culture"
+data-budget="moderate"
+data-interests="Culture,Food,Photography,Shopping">
+
+<div class="destination-image jaipur"></div>
+
+<div class="destination-content">
+
+<span class="match-score"></span>
+
+<h3>Jaipur</h3>
+
+<div class="location">📍 Rajasthan, India</div>
+
+<p>
+Royal palaces, historic forts, colorful markets,
+traditional cuisine and heritage experiences.
+</p>
+
+<div class="card-bottom">
+<span class="budget">₹₹ Moderate</span>
+<a href="destination-details.html?place=jaipur" class="btn primary">
+Explore
+</a>
+</div>
+
+</div>
+</div>
+
+<div class="destination-card"
+data-name="goa"
+data-style="beach"
+data-budget="moderate"
+data-interests="Beaches,Food,Nightlife,Relaxation,Photography">
+
+<div class="destination-image goa"></div>
+
+<div class="destination-content">
+
+<span class="match-score"></span>
+
+<h3>Goa</h3>
+
+<div class="location">📍 Goa, India</div>
+
+<p>
+Beaches, coastal cuisine, nightlife, water activities
+and relaxed experiences.
+</p>
+
+<div class="card-bottom">
+<span class="budget">₹₹ Moderate</span>
+<a href="destination-details.html?place=goa" class="btn primary">
+Explore
+</a>
+</div>
+
+</div>
+</div>
+
+<div class="destination-card"
+data-name="munnar"
+data-style="nature"
+data-budget="budget"
+data-interests="Nature,Adventure,Photography,Wellness">
+
+<div class="destination-image munnar"></div>
+
+<div class="destination-content">
+
+<span class="match-score"></span>
+
+<h3>Munnar</h3>
+
+<div class="location">📍 Kerala, India</div>
+
+<p>
+Tea plantations, mountains, trekking, photography
+and peaceful natural surroundings.
+</p>
+
+<div class="card-bottom">
+<span class="budget">₹ Budget</span>
+<a href="destination-details.html?place=munnar" class="btn primary">
+Explore
+</a>
+</div>
+
+</div>
+</div>
+
+<div class="destination-card"
+data-name="kerala"
+data-style="wellness"
+data-budget="moderate"
+data-interests="Nature,Wellness,Food,Culture,Photography">
+
+<div class="destination-image kerala"></div>
+
+<div class="destination-content">
+
+<span class="match-score"></span>
+
+<h3>Kerala</h3>
+
+<div class="location">📍 Kerala, India</div>
+
+<p>
+Backwaters, greenery, local cuisine, Ayurveda,
+culture and peaceful experiences.
+</p>
+
+<div class="card-bottom">
+<span class="budget">₹₹ Moderate</span>
+<a href="destination-details.html?place=kerala" class="btn primary">
+Explore
+</a>
+</div>
+
+</div>
+</div>
+
+<div class="destination-card"
+data-name="ooty"
+data-style="nature"
+data-budget="budget"
+data-interests="Nature,Photography,Wellness,Relaxation">
+
+<div class="destination-image ooty"></div>
+
+<div class="destination-content">
+
+<span class="match-score"></span>
+
+<h3>Ooty</h3>
+
+<div class="location">📍 Tamil Nadu, India</div>
+
+<p>
+Cool weather, gardens, viewpoints and peaceful
+mountain experiences.
+</p>
+
+<div class="card-bottom">
+<span class="budget">₹ Budget</span>
+<a href="destination-details.html?place=ooty" class="btn primary">
+Explore
+</a>
+</div>
+
+</div>
+</div>
+
+<div class="destination-card"
+data-name="manali"
+data-style="adventure"
+data-budget="moderate"
+data-interests="Adventure,Nature,Photography">
+
+<div class="destination-image manali"></div>
+
+<div class="destination-content">
+
+<span class="match-score"></span>
+
+<h3>Manali</h3>
+
+<div class="location">📍 Himachal Pradesh, India</div>
+
+<p>
+Mountain scenery, trekking, outdoor activities
+and adventurous experiences.
+</p>
+
+<div class="card-bottom">
+<span class="budget">₹₹ Moderate</span>
+<a href="destination-details.html?place=manali" class="btn primary">
+Explore
+</a>
+</div>
+
+</div>
+</div>
+
+<div class="destination-card"
+data-name="delhi"
+data-style="city"
+data-budget="moderate"
+data-interests="Culture,Food,Shopping,Photography">
+
+<div class="destination-image delhi"></div>
+
+<div class="destination-content">
+
+<span class="match-score"></span>
+
+<h3>Delhi</h3>
+
+<div class="location">📍 Delhi, India</div>
+
+<p>
+Historic monuments, museums, markets, street food
+and urban experiences.
+</p>
+
+<div class="card-bottom">
+<span class="budget">₹₹ Moderate</span>
+<a href="destination-details.html?place=delhi" class="btn primary">
+Explore
+</a>
+</div>
+
+</div>
+</div>
+
+<div class="destination-card"
+data-name="paris"
+data-style="culture"
+data-budget="premium"
+data-interests="Culture,Food,Photography,Shopping">
+
+<div class="destination-image paris"></div>
+
+<div class="destination-content">
+
+<span class="match-score"></span>
+
+<h3>Paris</h3>
+
+<div class="location">📍 France</div>
+
+<p>
+Art, architecture, museums, cuisine, shopping
+and iconic city experiences.
+</p>
+
+<div class="card-bottom">
+<span class="budget">₹₹₹ Premium</span>
+<a href="destination-details.html?place=paris" class="btn primary">
+Explore
+</a>
+</div>
+
+</div>
+</div>
+
+<div class="destination-card"
+data-name="tokyo"
+data-style="city"
+data-budget="premium"
+data-interests="Culture,Food,Shopping,Nightlife,Photography">
+
+<div class="destination-image tokyo"></div>
+
+<div class="destination-content">
+
+<span class="match-score"></span>
+
+<h3>Tokyo</h3>
+
+<div class="location">📍 Japan</div>
+
+<p>
+Modern city life, Japanese culture, food, shopping
+and unique urban experiences.
+</p>
+
+<div class="card-bottom">
+<span class="budget">₹₹₹ Premium</span>
+<a href="destination-details.html?place=tokyo" class="btn primary">
+Explore
+</a>
+</div>
+
+</div>
+</div>
+
+</div>
+
+<div id="noResults"
+style="display:none;text-align:center;padding:45px;color:#5E7370">
+
+<h3 style="color:#164A4A">
+No destinations found
+</h3>
+
+<p>
+Try another filter or update your preferences.
+</p>
+
+</div>
+
+</div>
+</section>
+
+<section class="style-section">
+
+<div class="container">
+
+<div class="section-heading">
+<h2>Explore by Travel Style</h2>
+<p>Choose the type of experience you want to build.</p>
+</div>
+
+<div class="style-grid">
+
+<div class="style-card">
+<div class="style-icon">🏛️</div>
+<h3>Culture</h3>
+<p>Heritage sites, museums and traditions.</p>
+</div>
+
+<div class="style-card">
+<div class="style-icon">🌿</div>
+<h3>Nature</h3>
+<p>Mountains, forests and landscapes.</p>
+</div>
+
+<div class="style-card">
+<div class="style-icon">🏖️</div>
+<h3>Beach</h3>
+<p>Coasts, water activities and relaxation.</p>
+</div>
+
+<div class="style-card">
+<div class="style-icon">🥾</div>
+<h3>Adventure</h3>
+<p>Trekking and exciting outdoor experiences.</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section>
+
+<div class="container">
+
+<div class="cta">
+
+<h2>Want a More Personalized Recommendation?</h2>
+
+<p>
+Change your interests, budget and travel style and TravelAI
+will recalculate the destination matches.
+</p>
+
+<a href="preferences.html" class="btn secondary">
+Update Preferences
+</a>
+
+<a href="recommendation.html" class="btn secondary">
+Get AI Recommendation
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<footer>
+<p>© 2026 TravelAI — AI-Based Personalized Travel Recommendation System</p>
+<p>Plan smarter. Travel better. Explore more.</p>
+</footer>
+
+<script>
+
+const destinations = {
+
+    jaipur:{
+        name:"Jaipur",
+        interests:["Culture","Food","Photography","Shopping"],
+        styles:["culture"],
+        budget:"moderate"
+    },
+
+    goa:{
+        name:"Goa",
+        interests:["Beaches","Food","Nightlife","Photography"],
+        styles:["beach"],
+        budget:"moderate"
+    },
+
+    munnar:{
+        name:"Munnar",
+        interests:["Nature","Adventure","Photography","Wellness"],
+        styles:["nature","adventure"],
+        budget:"budget"
+    },
+
+    kerala:{
+        name:"Kerala",
+        interests:["Nature","Wellness","Food","Culture","Photography"],
+        styles:["nature","wellness"],
+        budget:"moderate"
+    },
+
+    ooty:{
+        name:"Ooty",
+        interests:["Nature","Photography","Wellness"],
+        styles:["nature"],
+        budget:"budget"
+    },
+
+    manali:{
+        name:"Manali",
+        interests:["Adventure","Nature","Photography"],
+        styles:["adventure","nature"],
+        budget:"moderate"
+    },
+
+    delhi:{
+        name:"Delhi",
+        interests:["Culture","Food","Shopping","Photography"],
+        styles:["culture","city"],
+        budget:"moderate"
+    },
+
+    paris:{
+        name:"Paris",
+        interests:["Culture","Food","Photography","Shopping"],
+        styles:["culture"],
+        budget:"premium"
+    },
+
+    tokyo:{
+        name:"Tokyo",
+        interests:["Culture","Food","Shopping","Nightlife","Photography"],
+        styles:["city","culture"],
+        budget:"premium"
+    }
+
+};
+
+let prefs =
+    JSON.parse(localStorage.getItem("travelPreferences")) || {
+
+        interests:["Adventure"],
+
+        travelStyle:"Balanced",
+
+        hotelPreference:"Any Accommodation",
+
+        foodPreference:"Any Food",
+
+        transportPreference:"Any",
+
+        tripPace:"Balanced",
+
+        budget:7000
+
+    };
+
+function calculateScore(destination){
+
+    let score=0;
+
+    const interests=prefs.interests || [];
+
+    destination.interests.forEach(interest=>{
+
+        if(interests.includes(interest)){
+            score+=15;
+        }
+
+    });
+
+    const style=(prefs.travelStyle || "").toLowerCase();
+
+    if(
+        style.includes("adventure") &&
+        destination.styles.includes("adventure")
+    ) score+=20;
+
+    if(
+        style.includes("relaxed") &&
+        (
+            destination.interests.includes("Wellness") ||
+            destination.interests.includes("Beaches")
+        )
+    ) score+=20;
+
+    if(
+        style.includes("budget") &&
+        destination.budget==="budget"
+    ) score+=20;
+
+    if(
+        style.includes("luxury") &&
+        destination.budget==="premium"
+    ) score+=20;
+
+    if(
+        style.includes("family") &&
+        (
+            destination.interests.includes("Nature") ||
+            destination.interests.includes("Culture")
+        )
+    ) score+=10;
+
+    if(
+        prefs.foodPreference==="Local Cuisine" &&
+        destination.interests.includes("Food")
+    ) score+=15;
+
+    return Math.min(100,score);
+}
+
+function updateScores(){
+
+    const cards=document.querySelectorAll(".destination-card");
+
+    cards.forEach(card=>{
+
+        const key=card.dataset.name;
+
+        const score=calculateScore(destinations[key]);
+
+        card.querySelector(".match-score").textContent =
+            score + "% Match";
+
+        card.dataset.score=score;
+
+    });
+
+}
+
+function filterCards(){
+
+    const search=
+        document.getElementById("searchInput")
+        .value
+        .toLowerCase()
+        .trim();
+
+    const style=
+        document.getElementById("styleFilter").value;
+
+    const budget=
+        document.getElementById("budgetFilter").value;
+
+    const cards=
+        [...document.querySelectorAll(".destination-card")];
+
+    let visible=0;
+
+    cards.forEach(card=>{
+
+        const name=card.dataset.name;
+        const cardStyle=card.dataset.style;
+        const cardBudget=card.dataset.budget;
+
+        const searchMatch=name.includes(search);
+
+        const styleMatch=
+            style==="all" || cardStyle===style;
+
+        const budgetMatch=
+            budget==="all" || cardBudget===budget;
+
+        if(searchMatch && styleMatch && budgetMatch){
+
+            card.style.display="block";
+            visible++;
+
+        }else{
+
+            card.style.display="none";
+
+        }
+
+    });
+
+    document.getElementById("noResults").style.display =
+        visible===0 ? "block" : "none";
+}
+
+function resetFilters(){
+
+    document.getElementById("searchInput").value="";
+    document.getElementById("styleFilter").value="all";
+    document.getElementById("budgetFilter").value="all";
+
+    filterCards();
+}
+
+function updateProfileText(){
+
+    const text=document.getElementById("profileText");
+
+    if(!prefs.interests || prefs.interests.length===0){
+
+        text.textContent=
+            "No interests selected yet. Update your preferences to personalize your recommendations.";
+
+        return;
+    }
+
+    text.textContent=
+        "Currently matching: " +
+        prefs.interests.join(", ") +
+        " • " +
+        prefs.travelStyle +
+        " • ₹" +
+        Number(prefs.budget).toLocaleString("en-IN") +
+        " daily budget";
+
+}
+
+updateScores();
+updateProfileText();
+
+</script>
+
+</body>
+</html>

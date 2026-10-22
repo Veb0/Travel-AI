@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Budget Planner | TravelAI</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#FCFAF5;
+    color:#183232;
+    line-height:1.6;
+}
+
+nav{
+    background:#164A4A;
+    padding:18px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.logo{
+    color:#FCFAF5;
+    text-decoration:none;
+    font-size:28px;
+    font-weight:bold;
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:24px;
+}
+
+.nav-links a{
+    color:#FCFAF5;
+    text-decoration:none;
+    font-size:15px;
+}
+
+.nav-links a:hover{
+    color:#267373;
+}
+
+.dropdown{
+    position:relative;
+}
+
+.dropdown::after{
+    content:"";
+    position:absolute;
+    top:100%;
+    left:0;
+    width:100%;
+    height:10px;
+}
+
+.dropdown-content{
+    display:none;
+    position:absolute;
+    top:calc(100% + 5px);
+    left:0;
+    min-width:215px;
+    background:#fff;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 10px 25px rgba(22,74,74,.15);
+    z-index:1001;
+}
+
+.dropdown-content a{
+    display:block;
+    color:#164A4A;
+    padding:12px 16px;
+}
+
+.dropdown-content a:hover{
+    background:#DCEFE9;
+}
+
+.dropdown:hover .dropdown-content{
+    display:block;
+}
+
+.page-hero{
+    min-height:430px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:70px 20px;
+
+    background:
+        linear-gradient(
+            rgba(22,74,74,.60),
+            rgba(22,74,74,.60)
+        ),
+        url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1800&q=90")
+        center/cover;
+
+    color:#fff;
+}
+
+.page-hero-content{
+    max-width:850px;
+}
+
+.page-hero h1{
+    font-size:clamp(42px,6vw,68px);
+    margin-bottom:15px;
+}
+
+.page-hero p{
+    font-size:18px;
+    color:#DCEFE9;
+}
+
+.container{
+    width:88%;
+    max-width:1300px;
+    margin:auto;
+}
+
+main{
+    padding:80px 0;
+}
+
+.section-heading{
+    margin-bottom:35px;
+}
+
+.section-heading h2{
+    color:#164A4A;
+    font-size:38px;
+    margin-bottom:12px;
+}
+
+.section-heading p{
+    color:#5E7370;
+}
+
+.planner{
+    display:grid;
+    grid-template-columns:1.45fr .85fr;
+    gap:30px;
+}
+
+.form-card,
+.summary-card{
+    background:#fff;
+    border:1px solid #E2EAE7;
+    border-radius:18px;
+    padding:32px;
+}
+
+.form-card h3,
+.summary-card h3{
+    color:#164A4A;
+    font-size:24px;
+    margin-bottom:25px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px 18px;
+}
+
+.form-group.full{
+    grid-column:1/-1;
+}
+
+.form-group label{
+    display:block;
+    color:#5E7370;
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.form-group input,
+.form-group select{
+    width:100%;
+    height:46px;
+    padding:10px 13px;
+    border:1px solid #E2EAE7;
+    border-radius:8px;
+    background:#fff;
+    color:#164A4A;
+}
+
+.range-container input{
+    width:100%;
+}
+
+.range-value{
+    display:flex;
+    justify-content:space-between;
+    color:#5E7370;
+    font-size:12px;
+    margin-top:8px;
+}
+
+.calculate-btn{
+    width:100%;
+    margin-top:28px;
+    padding:14px;
+    border:0;
+    border-radius:9px;
+    background:#164A4A;
+    color:#fff;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.calculate-btn:hover{
+    background:#267373;
+}
+
+.total-box{
+    background:#DCEFE9;
+    border-radius:14px;
+    padding:25px;
+    text-align:center;
+    margin-bottom:28px;
+}
+
+.total-label{
+    color:#5E7370;
+    font-size:13px;
+}
+
+.total{
+    color:#164A4A;
+    font-size:42px;
+    font-weight:bold;
+}
+
+.per-person{
+    color:#5E7370;
+    font-size:13px;
+}
+
+.breakdown{
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+}
+
+.breakdown-header{
+    display:flex;
+    justify-content:space-between;
+    color:#5E7370;
+    font-size:14px;
+    margin-bottom:9px;
+}
+
+.breakdown-header strong{
+    color:#164A4A;
+}
+
+.progress{
+    height:8px;
+    background:#DCEFE9;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress span{
+    display:block;
+    height:100%;
+    background:#267373;
+}
+
+.expense-section{
+    margin-top:90px;
+}
+
+.expense-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:22px;
+}
+
+.expense-card{
+    background:#fff;
+    border:1px solid #E2EAE7;
+    border-radius:16px;
+    padding:30px 25px;
+    min-height:210px;
+}
+
+.expense-icon{
+    width:52px;
+    height:52px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#DCEFE9;
+    border-radius:12px;
+    font-size:25px;
+    margin-bottom:18px;
+}
+
+.expense-card h3{
+    color:#164A4A;
+    margin-bottom:8px;
+}
+
+.expense-card p{
+    color:#5E7370;
+    font-size:14px;
+}
+
+.tips{
+    margin-top:90px;
+    background:#DCEFE9;
+    border-radius:18px;
+    padding:45px;
+}
+
+.tips h2{
+    color:#164A4A;
+    font-size:36px;
+    margin-bottom:25px;
+}
+
+.tips ul{
+    list-style:none;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px 35px;
+}
+
+.tips li{
+    position:relative;
+    padding-left:28px;
+    color:#5E7370;
+}
+
+.tips li::before{
+    content:"✓";
+    position:absolute;
+    left:0;
+    color:#267373;
+    font-weight:bold;
+}
+
+.cta{
+    background:#164A4A;
+    color:#fff;
+    border-radius:20px;
+    padding:60px;
+    text-align:center;
+    margin-top:80px;
+}
+
+.cta h2{
+    font-size:36px;
+    margin-bottom:12px;
+}
+
+.cta p{
+    color:#DCEFE9;
+    max-width:650px;
+    margin:0 auto 25px;
+}
+
+.btn{
+    display:inline-block;
+    padding:13px 28px;
+    border-radius:30px;
+    background:#267373;
+    color:#fff;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.btn:hover{
+    background:#fff;
+    color:#164A4A;
+}
+
+footer{
+    background:#102F2F;
+    color:#DCEFE9;
+    text-align:center;
+    padding:35px 20px;
+}
+
+footer p{
+    margin:4px;
+}
+
+@media(max-width:1050px){
+
+    nav{
+        flex-direction:column;
+        gap:15px;
+    }
+
+    .planner{
+        grid-template-columns:1fr;
+    }
+
+    .expense-grid{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:800px){
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-group.full{
+        grid-column:auto;
+    }
+
+    .tips ul{
+        grid-template-columns:1fr;
+    }
+
+    .expense-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .nav-links{
+        flex-wrap:wrap;
+        justify-content:center;
+    }
+
+    .page-hero h1{
+        font-size:42px;
+    }
+
+    .form-card,
+    .summary-card{
+        padding:25px 20px;
+    }
+
+    .cta{
+        padding:40px 20px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav>
+
+<a href="../index.html" class="logo">
+TravelAI
+</a>
+
+<div class="nav-links">
+
+<a href="../index.html">Home</a>
+
+<div class="dropdown">
+<a href="destinations.html">Destinations ▾</a>
+<div class="dropdown-content">
+<a href="destinations.html">Explore Destinations</a>
+<a href="destination-details.html">Destination Details</a>
+<a href="favorites.html">Favorites</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="itinerary.html">Trip Planner ▾</a>
+<div class="dropdown-content">
+<a href="itinerary.html">My Itinerary</a>
+<a href="itinerary-details.html">Itinerary Details</a>
+<a href="budget.html">Budget Planner</a>
+<a href="activities.html">Activities</a>
+</div>
+</div>
+
+<div class="dropdown">
+<a href="recommendations.html">Recommendations ▾</a>
+<div class="dropdown-content">
+<a href="recommendations.html">All Recommendations</a>
+<a href="recommendation.html">AI Recommendation</a>
+<a href="preferences.html">Preferences</a>
+</div>
+</div>
+
+<a href="hotels.html">Hotels</a>
+<a href="weather.html">Weather</a>
+
+<div class="dropdown">
+<a href="profile.html">Profile ▾</a>
+<div class="dropdown-content">
+<a href="profile.html">My Profile</a>
+<a href="preferences.html">Preferences</a>
+<a href="favorites.html">Favorites</a>
+</div>
+</div>
+
+<a href="about.html">About</a>
+
+</div>
+</nav>
+
+<section class="page-hero">
+
+<div class="page-hero-content">
+
+<h1>Plan Your Budget</h1>
+
+<p>
+Estimate your travel expenses and build a trip
+that fits comfortably within your budget.
+</p>
+
+</div>
+
+</section>
+
+<main class="container">
+
+<section>
+
+<div class="section-heading">
+
+<h2>Build Your Travel Budget</h2>
+
+<p>
+Your saved TravelAI preferences can be used to start the
+budget planner automatically.
+</p>
+
+</div>
+
+<div class="planner">
+
+<div class="form-card">
+
+<h3>Trip Details</h3>
+
+<div class="form-grid">
+
+<div class="form-group full">
+
+<label>Destination</label>
+
+<select id="destination">
+
+<option value="">Select destination</option>
+<option>Goa</option>
+<option>Munnar</option>
+<option>Ooty</option>
+<option>Jaipur</option>
+<option>Delhi</option>
+<option>Kerala</option>
+<option>Manali</option>
+<option>Paris</option>
+<option>Tokyo</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Number of Travelers</label>
+
+<input
+type="number"
+id="travelers"
+value="2"
+min="1">
+
+</div>
+
+<div class="form-group">
+
+<label>Number of Days</label>
+
+<input
+type="number"
+id="days"
+value="5"
+min="1">
+
+</div>
+
+<div class="form-group">
+
+<label>Travel Style</label>
+
+<select id="travelStyle">
+
+<option>Budget</option>
+<option>Comfort</option>
+<option>Premium</option>
+<option>Luxury</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Transportation</label>
+
+<select id="transport">
+
+<option>Public Transport</option>
+<option>Bus</option>
+<option>Train</option>
+<option>Flight</option>
+<option>Rental Car</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Accommodation</label>
+
+<select id="accommodation">
+
+<option>Budget Hotel</option>
+<option>3-Star Hotel</option>
+<option>4-Star Hotel</option>
+<option>5-Star Hotel</option>
+<option>Hostel</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>Food Preference</label>
+
+<select id="food">
+
+<option>Local / Budget</option>
+<option>Standard</option>
+<option>Premium Dining</option>
+
+</select>
+
+</div>
+
+<div class="form-group full">
+
+<label>Maximum Daily Budget</label>
+
+<div class="range-container">
+
+<input
+type="range"
+id="budgetRange"
+min="1000"
+max="20000"
+step="500"
+value="7000"
+oninput="updateBudgetLabel()">
+
+<div class="range-value">
+
+<span>₹1,000</span>
+
+<strong id="budgetLabel">
+₹7,000 / day
+</strong>
+
+<span>₹20,000</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<button
+class="calculate-btn"
+onclick="calculateBudget()">
+
+Calculate Estimated Budget
+
+</button>
+
+</div>
+
+<div class="summary-card">
+
+<h3>Estimated Trip Cost</h3>
+
+<div class="total-box">
+
+<div class="total-label">
+Estimated Total
+</div>
+
+<div class="total" id="total">
+₹0
+</div>
+
+<div class="per-person" id="perPerson">
+Enter your trip details
+</div>
+
+</div>
+
+<div class="breakdown">
+
+<div>
+<div class="breakdown-header">
+<span>🚆 Transportation</span>
+<strong id="transportCost">₹0</strong>
+</div>
+<div class="progress">
+<span id="transportBar" style="width:0"></span>
+</div>
+</div>
+
+<div>
+<div class="breakdown-header">
+<span>🏨 Accommodation</span>
+<strong id="hotelCost">₹0</strong>
+</div>
+<div class="progress">
+<span id="hotelBar" style="width:0"></span>
+</div>
+</div>
+
+<div>
+<div class="breakdown-header">
+<span>🍴 Food</span>
+<strong id="foodCost">₹0</strong>
+</div>
+<div class="progress">
+<span id="foodBar" style="width:0"></span>
+</div>
+</div>
+
+<div>
+<div class="breakdown-header">
+<span>🎟 Activities</span>
+<strong id="activityCost">₹0</strong>
+</div>
+<div class="progress">
+<span id="activityBar" style="width:0"></span>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="expense-section">
+
+<div class="section-heading">
+
+<h2>Where Your Money Goes</h2>
+
+</div>
+
+<div class="expense-grid">
+
+<div class="expense-card">
+
+<div class="expense-icon">🚆</div>
+
+<h3>Transportation</h3>
+
+<p>
+Flights, trains, buses, taxis and local transportation.
+</p>
+
+</div>
+
+<div class="expense-card">
+
+<div class="expense-icon">🏨</div>
+
+<h3>Accommodation</h3>
+
+<p>
+Hotels, resorts, hostels and other stays.
+</p>
+
+</div>
+
+<div class="expense-card">
+
+<div class="expense-icon">🍴</div>
+
+<h3>Food</h3>
+
+<p>
+Restaurants, local food, snacks and beverages.
+</p>
+
+</div>
+
+<div class="expense-card">
+
+<div class="expense-icon">🎟️</div>
+
+<h3>Activities</h3>
+
+<p>
+Tours, attractions, entertainment and experiences.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="tips">
+
+<h2>Budget Planning Tips</h2>
+
+<ul>
+
+<li>
+Keep an emergency reserve of around 10–15%.
+</li>
+
+<li>
+Compare transportation and accommodation options.
+</li>
+
+<li>
+Consider local restaurants and experiences.
+</li>
+
+<li>
+Keep some flexibility for unexpected expenses.
+</li>
+
+</ul>
+
+</section>
+
+<section class="cta">
+
+<h2>Budget Done. What's Next?</h2>
+
+<p>
+Create an itinerary based on your destination,
+activities and estimated travel budget.
+</p>
+
+<a href="itinerary.html" class="btn">
+Create My Itinerary
+</a>
+
+</section>
+
+</main>
+
+<footer>
+
+<p>
+© 2026 TravelAI — AI-Based Personalized Travel Recommendation System
+</p>
+
+<p>
+Plan smarter. Travel better. Explore more.
+</p>
+
+</footer>
+
+<script>
+
+const savedPreferences =
+JSON.parse(localStorage.getItem("travelPreferences")) || null;
+
+const destinationDefaults={
+
+Goa:{
+transport:7000,
+hotel:1800,
+food:900,
+activities:800
+},
+
+Munnar:{
+transport:4500,
+hotel:1200,
+food:700,
+activities:600
+},
+
+Ooty:{
+transport:4000,
+hotel:1200,
+food:650,
+activities:500
+},
+
+Jaipur:{
+transport:6000,
+hotel:1500,
+food:800,
+activities:700
+},
+
+Delhi:{
+transport:5000,
+hotel:1600,
+food:850,
+activities:650
+},
+
+Kerala:{
+transport:6500,
+hotel:1700,
+food:850,
+activities:900
+},
+
+Manali:{
+transport:7000,
+hotel:1500,
+food:800,
+activities:1000
+},
+
+Paris:{
+transport:35000,
+hotel:7000,
+food:3000,
+activities:2500
+},
+
+Tokyo:{
+transport:45000,
+hotel:6500,
+food:2500,
+activities:2500
+}
+
+};
+
+function updateBudgetLabel(){
+
+    const value=
+        document.getElementById("budgetRange").value;
+
+    document.getElementById("budgetLabel").textContent=
+        "₹"+Number(value).toLocaleString("en-IN")+" / day";
+}
+
+function loadPreferences(){
+
+    if(!savedPreferences)
+        return;
+
+    const budget=
+        savedPreferences.budget || 7000;
+
+    document.getElementById("budgetRange").value=
+        Math.min(20000,Math.max(1000,budget));
+
+    updateBudgetLabel();
+
+    if(savedPreferences.travelStyle){
+
+        const style=
+            savedPreferences.travelStyle;
+
+        const styleMap={
+
+            "Budget Friendly":"Budget",
+            "Balanced":"Comfort",
+            "Luxury":"Luxury",
+            "Adventure":"Comfort",
+            "Relaxed":"Comfort",
+            "Family Friendly":"Comfort"
+
+        };
+
+        if(styleMap[style])
+            document.getElementById("travelStyle").value=
+                styleMap[style];
+
+    }
+
+    if(savedPreferences.foodPreference==="Local Cuisine")
+        document.getElementById("food").value=
+            "Local / Budget";
+
+    if(savedPreferences.hotelPreference==="Budget Hotel")
+        document.getElementById("accommodation").value=
+            "Budget Hotel";
+
+    if(savedPreferences.hotelPreference==="Hostel")
+        document.getElementById("accommodation").value=
+            "Hostel";
+
+    if(savedPreferences.hotelPreference==="Luxury Hotel")
+        document.getElementById("accommodation").value=
+            "5-Star Hotel";
+
+    /*
+       Determine a destination from the same scoring logic
+       used by recommendation.html.
+    */
+
+    const destinations={
+
+        Goa:["Beaches","Food","Nightlife","Photography"],
+        Munnar:["Nature","Adventure","Photography","Wellness"],
+        Ooty:["Nature","Photography","Wellness"],
+        Jaipur:["Culture","Food","Photography","Shopping"],
+        Delhi:["Culture","Food","Shopping","Photography"],
+        Kerala:["Nature","Wellness","Food","Culture","Photography"],
+        Manali:["Adventure","Nature","Photography"],
+        Paris:["Culture","Food","Photography","Shopping"],
+        Tokyo:["Culture","Food","Shopping","Nightlife","Photography"]
+
+    };
+
+    let bestDestination="";
+    let bestScore=-1;
+
+    Object.entries(destinations).forEach(([name,interests])=>{
+
+        let score=0;
+
+        (savedPreferences.interests || [])
+            .forEach(interest=>{
+
+                if(interests.includes(interest))
+                    score++;
+
+            });
+
+        if(score>bestScore){
+
+            bestScore=score;
+            bestDestination=name;
+
+        }
+
+    });
+
+    if(bestDestination)
+        document.getElementById("destination").value=
+            bestDestination;
+
+}
+
+function calculateBudget(){
+
+    const destination=
+        document.getElementById("destination").value;
+
+    const travelers=
+        Number(document.getElementById("travelers").value);
+
+    const days=
+        Number(document.getElementById("days").value);
+
+    const style=
+        document.getElementById("travelStyle").value;
+
+    const transport=
+        document.getElementById("transport").value;
+
+    const accommodation=
+        document.getElementById("accommodation").value;
+
+    const food=
+        document.getElementById("food").value;
+
+    if(!destination){
+
+        alert("Please select a destination.");
+
+        return;
+
+    }
+
+    const base=
+        destinationDefaults[destination];
+
+    let transportCost=
+        base.transport;
+
+    let hotelPerDay=
+        base.hotel;
+
+    let foodPerDay=
+        base.food;
+
+    let activityPerDay=
+        base.activities;
+
+    if(transport==="Flight")
+        transportCost*=1.8;
+
+    else if(transport==="Rental Car")
+        transportCost*=1.4;
+
+    else if(
+        transport==="Bus" ||
+        transport==="Train"
+    )
+        transportCost*=0.8;
+
+    if(accommodation==="Hostel")
+        hotelPerDay*=0.55;
+
+    else if(accommodation==="4-Star Hotel")
+        hotelPerDay*=1.4;
+
+    else if(accommodation==="5-Star Hotel")
+        hotelPerDay*=2.1;
+
+    if(food==="Premium Dining")
+        foodPerDay*=1.7;
+
+    else if(food==="Standard")
+        foodPerDay*=1.25;
+
+    if(style==="Premium")
+        activityPerDay*=1.3;
+
+    else if(style==="Luxury")
+        activityPerDay*=1.7;
+
+    const transportTotal=
+        Math.round(transportCost*travelers);
+
+    const hotelTotal=
+        Math.round(hotelPerDay*days);
+
+    const foodTotal=
+        Math.round(foodPerDay*days*travelers);
+
+    const activityTotal=
+        Math.round(activityPerDay*days*travelers);
+
+    const total=
+        transportTotal+
+        hotelTotal+
+        foodTotal+
+        activityTotal;
+
+    document.getElementById("total")
+        .textContent=
+        "₹"+total.toLocaleString("en-IN");
+
+    document.getElementById("perPerson")
+        .textContent=
+        "Approximately ₹"+
+        Math.round(total/travelers)
+        .toLocaleString("en-IN")+
+        " per traveler";
+
+    document.getElementById("transportCost")
+        .textContent=
+        "₹"+transportTotal.toLocaleString("en-IN");
+
+    document.getElementById("hotelCost")
+        .textContent=
+        "₹"+hotelTotal.toLocaleString("en-IN");
+
+    document.getElementById("foodCost")
+        .textContent=
+        "₹"+foodTotal.toLocaleString("en-IN");
+
+    document.getElementById("activityCost")
+        .textContent=
+        "₹"+activityTotal.toLocaleString("en-IN");
+
+    const max=
+        Math.max(
+            transportTotal,
+            hotelTotal,
+            foodTotal,
+            activityTotal
+        );
+
+    document.getElementById("transportBar")
+        .style.width=
+        (transportTotal/max*100)+"%";
+
+    document.getElementById("hotelBar")
+        .style.width=
+        (hotelTotal/max*100)+"%";
+
+    document.getElementById("foodBar")
+        .style.width=
+        (foodTotal/max*100)+"%";
+
+    document.getElementById("activityBar")
+        .style.width=
+        (activityTotal/max*100)+"%";
+
+}
+
+loadPreferences();
+calculateBudget();
+
+</script>
+
+</body>
+</html>

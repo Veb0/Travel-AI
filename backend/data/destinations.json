@@ -1,0 +1,92 @@
+[
+    {
+        "id": 1,
+        "name": "Bali",
+        "country": "Indonesia",
+        "category": ["beach", "adventure", "nature"],
+        "rating": 4.8,
+        "budget": "₹25K - ₹50K",
+        "description": "Tropical beaches, temples, adventure activities and beautiful landscapes.",
+        "image": "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=900&q=85"
+    },
+    {
+        "id": 2,
+        "name": "Paris",
+        "country": "France",
+        "category": ["culture", "luxury"],
+        "rating": 4.9,
+        "budget": "₹55K - ₹90K",
+        "description": "Explore iconic landmarks, art, cuisine and romantic streets.",
+        "image": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=900&q=85"
+    },
+    {
+        "id": 3,
+        "name": "Tokyo",
+        "country": "Japan",
+        "category": ["adventure", "culture"],
+        "rating": 4.8,
+        "budget": "₹50K - ₹80K",
+        "description": "A vibrant mix of modern technology, traditional culture and unique food.",
+        "image": "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=900&q=85"
+    },
+    {
+        "id": 4,
+        "name": "Dubai",
+        "country": "UAE",
+        "category": ["luxury", "adventure"],
+        "rating": 4.7,
+        "budget": "₹60K - ₹1L",
+        "description": "Luxury shopping, modern architecture, desert adventures and entertainment.",
+        "image": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=900&q=85"
+    },
+    {
+        "id": 5,
+        "name": "Santorini",
+        "country": "Greece",
+        "category": ["beach", "luxury"],
+        "rating": 4.9,
+        "budget": "₹65K - ₹1L",
+        "description": "Famous for white villages, blue domes, sunsets and beautiful island views.",
+        "image": "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=900&q=85"
+    },
+    {
+        "id": 6,
+        "name": "Maldives",
+        "country": "Maldives",
+        "category": ["beach", "luxury"],
+        "rating": 4.9,
+        "budget": "₹70K - ₹1.2L",
+        "description": "Crystal-clear waters, coral reefs, island resorts and relaxing beaches.",
+        "image": "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=900&q=85"
+    },
+    {
+        "id": 7,
+        "name": "Switzerland",
+        "country": "Switzerland",
+        "category": ["nature", "adventure"],
+        "rating": 4.9,
+        "budget": "₹80K - ₹1.3L",
+        "description": "Snowy mountains, scenic lakes, villages and unforgettable train journeys.",
+        "image": "https://images.unsplash.com/photo-1531973576160-7125cd663d86?auto=format&fit=crop&w=900&q=85"
+    },
+    {
+        "id": 8,
+        "name": "New York",
+        "country": "USA",
+        "category": ["culture", "luxury"],
+        "rating": 4.7,
+        "budget": "₹75K - ₹1.2L",
+        "description": "Iconic skyscrapers, museums, food, shopping and vibrant city life.",
+        "image": "https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?auto=format&fit=crop&w=900&q=85"
+    },
+    {
+        "id": 9,
+        "name": "Kerala",
+        "country": "India",
+        "category": ["nature", "beach"],
+        "rating": 4.8,
+        "budget": "₹15K - ₹35K",
+        "description": "Backwaters, beaches, hill stations, wildlife and traditional cuisine.",
+        "image": "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=900&q=85"
+    }
+]

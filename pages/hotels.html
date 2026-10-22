@@ -1,0 +1,2230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hotels | TravelAI</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #FCFAF5;
+            color: #183232;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button,
+        select,
+        input {
+            font: inherit;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        nav {
+            background: #164A4A;
+            color: white;
+            padding: 18px 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 30px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: .5px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            color: #F8FCFA;
+            opacity: .92;
+            transition: .2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #DCEFE9;
+            opacity: 1;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            padding: 90px 6% 70px;
+            background:
+                linear-gradient(
+                    rgba(22, 74, 74, .90),
+                    rgba(22, 74, 74, .90)
+                ),
+                url("https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1800&q=90");
+            background-size: cover;
+            background-position: center;
+            color: white;
+        }
+
+        .hero-content {
+            max-width: 850px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            font-size: 12px;
+            letter-spacing: 2px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #DCEFE9;
+        }
+
+        .hero h1 {
+            font-size: clamp(38px, 6vw, 70px);
+            line-height: 1.05;
+            margin-bottom: 22px;
+        }
+
+        .hero p {
+            max-width: 700px;
+            color: #E8F3F0;
+            font-size: 17px;
+        }
+
+        /* ================= SEARCH ================= */
+
+        .search-wrapper {
+            padding: 0 6%;
+            margin-top: -35px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .search-panel {
+            background: white;
+            border: 1px solid #E2EAE7;
+            border-radius: 20px;
+            padding: 25px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr auto;
+            gap: 15px;
+            box-shadow: 0 18px 45px rgba(24, 50, 50, .10);
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .field label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #5E7370;
+            text-transform: uppercase;
+            letter-spacing: .7px;
+        }
+
+        .field select,
+        .field input {
+            width: 100%;
+            min-height: 48px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid #D8E4E0;
+            background: #FCFAF5;
+            color: #183232;
+            outline: none;
+        }
+
+        .field select:focus,
+        .field input:focus {
+            border-color: #267373;
+        }
+
+        .search-btn {
+            align-self: end;
+            min-height: 48px;
+            padding: 0 25px;
+            border: none;
+            border-radius: 10px;
+            background: #267373;
+            color: white;
+            cursor: pointer;
+            font-weight: 700;
+            transition: .2s;
+        }
+
+        .search-btn:hover {
+            background: #164A4A;
+            transform: translateY(-1px);
+        }
+
+        /* ================= MAIN ================= */
+
+        .container {
+            width: min(1400px, 88%);
+            margin: auto;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 30px;
+            margin-bottom: 35px;
+        }
+
+        .section-heading h2 {
+            font-size: clamp(30px, 4vw, 46px);
+            line-height: 1.1;
+            margin-bottom: 10px;
+        }
+
+        .section-heading p {
+            color: #5E7370;
+            max-width: 650px;
+        }
+
+        /* ================= FILTERS ================= */
+
+        .filters {
+            background: #DCEFE9;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 35px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-title {
+            font-size: 13px;
+            font-weight: 800;
+            margin-right: 5px;
+        }
+
+        .filter-btn {
+            border: 1px solid #BFD9D3;
+            background: white;
+            color: #183232;
+            padding: 9px 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: .2s;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #164A4A;
+            color: white;
+            border-color: #164A4A;
+        }
+
+        /* ================= HOTEL GRID ================= */
+
+        .hotel-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 25px;
+        }
+
+        .hotel-card {
+            background: white;
+            border: 1px solid #E2EAE7;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(24, 50, 50, .06);
+            transition: .25s;
+        }
+
+        .hotel-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(24, 50, 50, .12);
+        }
+
+        .hotel-image {
+            height: 235px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hotel-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .hotel-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: white;
+            color: #164A4A;
+            padding: 7px 11px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .favorite-btn {
+            position: absolute;
+            top: 13px;
+            right: 13px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255,255,255,.94);
+            cursor: pointer;
+            font-size: 20px;
+            color: #164A4A;
+        }
+
+        .hotel-content {
+            padding: 22px;
+        }
+
+        .hotel-location {
+            font-size: 11px;
+            font-weight: 800;
+            color: #267373;
+            letter-spacing: 1px;
+            margin-bottom: 7px;
+        }
+
+        .hotel-content h3 {
+            font-size: 22px;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+
+        .hotel-description {
+            color: #5E7370;
+            font-size: 14px;
+            min-height: 68px;
+            margin-bottom: 16px;
+        }
+
+        .amenities {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .amenity {
+            padding: 6px 9px;
+            background: #F1F7F5;
+            border-radius: 7px;
+            color: #416360;
+            font-size: 11px;
+        }
+
+        .hotel-bottom {
+            border-top: 1px solid #E7EEEC;
+            padding-top: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .rating {
+            font-size: 13px;
+            font-weight: 800;
+            color: #164A4A;
+        }
+
+        .book-btn {
+            border: none;
+            background: #164A4A;
+            color: white;
+            padding: 10px 17px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 13px;
+            transition: .2s;
+        }
+
+        .book-btn:hover {
+            background: #267373;
+        }
+
+        .no-results {
+            display: none;
+            padding: 70px 20px;
+            text-align: center;
+            color: #5E7370;
+        }
+
+        .no-results h3 {
+            color: #183232;
+            margin-bottom: 8px;
+        }
+
+        /* ================= INFO ================= */
+
+        .info-section {
+            background: #164A4A;
+            color: white;
+            padding: 80px 0;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .info-card {
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,.16);
+            border-radius: 16px;
+            background: rgba(255,255,255,.05);
+        }
+
+        .info-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .info-card p {
+            color: #D8E9E5;
+            font-size: 14px;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #102F2F;
+            color: white;
+            padding: 55px 6% 25px;
+        }
+
+        .footer-main {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 35px;
+            padding-bottom: 35px;
+        }
+
+        .footer-brand h2 {
+            margin-bottom: 12px;
+        }
+
+        .footer-brand p,
+        footer a {
+            color: #C9DCDA;
+            font-size: 14px;
+        }
+
+        .footer-column h4 {
+            margin-bottom: 13px;
+        }
+
+        .footer-column {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,.13);
+            padding-top: 20px;
+            color: #AFC6C3;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1100px) {
+            .hotel-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .search-panel {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .search-btn {
+                width: 100%;
+            }
+
+            .footer-main {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 750px) {
+            nav {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .nav-links {
+                gap: 12px;
+            }
+
+            .search-panel {
+                grid-template-columns: 1fr;
+            }
+
+            .hotel-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-main {
+                grid-template-columns: 1fr;
+            }
+
+            .section-heading {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav>
+    <a href="/index.html" class="logo">TravelAI</a>
+
+    <div class="nav-links">
+        <a href="/index.html">Home</a>
+        <a href="destinations.html">Destinations</a>
+        <a href="itinerary.html">Trip Planner</a>
+        <a href="recommendations.html">Recommendations</a>
+        <a href="hotels.html" class="active">Hotels</a>
+        <a href="weather.html">Weather</a>
+        <a href="profile.html">Profile</a>
+        <a href="about.html">About</a>
+    </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+    <div class="hero-content">
+        <span class="eyebrow">TRAVELAI HOTELS</span>
+
+        <h1>Find Your Perfect Stay</h1>
+
+        <p>
+            Discover hotels, resorts, villas and boutique stays across
+            destinations around the world. Choose a destination to explore
+            all available stays.
+        </p>
+    </div>
+</section>
+
+<!-- ================= SEARCH ================= -->
+
+<div class="search-wrapper">
+    <div class="search-panel">
+
+        <div class="field">
+            <label for="destination">Destination</label>
+
+            <select id="destination">
+
+                <option value="all">All Hotels</option>
+
+                <optgroup label="India">
+                    <option value="goa">Goa</option>
+                    <option value="munnar">Munnar</option>
+                    <option value="ooty">Ooty</option>
+                    <option value="jaipur">Jaipur</option>
+                    <option value="kerala">Kerala</option>
+                    <option value="delhi">Delhi</option>
+                    <option value="mumbai">Mumbai</option>
+                    <option value="manali">Manali</option>
+                    <option value="udaipur">Udaipur</option>
+                    <option value="varanasi">Varanasi</option>
+                    <option value="rishikesh">Rishikesh</option>
+                    <option value="darjeeling">Darjeeling</option>
+                    <option value="amritsar">Amritsar</option>
+                    <option value="kolkata">Kolkata</option>
+                    <option value="andaman-islands">Andaman Islands</option>
+                    <option value="ladakh">Ladakh</option>
+                    <option value="hampi">Hampi</option>
+                    <option value="pondicherry">Pondicherry</option>
+                    <option value="agra">Agra</option>
+                    <option value="coorg">Coorg</option>
+                </optgroup>
+
+                <optgroup label="Asia">
+                    <option value="tokyo">Tokyo</option>
+                    <option value="kyoto">Kyoto</option>
+                    <option value="seoul">Seoul</option>
+                    <option value="bali">Bali</option>
+                    <option value="bangkok">Bangkok</option>
+                    <option value="phuket">Phuket</option>
+                    <option value="singapore">Singapore</option>
+                    <option value="kuala-lumpur">Kuala Lumpur</option>
+                    <option value="hanoi">Hanoi</option>
+                    <option value="ho-chi-minh-city">Ho Chi Minh City</option>
+                    <option value="manila">Manila</option>
+                    <option value="maldives">Maldives</option>
+                    <option value="kathmandu">Kathmandu</option>
+                    <option value="colombo">Colombo</option>
+                    <option value="beijing">Beijing</option>
+                    <option value="shanghai">Shanghai</option>
+                    <option value="hong-kong">Hong Kong</option>
+                    <option value="taipei">Taipei</option>
+                    <option value="siem-reap">Siem Reap</option>
+                    <option value="dubai">Dubai</option>
+                </optgroup>
+
+                <optgroup label="Europe">
+                    <option value="paris">Paris</option>
+                    <option value="london">London</option>
+                    <option value="rome">Rome</option>
+                    <option value="venice">Venice</option>
+                    <option value="florence">Florence</option>
+                    <option value="barcelona">Barcelona</option>
+                    <option value="madrid">Madrid</option>
+                    <option value="amsterdam">Amsterdam</option>
+                    <option value="berlin">Berlin</option>
+                    <option value="munich">Munich</option>
+                    <option value="vienna">Vienna</option>
+                    <option value="prague">Prague</option>
+                    <option value="budapest">Budapest</option>
+                    <option value="athens">Athens</option>
+                    <option value="santorini">Santorini</option>
+                    <option value="lisbon">Lisbon</option>
+                    <option value="zurich">Zurich</option>
+                    <option value="interlaken">Interlaken</option>
+                    <option value="reykjavik">Reykjavik</option>
+                    <option value="copenhagen">Copenhagen</option>
+                </optgroup>
+
+                <optgroup label="International">
+                    <option value="new-york">New York</option>
+                    <option value="los-angeles">Los Angeles</option>
+                    <option value="san-francisco">San Francisco</option>
+                    <option value="vancouver">Vancouver</option>
+                    <option value="toronto">Toronto</option>
+                    <option value="sydney">Sydney</option>
+                    <option value="melbourne">Melbourne</option>
+                    <option value="queenstown">Queenstown</option>
+                    <option value="cape-town">Cape Town</option>
+                    <option value="cairo">Cairo</option>
+                    <option value="marrakech">Marrakech</option>
+                    <option value="nairobi">Nairobi</option>
+                    <option value="rio-de-janeiro">Rio de Janeiro</option>
+                    <option value="buenos-aires">Buenos Aires</option>
+                    <option value="mexico-city">Mexico City</option>
+                    <option value="bora-bora">Bora Bora</option>
+                    <option value="honolulu">Honolulu</option>
+                    <option value="istanbul">Istanbul</option>
+                    <option value="patagonia">Patagonia</option>
+                    <option value="seychelles">Seychelles</option>
+                </optgroup>
+
+            </select>
+        </div>
+
+        <div class="field">
+            <label for="checkin">Check-in</label>
+            <input type="date" id="checkin">
+        </div>
+
+        <div class="field">
+            <label for="guests">Guests</label>
+            <select id="guests">
+                <option value="1">1 Guest</option>
+                <option value="2" selected>2 Guests</option>
+                <option value="3">3 Guests</option>
+                <option value="4">4 Guests</option>
+                <option value="5">5 Guests</option>
+                <option value="6">6+ Guests</option>
+            </select>
+        </div>
+
+        <button class="search-btn" type="button" onclick="searchHotels()">
+            Search Hotels
+        </button>
+
+    </div>
+</div>
+
+<!-- ================= HOTEL SECTION ================= -->
+
+<section class="section">
+    <div class="container">
+
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow" style="color:#267373;">STAY YOUR WAY</span>
+                <h2 id="hotelHeading">Hotels Around the World</h2>
+
+                <p id="hotelSubheading">
+                    Explore carefully selected stays across 80 destinations.
+                </p>
+            </div>
+        </div>
+
+        
+        <div class="hotel-grid" id="hotelGrid"></div>
+
+        <div class="no-results" id="noResults">
+            <h3>No hotels found</h3>
+            <p>
+                Try changing the destination or removing one of the filters.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<!-- ================= INFO ================= -->
+
+<section class="info-section">
+    <div class="container">
+
+        <div class="info-grid">
+
+            <div class="info-card">
+                <h3>80 Destinations</h3>
+                <p>
+                    Explore stays across India, Asia, Europe and
+                    international destinations.
+                </p>
+            </div>
+
+            <div class="info-card">
+                <h3>400 Hotel Options</h3>
+                <p>
+                    Each destination provides five hotel, resort,
+                    boutique or villa options.
+                </p>
+            </div>
+
+            <div class="info-card">
+                <h3>Plan With TravelAI</h3>
+                <p>
+                    Combine your hotel choice with destinations,
+                    activities, weather and personalized itineraries.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+    <div class="footer-main">
+
+        <div class="footer-brand">
+            <h2>TravelAI</h2>
+
+            <p>
+                AI-based personalized travel recommendation and
+                itinerary generation system.
+            </p>
+        </div>
+
+        <div class="footer-column">
+            <h4>Explore</h4>
+            <a href="destinations.html">Destinations</a>
+            <a href="recommendations.html">Recommendations</a>
+            <a href="hotels.html">Hotels</a>
+        </div>
+
+        <div class="footer-column">
+            <h4>Plan</h4>
+            <a href="itinerary.html">Trip Planner</a>
+            <a href="budget.html">Budget</a>
+            <a href="weather.html">Weather</a>
+        </div>
+
+        <div class="footer-column">
+            <h4>TravelAI</h4>
+            <a href="profile.html">Profile</a>
+            <a href="favorites.html">Favorites</a>
+            <a href="about.html">About</a>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        © 2026 TravelAI. All rights reserved.
+    </div>
+</footer>
+
+<script>
+
+/* =========================================================
+   HOTEL DATA
+   80 DESTINATIONS
+   5 HOTELS PER DESTINATION
+   TOTAL = 400 HOTEL OPTIONS
+   ========================================================= */
+
+const destinationData = {
+
+    /* ================= INDIA ================= */
+
+    goa: {
+        name: "Goa",
+        hotels: [
+            ["goa-marriott-resort-spa", "Goa Marriott Resort & Spa", "5-star", "resort"],
+            ["taj-exotica-goa", "Taj Exotica Resort & Spa Goa", "5-star", "resort"],
+            ["leela-goa", "The Leela Goa", "5-star", "resort"],
+            ["park-hyatt-goa", "Park Hyatt Goa Resort and Spa", "5-star", "resort"],
+            ["alila-diwa-goa", "Alila Diwa Goa", "5-star", "hotel"]
+        ]
+    },
+
+    munnar: {
+        name: "Munnar",
+        hotels: [
+            ["scenic-munnar", "SCENIC, MUNNAR - IHCL SeleQtions", "5-star", "hotel"],
+            ["blanket-hotel-spa", "Blanket Hotel & Spa", "5-star", "hotel"],
+            ["windermere-estate", "Windermere Estate", "4-star", "boutique"],
+            ["fragrant-nature-munnar", "Fragrant Nature Munnar", "5-star", "resort"],
+            ["the-mountain-courtyard", "The Mountain Courtyard Munnar", "4-star", "hotel"]
+        ]
+    },
+
+    ooty: {
+        name: "Ooty",
+        hotels: [
+            ["savoy-ooty", "Savoy, Ooty - IHCL SeleQtions", "5-star", "hotel"],
+            ["sterling-ooty", "Sterling Ooty - Elk Hill", "4-star", "resort"],
+            ["gem-park-ooty", "Gem Park Ooty", "4-star", "hotel"],
+            ["fortune-retreats-ooty", "Fortune Resort Sullivan Court", "4-star", "resort"],
+            ["taj-savoy-ooty", "Savoy Heritage Resort", "5-star", "heritage"]
+        ]
+    },
+
+    jaipur: {
+        name: "Jaipur",
+        hotels: [
+            ["itc-rajputana-jaipur", "ITC Rajputana", "5-star", "hotel"],
+            ["rambagh-palace-jaipur", "Rambagh Palace", "5-star", "heritage"],
+            ["jai-mahal-palace", "Jai Mahal Palace", "5-star", "heritage"],
+            ["oberoi-rajvilas", "The Oberoi Rajvilas", "5-star", "resort"],
+            ["trident-jaipur", "Trident Jaipur", "5-star", "hotel"]
+        ]
+    },
+
+    kerala: {
+        name: "Kerala",
+        hotels: [
+            ["taj-kumarakom", "Taj Kumarakom Resort & Spa", "5-star", "resort"],
+            ["kumarakom-lake-resort", "Kumarakom Lake Resort", "5-star", "resort"],
+            ["leela-kovalam", "The Leela Kovalam", "5-star", "resort"],
+            ["marari-beach-resort", "Marari Beach Resort", "5-star", "resort"],
+            ["malabar-house", "The Malabar House", "4-star", "heritage"]
+        ]
+    },
+
+    delhi: {
+        name: "Delhi",
+        hotels: [
+            ["taj-palace-delhi", "Taj Palace, New Delhi", "5-star", "hotel"],
+            ["leela-palace-delhi", "The Leela Palace New Delhi", "5-star", "hotel"],
+            ["itc-maurya-delhi", "ITC Maurya", "5-star", "hotel"],
+            ["oberoi-new-delhi", "The Oberoi New Delhi", "5-star", "hotel"],
+            ["imperial-new-delhi", "The Imperial New Delhi", "5-star", "heritage"]
+        ]
+    },
+
+    mumbai: {
+        name: "Mumbai",
+        hotels: [
+            ["leela-mumbai", "The Leela Mumbai", "5-star", "hotel"],
+            ["taj-mahal-palace-mumbai", "Taj Mahal Palace Mumbai", "5-star", "heritage"],
+            ["trident-nariman-point", "Trident Nariman Point", "5-star", "hotel"],
+            ["oberoi-mumbai", "The Oberoi Mumbai", "5-star", "hotel"],
+            ["taj-santacruz", "Taj Santacruz", "5-star", "hotel"]
+        ]
+    },
+
+    manali: {
+        name: "Manali",
+        hotels: [
+            ["welcomhotel-hamsa-manali", "Welcomhotel by ITC Hotels Hamsa, Manali", "5-star", "hotel"],
+            ["span-resort-manali", "Span Resort and Spa", "5-star", "resort"],
+            ["apple-country-manali", "Apple Country Resort", "4-star", "resort"],
+            ["hyatt-centric-manali", "Hyatt Centric Old Manali", "5-star", "hotel"],
+            ["solang-valley-resort", "Solang Valley Resort", "4-star", "resort"]
+        ]
+    },
+
+    udaipur: {
+        name: "Udaipur",
+        hotels: [
+            ["leela-palace-udaipur", "The Leela Palace Udaipur", "5-star", "heritage"],
+            ["taj-lake-palace", "Taj Lake Palace", "5-star", "heritage"],
+            ["oberoi-udaivilas", "The Oberoi Udaivilas", "5-star", "resort"],
+            ["trident-udaipur", "Trident Udaipur", "5-star", "hotel"],
+            ["rajasthan-palace-udaipur", "Rajasthan Palace Resort", "4-star", "heritage"]
+        ]
+    },
+
+    varanasi: {
+        name: "Varanasi",
+        hotels: [
+            ["taj-ganges-varanasi", "Taj Ganges, Varanasi", "5-star", "hotel"],
+            ["brijrama-palace", "BrijRama Palace", "5-star", "heritage"],
+            ["radisson-varanasi", "Radisson Hotel Varanasi", "4-star", "hotel"],
+            ["clarks-varanasi", "Clarks Varanasi", "4-star", "hotel"],
+            ["amadey-varanasi", "Amadey Varanasi", "4-star", "boutique"]
+        ]
+    },
+
+    rishikesh: {
+        name: "Rishikesh",
+        hotels: [
+            ["taj-rishikesh", "Taj Rishikesh Resort & Spa", "5-star", "resort"],
+            ["ananda-rishikesh", "Ananda in the Himalayas", "5-star", "resort"],
+            ["aalia-rishikesh", "Aalia Resort", "5-star", "resort"],
+            ["the-roseate-rishikesh", "The Roseate Ganges", "5-star", "resort"],
+            ["namami-ganges", "Namami Ganges Resort", "4-star", "resort"]
+        ]
+    },
+
+    darjeeling: {
+        name: "Darjeeling",
+        hotels: [
+            ["mayfair-darjeeling", "MAYFAIR Hill Resort, Darjeeling", "5-star", "resort"],
+            ["windamere-darjeeling", "Windamere Hotel", "4-star", "heritage"],
+            ["oberoi-grand-darjeeling", "Cedar Inn", "4-star", "hotel"],
+            ["ramada-darjeeling", "Ramada by Wyndham Darjeeling", "4-star", "hotel"],
+            ["sinclairs-darjeeling", "Sinclairs Darjeeling", "4-star", "hotel"]
+        ]
+    },
+
+    amritsar: {
+        name: "Amritsar",
+        hotels: [
+            ["taj-swarna", "Taj Swarna, Amritsar", "5-star", "hotel"],
+            ["hyatt-amritsar", "Hyatt Regency Amritsar", "5-star", "hotel"],
+            ["radisson-amritsar", "Radisson Blu Hotel Amritsar", "5-star", "hotel"],
+            ["ramada-amritsar", "Ramada by Wyndham Amritsar", "4-star", "hotel"],
+            ["golden-sarovar", "Golden Sarovar Portico", "4-star", "hotel"]
+        ]
+    },
+
+    kolkata: {
+        name: "Kolkata",
+        hotels: [
+            ["itc-royal-bengal", "ITC Royal Bengal", "5-star", "hotel"],
+            ["taj-bengal-kolkata", "Taj Bengal", "5-star", "hotel"],
+            ["oberoi-grand-kolkata", "The Oberoi Grand Kolkata", "5-star", "heritage"],
+            ["itc-sonar", "ITC Sonar", "5-star", "hotel"],
+            ["hyatt-regency-kolkata", "Hyatt Regency Kolkata", "5-star", "hotel"]
+        ]
+    },
+
+    "andaman-islands": {
+        name: "Andaman Islands",
+        hotels: [
+            ["taj-exotica-andamans", "Taj Exotica Resort & Spa, Andamans", "5-star", "resort"],
+            ["sea-shell-port-blair", "SeaShell Port Blair", "4-star", "hotel"],
+            ["barefoot-havelock", "Barefoot at Havelock", "4-star", "resort"],
+            ["symbiotic-havelock", "Symbiotic Havelock", "4-star", "resort"],
+            ["silver-sand-havelock", "Silver Sand Beach Resort", "4-star", "resort"]
+        ]
+    },
+
+    ladakh: {
+        name: "Ladakh",
+        hotels: [
+            ["grand-dragon-ladakh", "The Grand Dragon Ladakh", "5-star", "hotel"],
+            ["zingchen-ladakh", "Zingchen Holiday Resort", "4-star", "resort"],
+            ["ladakh-serai", "The Ladakh Sarai Resort", "4-star", "resort"],
+            ["nimmu-house", "Nimmu House", "4-star", "boutique"],
+            ["shangrila-ladakh", "Hotel Shangrila Ladakh", "4-star", "hotel"]
+        ]
+    },
+
+    hampi: {
+        name: "Hampi",
+        hotels: [
+            ["heritage-resort-hampi", "Heritage Resort Hampi", "4-star", "resort"],
+            ["hyatt-place-hampi", "Hyatt Place Hampi", "5-star", "hotel"],
+            ["royal-orchid-hampi", "Royal Orchid Central Kireeti", "4-star", "hotel"],
+            ["hampi-bazaar-hotel", "Hampi Heritage Resort", "4-star", "resort"],
+            ["kishkinda-camp", "Kishkinda Heritage Resort", "4-star", "resort"]
+        ]
+    },
+
+    pondicherry: {
+        name: "Pondicherry",
+        hotels: [
+            ["palais-de-mahe", "Palais de Mahe", "4-star", "heritage"],
+            ["la-villa-pondicherry", "La Villa", "4-star", "boutique"],
+            ["promenade-pondicherry", "The Promenade", "4-star", "hotel"],
+            ["club-mahindra-pondicherry", "Club Mahindra Puducherry", "4-star", "resort"],
+            ["le-pondy", "Le Pondy", "5-star", "resort"]
+        ]
+    },
+
+    agra: {
+        name: "Agra",
+        hotels: [
+            ["itc-mughal", "ITC Mughal", "5-star", "hotel"],
+            ["oberoi-amarvilas", "The Oberoi Amarvilas", "5-star", "hotel"],
+            ["taj-hotel-and-convention", "Taj Hotel & Convention Centre Agra", "5-star", "hotel"],
+            ["trident-agra", "Trident Agra", "5-star", "hotel"],
+            ["courtyard-agra", "Courtyard by Marriott Agra", "4-star", "hotel"]
+        ]
+    },
+
+    coorg: {
+        name: "Coorg",
+        hotels: [
+            ["leela-coorg", "The Leela Coorg", "5-star", "resort"],
+            ["taj-madikeri", "Taj Madikeri Resort & Spa", "5-star", "resort"],
+            ["evolve-back-coorg", "Evolve Back Coorg", "5-star", "resort"],
+            ["orange-county-coorg", "Coorg Cliffs Resort", "4-star", "resort"],
+            ["club-mahindra-coorg", "Club Mahindra Madikeri", "4-star", "resort"]
+        ]
+    },
+
+    /* ================= ASIA ================= */
+
+    tokyo: {
+        name: "Tokyo",
+        hotels: [
+            ["hyatt-regency-tokyo", "Hyatt Regency Tokyo", "5-star", "hotel"],
+            ["park-hyatt-tokyo", "Park Hyatt Tokyo", "5-star", "hotel"],
+            ["mandarin-oriental-tokyo", "Mandarin Oriental, Tokyo", "5-star", "hotel"],
+            ["ritz-carlton-tokyo", "The Ritz-Carlton, Tokyo", "5-star", "hotel"],
+            ["imperial-hotel-tokyo", "Imperial Hotel Tokyo", "5-star", "heritage"]
+        ]
+    },
+
+    kyoto: {
+        name: "Kyoto",
+        hotels: [
+            ["westin-miyako-kyoto", "The Westin Miyako Kyoto", "5-star", "hotel"],
+            ["ritz-carlton-kyoto", "The Ritz-Carlton, Kyoto", "5-star", "hotel"],
+            ["park-hyatt-kyoto", "Park Hyatt Kyoto", "5-star", "hotel"],
+            ["four-seasons-kyoto", "Four Seasons Hotel Kyoto", "5-star", "hotel"],
+            ["suiran-kyoto", "Suiran, a Luxury Collection Hotel", "5-star", "hotel"]
+        ]
+    },
+
+    seoul: {
+        name: "Seoul",
+        hotels: [
+            ["lotte-hotel-seoul", "Lotte Hotel Seoul", "5-star", "hotel"],
+            ["four-seasons-seoul", "Four Seasons Hotel Seoul", "5-star", "hotel"],
+            ["shilla-seoul", "The Shilla Seoul", "5-star", "hotel"],
+            ["grand-hyatt-seoul", "Grand Hyatt Seoul", "5-star", "hotel"],
+            ["park-hyatt-seoul", "Park Hyatt Seoul", "5-star", "hotel"]
+        ]
+    },
+
+    bali: {
+        name: "Bali",
+        hotels: [
+            ["ayana-resort-bali", "AYANA Resort Bali", "5-star", "resort"],
+            ["four-seasons-bali", "Four Seasons Resort Bali", "5-star", "resort"],
+            ["ritz-carlton-bali", "The Ritz-Carlton, Bali", "5-star", "resort"],
+            ["mandapa-bali", "Mandapa, a Ritz-Carlton Reserve", "5-star", "resort"],
+            ["alila-seminyak", "Alila Seminyak", "5-star", "resort"]
+        ]
+    },
+
+    bangkok: {
+        name: "Bangkok",
+        hotels: [
+            ["mandarin-oriental-bangkok", "Mandarin Oriental, Bangkok", "5-star", "hotel"],
+            ["peninsula-bangkok", "The Peninsula Bangkok", "5-star", "hotel"],
+            ["shangri-la-bangkok", "Shangri-La Bangkok", "5-star", "hotel"],
+            ["four-seasons-bangkok", "Four Seasons Hotel Bangkok", "5-star", "hotel"],
+            ["park-hyatt-bangkok", "Park Hyatt Bangkok", "5-star", "hotel"]
+        ]
+    },
+
+    phuket: {
+        name: "Phuket",
+        hotels: [
+            ["nai-harn-phuket", "The Nai Harn Phuket", "5-star", "resort"],
+            ["amanpuri-phuket", "Amanpuri", "5-star", "resort"],
+            ["rosewood-phuket", "Rosewood Phuket", "5-star", "resort"],
+            ["sri-panwa-phuket", "Sri Panwa Phuket", "5-star", "resort"],
+            ["kata-rocks", "Kata Rocks", "5-star", "resort"]
+        ]
+    },
+
+    singapore: {
+        name: "Singapore",
+        hotels: [
+            ["marina-bay-sands", "Marina Bay Sands", "5-star", "hotel"],
+            ["raffles-singapore", "Raffles Singapore", "5-star", "heritage"],
+            ["fullerton-singapore", "The Fullerton Hotel Singapore", "5-star", "heritage"],
+            ["mandarin-oriental-singapore", "Mandarin Oriental, Singapore", "5-star", "hotel"],
+            ["capella-singapore", "Capella Singapore", "5-star", "resort"]
+        ]
+    },
+
+    "kuala-lumpur": {
+        name: "Kuala Lumpur",
+        hotels: [
+            ["mandarin-oriental-kl", "Mandarin Oriental, Kuala Lumpur", "5-star", "hotel"],
+            ["ritz-carlton-kl", "The Ritz-Carlton, Kuala Lumpur", "5-star", "hotel"],
+            ["four-seasons-kl", "Four Seasons Hotel Kuala Lumpur", "5-star", "hotel"],
+            ["grand-hyatt-kl", "Grand Hyatt Kuala Lumpur", "5-star", "hotel"],
+            ["shangri-la-kl", "Shangri-La Kuala Lumpur", "5-star", "hotel"]
+        ]
+    },
+
+    hanoi: {
+        name: "Hanoi",
+        hotels: [
+            ["sofitel-metropole-hanoi", "Sofitel Legend Metropole Hanoi", "5-star", "heritage"],
+            ["intercontinental-hanoi", "InterContinental Hanoi Westlake", "5-star", "hotel"],
+            ["capella-hanoi", "Capella Hanoi", "5-star", "hotel"],
+            ["hotel-de-lopera-hanoi", "Hotel de l'Opera Hanoi", "4-star", "boutique"],
+            ["pan-pacific-hanoi", "Pan Pacific Hanoi", "5-star", "hotel"]
+        ]
+    },
+
+    "ho-chi-minh-city": {
+        name: "Ho Chi Minh City",
+        hotels: [
+            ["park-hyatt-saigon", "Park Hyatt Saigon", "5-star", "hotel"],
+            ["caravelle-saigon", "Caravelle Saigon", "5-star", "heritage"],
+            ["intercontinental-saigon", "InterContinental Saigon", "5-star", "hotel"],
+            ["rex-hotel-saigon", "Rex Hotel Saigon", "5-star", "heritage"],
+            ["hotel-des-arts-saigon", "Hotel des Arts Saigon", "5-star", "boutique"]
+        ]
+    },
+
+    manila: {
+        name: "Manila",
+        hotels: [
+            ["shangri-la-fort-manila", "Shangri-La The Fort, Manila", "5-star", "hotel"],
+            ["peninsula-manila", "The Peninsula Manila", "5-star", "hotel"],
+            ["okada-manila", "Okada Manila", "5-star", "resort"],
+            ["sofitel-manila", "Sofitel Philippine Plaza Manila", "5-star", "hotel"],
+            ["conrad-manila", "Conrad Manila", "5-star", "hotel"]
+        ]
+    },
+
+    maldives: {
+        name: "Maldives",
+        hotels: [
+            ["conrad-maldives", "Conrad Maldives Rangali Island", "5-star", "resort"],
+            ["four-seasons-maldives", "Four Seasons Maldives", "5-star", "resort"],
+            ["one-only-reethi-rah", "One&Only Reethi Rah", "5-star", "resort"],
+            ["st-regis-maldives", "The St. Regis Maldives Vommuli Resort", "5-star", "resort"],
+            ["waldorf-astoria-maldives", "Waldorf Astoria Maldives Ithaafushi", "5-star", "resort"]
+        ]
+    },
+
+    kathmandu: {
+        name: "Kathmandu",
+        hotels: [
+            ["hyatt-regency-kathmandu", "Hyatt Regency Kathmandu", "5-star", "hotel"],
+            ["soaltee-kathmandu", "Hotel Soaltee Kathmandu", "5-star", "hotel"],
+            ["yak-yeti-kathmandu", "Hotel Yak & Yeti", "5-star", "heritage"],
+            ["dwarikas-kathmandu", "Dwarika's Hotel", "5-star", "heritage"],
+            ["marriott-kathmandu", "Kathmandu Marriott Hotel", "5-star", "hotel"]
+        ]
+    },
+
+    colombo: {
+        name: "Colombo",
+        hotels: [
+            ["shangri-la-colombo", "Shangri-La Colombo", "5-star", "hotel"],
+            ["galle-face-hotel", "Galle Face Hotel", "5-star", "heritage"],
+            ["cinnamon-grand-colombo", "Cinnamon Grand Colombo", "5-star", "hotel"],
+            ["kingsbury-colombo", "The Kingsbury Colombo", "5-star", "hotel"],
+            ["hilton-colombo", "Hilton Colombo", "5-star", "hotel"]
+        ]
+    },
+
+    beijing: {
+        name: "Beijing",
+        hotels: [
+            ["peninsula-beijing", "The Peninsula Beijing", "5-star", "hotel"],
+            ["aman-summer-palace", "Aman at Summer Palace", "5-star", "resort"],
+            ["park-hyatt-beijing", "Park Hyatt Beijing", "5-star", "hotel"],
+            ["ritz-carlton-beijing", "The Ritz-Carlton Beijing", "5-star", "hotel"],
+            ["waldorf-astoria-beijing", "Waldorf Astoria Beijing", "5-star", "hotel"]
+        ]
+    },
+
+    shanghai: {
+        name: "Shanghai",
+        hotels: [
+            ["mandarin-oriental-pudong", "Mandarin Oriental Pudong, Shanghai", "5-star", "hotel"],
+            ["peninsula-shanghai", "The Peninsula Shanghai", "5-star", "hotel"],
+            ["ritz-carlton-pudong", "The Ritz-Carlton Shanghai", "5-star", "hotel"],
+            ["park-hyatt-shanghai", "Park Hyatt Shanghai", "5-star", "hotel"],
+            ["fairmont-peace-hotel", "Fairmont Peace Hotel", "5-star", "heritage"]
+        ]
+    },
+
+    "hong-kong": {
+        name: "Hong Kong",
+        hotels: [
+            ["peninsula-hong-kong", "The Peninsula Hong Kong", "5-star", "heritage"],
+            ["ritz-carlton-hong-kong", "The Ritz-Carlton Hong Kong", "5-star", "hotel"],
+            ["mandarin-oriental-hong-kong", "Mandarin Oriental Hong Kong", "5-star", "hotel"],
+            ["four-seasons-hong-kong", "Four Seasons Hotel Hong Kong", "5-star", "hotel"],
+            ["island-shangri-la", "Island Shangri-La Hong Kong", "5-star", "hotel"]
+        ]
+    },
+
+    taipei: {
+        name: "Taipei",
+        hotels: [
+            ["mandarin-oriental-taipei", "Mandarin Oriental, Taipei", "5-star", "hotel"],
+            ["regent-taipei", "Regent Taipei", "5-star", "hotel"],
+            ["grand-hyatt-taipei", "Grand Hyatt Taipei", "5-star", "hotel"],
+            ["w-taipei", "W Taipei", "5-star", "hotel"],
+            ["ritz-taipei", "Kimpton Da An Taipei", "5-star", "boutique"]
+        ]
+    },
+
+    "siem-reap": {
+        name: "Siem Reap",
+        hotels: [
+            ["raffles-grand-angkor", "Raffles Grand Hotel d'Angkor", "5-star", "heritage"],
+            ["park-hyatt-siem-reap", "Park Hyatt Siem Reap", "5-star", "hotel"],
+            ["aman-at-angkor", "Amansara", "5-star", "resort"],
+            ["shinta-mani-angkor", "Shinta Mani Angkor", "5-star", "boutique"],
+            ["royal-angkor-resort", "Royal Angkor Resort", "4-star", "resort"]
+        ]
+    },
+
+    dubai: {
+        name: "Dubai",
+        hotels: [
+            ["burj-al-arab", "Burj Al Arab Jumeirah", "5-star", "hotel"],
+            ["atlantis-the-palm", "Atlantis The Palm", "5-star", "resort"],
+            ["one-only-the-palm", "One&Only The Palm", "5-star", "resort"],
+            ["address-downtown", "Address Downtown", "5-star", "hotel"],
+            ["jumeirah-al-qasr", "Jumeirah Al Qasr", "5-star", "resort"]
+        ]
+    },
+
+    /* ================= EUROPE ================= */
+
+    paris: {
+        name: "Paris",
+        hotels: [
+            ["paris-marriott-opera", "Paris Marriott Opera Ambassador Hotel", "4-star", "hotel"],
+            ["ritz-paris", "The Ritz Paris", "5-star", "heritage"],
+            ["le-bristol-paris", "Le Bristol Paris", "5-star", "hotel"],
+            ["plaza-athenee", "Hôtel Plaza Athénée", "5-star", "hotel"],
+            ["four-seasons-george-v", "Four Seasons Hotel George V", "5-star", "hotel"]
+        ]
+    },
+
+    london: {
+        name: "London",
+        hotels: [
+            ["the-savoy", "The Savoy", "5-star", "heritage"],
+            ["ritz-london", "The Ritz London", "5-star", "heritage"],
+            ["claridges-london", "Claridge's", "5-star", "heritage"],
+            ["connaught-london", "The Connaught", "5-star", "hotel"],
+            ["langham-london", "The Langham London", "5-star", "hotel"]
+        ]
+    },
+
+    rome: {
+        name: "Rome",
+        hotels: [
+            ["hotel-de-russie", "Hotel de Russie", "5-star", "hotel"],
+            ["hotel-eden-rome", "Hotel Eden", "5-star", "hotel"],
+            ["rome-cavalieri", "Rome Cavalieri", "5-star", "resort"],
+            ["hassler-roma", "Hotel Hassler Roma", "5-star", "heritage"],
+            ["st-regis-rome", "The St. Regis Rome", "5-star", "hotel"]
+        ]
+    },
+
+    venice: {
+        name: "Venice",
+        hotels: [
+            ["hotel-danieli-venice", "Hotel Danieli, Venice", "5-star", "heritage"],
+            ["gallerie-venice", "The Gritti Palace", "5-star", "heritage"],
+            ["hotel-cipriani", "Hotel Cipriani, Venice", "5-star", "hotel"],
+            ["aman-venice", "Aman Venice", "5-star", "heritage"],
+            ["baglioni-luna", "Baglioni Hotel Luna", "5-star", "hotel"]
+        ]
+    },
+
+    florence: {
+        name: "Florence",
+        hotels: [
+            ["st-regis-florence", "The St. Regis Florence", "5-star", "hotel"],
+            ["four-seasons-florence", "Four Seasons Hotel Firenze", "5-star", "hotel"],
+            ["hotel-savoy-florence", "Hotel Savoy Florence", "5-star", "hotel"],
+            ["belmond-villa-san-michele", "Belmond Villa San Michele", "5-star", "heritage"],
+            ["portrait-firenze", "Portrait Firenze", "5-star", "boutique"]
+        ]
+    },
+
+    barcelona: {
+        name: "Barcelona",
+        hotels: [
+            ["hotel-arts-barcelona", "Hotel Arts Barcelona", "5-star", "hotel"],
+            ["mandarin-oriental-barcelona", "Mandarin Oriental Barcelona", "5-star", "hotel"],
+            ["w-barcelona", "W Barcelona", "5-star", "hotel"],
+            ["ritz-carlton-barcelona", "The Barcelona EDITION", "5-star", "hotel"],
+            ["majestic-barcelona", "Majestic Hotel & Spa Barcelona", "5-star", "hotel"]
+        ]
+    },
+
+    madrid: {
+        name: "Madrid",
+        hotels: [
+            ["ritz-carlton-madrid", "The Ritz-Carlton, Madrid", "5-star", "hotel"],
+            ["mandarin-oriental-madrid", "Mandarin Oriental Ritz, Madrid", "5-star", "heritage"],
+            ["rosewood-villa-magna", "Rosewood Villa Magna", "5-star", "hotel"],
+            ["westin-palace-madrid", "The Westin Palace Madrid", "5-star", "heritage"],
+            ["hotel-urban-madrid", "Hotel Urban", "5-star", "boutique"]
+        ]
+    },
+
+    amsterdam: {
+        name: "Amsterdam",
+        hotels: [
+            ["waldorf-astoria-amsterdam", "Waldorf Astoria Amsterdam", "5-star", "hotel"],
+            ["conservatorium-amsterdam", "Conservatorium Hotel", "5-star", "hotel"],
+            ["hotel-dylan-amsterdam", "The Dylan Amsterdam", "5-star", "boutique"],
+            ["pulitzer-amsterdam", "Pulitzer Amsterdam", "5-star", "heritage"],
+            ["okura-amsterdam", "Hotel Okura Amsterdam", "5-star", "hotel"]
+        ]
+    },
+
+    berlin: {
+        name: "Berlin",
+        hotels: [
+            ["hotel-adlon-berlin", "Hotel Adlon Kempinski Berlin", "5-star", "heritage"],
+            ["ritz-carlton-berlin", "The Ritz-Carlton Berlin", "5-star", "hotel"],
+            ["hotel-de-rome", "Hotel de Rome", "5-star", "heritage"],
+            ["waldorf-astoria-berlin", "Waldorf Astoria Berlin", "5-star", "hotel"],
+            ["mandala-berlin", "The Mandala Hotel", "5-star", "hotel"]
+        ]
+    },
+
+    munich: {
+        name: "Munich",
+        hotels: [
+            ["mandarin-oriental-munich", "Mandarin Oriental, Munich", "5-star", "hotel"],
+            ["bayerischer-hof", "Hotel Bayerischer Hof", "5-star", "heritage"],
+            ["rosewood-munich", "Rosewood Munich", "5-star", "hotel"],
+            ["vier-jahreszeiten-munich", "Vier Jahreszeiten Kempinski", "5-star", "hotel"],
+            ["charles-hotel-munich", "The Charles Hotel", "5-star", "hotel"]
+        ]
+    },
+
+    vienna: {
+        name: "Vienna",
+        hotels: [
+            ["hotel-sacher-wien", "Hotel Sacher Wien", "5-star", "heritage"],
+            ["ritz-carlton-vienna", "The Ritz-Carlton, Vienna", "5-star", "hotel"],
+            ["imperial-vienna", "Hotel Imperial Vienna", "5-star", "heritage"],
+            ["park-hyatt-vienna", "Park Hyatt Vienna", "5-star", "hotel"],
+            ["bristol-vienna", "Hotel Bristol Vienna", "5-star", "heritage"]
+        ]
+    },
+
+    prague: {
+        name: "Prague",
+        hotels: [
+            ["four-seasons-prague", "Four Seasons Hotel Prague", "5-star", "hotel"],
+            ["mandarin-oriental-prague", "Mandarin Oriental Prague", "5-star", "heritage"],
+            ["augustine-prague", "Augustine Prague", "5-star", "heritage"],
+            ["four-seasons-old-town", "The Grand Mark Prague", "5-star", "hotel"],
+            ["boho-prague", "BoHo Hotel Prague", "4-star", "boutique"]
+        ]
+    },
+
+    budapest: {
+        name: "Budapest",
+        hotels: [
+            ["gresham-palace-budapest", "Four Seasons Hotel Gresham Palace Budapest", "5-star", "heritage"],
+            ["ritz-carlton-budapest", "The Ritz-Carlton Budapest", "5-star", "hotel"],
+            ["corinthia-budapest", "Corinthia Budapest", "5-star", "hotel"],
+            ["anantara-budapest", "Anantara New York Palace Budapest", "5-star", "heritage"],
+            ["kempinski-budapest", "Kempinski Hotel Corvinus Budapest", "5-star", "hotel"]
+        ]
+    },
+
+    athens: {
+        name: "Athens",
+        hotels: [
+            ["hotel-grande-bretagne", "Hotel Grande Bretagne", "5-star", "heritage"],
+            ["king-george-athens", "King George, Athens", "5-star", "heritage"],
+            ["four-seasons-athens", "Four Seasons Astir Palace Hotel Athens", "5-star", "resort"],
+            ["electra-metropolis", "Electra Metropolis Athens", "5-star", "hotel"],
+            ["divani-apollon", "Divani Apollon Palace & Thalasso", "5-star", "resort"]
+        ]
+    },
+
+    santorini: {
+        name: "Santorini",
+        hotels: [
+            ["canaves-oia", "Canaves Oia Hotel", "5-star", "boutique"],
+            ["katikies-santorini", "Katikies Santorini", "5-star", "boutique"],
+            ["grace-hotel-santorini", "Grace Hotel Santorini", "5-star", "hotel"],
+            ["andronis-luxury", "Andronis Luxury Suites", "5-star", "boutique"],
+            ["mystique-santorini", "Mystique, a Luxury Collection Hotel", "5-star", "hotel"]
+        ]
+    },
+
+    lisbon: {
+        name: "Lisbon",
+        hotels: [
+            ["four-seasons-ritz-lisbon", "Four Seasons Hotel Ritz Lisbon", "5-star", "hotel"],
+            ["hotel-aviz-lisbon", "Hotel Avenida Palace", "5-star", "heritage"],
+            ["bela-vista-lisbon", "Bela Vista Hotel & Spa", "5-star", "heritage"],
+            ["memmo-principe-real", "Memmo Príncipe Real", "5-star", "boutique"],
+            ["tivoli-liberdade", "Tivoli Avenida Liberdade Lisboa", "5-star", "hotel"]
+        ]
+    },
+
+    zurich: {
+        name: "Zurich",
+        hotels: [
+            ["b2-hotel-zurich", "B2 Hotel Zürich", "4-star", "boutique"],
+            ["dolder-grand-zurich", "The Dolder Grand", "5-star", "resort"],
+            ["widder-hotel-zurich", "Widder Hotel", "5-star", "boutique"],
+            ["baur-au-lac-zurich", "Baur au Lac", "5-star", "hotel"],
+            ["park-hyatt-zurich", "Park Hyatt Zurich", "5-star", "hotel"]
+        ]
+    },
+
+    interlaken: {
+        name: "Interlaken",
+        hotels: [
+            ["victoria-jungfrau", "Victoria-Jungfrau Grand Hotel & Spa", "5-star", "hotel"],
+            ["lindner-interlaken", "Lindner Hotel Interlaken Beau Rivage", "5-star", "hotel"],
+            ["hotel-du-nord", "Hotel du Nord", "4-star", "hotel"],
+            ["hotel-interlaken", "Hotel Interlaken", "4-star", "heritage"],
+            ["belvedere-interlaken", "Hotel Bellevue", "4-star", "hotel"]
+        ]
+    },
+
+    reykjavik: {
+        name: "Reykjavik",
+        hotels: [
+            ["hotel-borg-reykjavik", "Hotel Borg by Keahotels", "4-star", "heritage"],
+            ["edition-reykjavik", "The Reykjavik EDITION", "5-star", "hotel"],
+            ["canopy-reykjavik", "Canopy by Hilton Reykjavik City Centre", "4-star", "hotel"],
+            ["sand-hotel-reykjavik", "Sand Hotel", "4-star", "boutique"],
+            ["ion-city-hotel", "ION City Hotel", "4-star", "boutique"]
+        ]
+    },
+
+    copenhagen: {
+        name: "Copenhagen",
+        hotels: [
+            ["hotel-dangleterre", "Hotel d'Angleterre", "5-star", "heritage"],
+            ["nimbs-copenhagen", "Nimb Hotel", "5-star", "boutique"],
+            ["hotel-sanders", "Hotel Sanders", "5-star", "boutique"],
+            ["villa-copenhagen", "Villa Copenhagen", "5-star", "hotel"],
+            ["radisson-collection-copenhagen", "Radisson Collection Royal Hotel", "5-star", "hotel"]
+        ]
+    },
+
+    /* ================= INTERNATIONAL ================= */
+
+    "new-york": {
+        name: "New York",
+        hotels: [
+            ["the-plaza-new-york", "The Plaza", "5-star", "heritage"],
+            ["ritz-carlton-new-york", "The Ritz-Carlton New York", "5-star", "hotel"],
+            ["peninsula-new-york", "The Peninsula New York", "5-star", "hotel"],
+            ["st-regis-new-york", "The St. Regis New York", "5-star", "hotel"],
+            ["waldorf-astoria-new-york", "Waldorf Astoria New York", "5-star", "heritage"]
+        ]
+    },
+
+    "los-angeles": {
+        name: "Los Angeles",
+        hotels: [
+            ["beverly-hills-hotel", "The Beverly Hills Hotel", "5-star", "heritage"],
+            ["bel-air-hotel", "Hotel Bel-Air", "5-star", "hotel"],
+            ["ritz-carlton-la", "The Ritz-Carlton, Los Angeles", "5-star", "hotel"],
+            ["four-seasons-beverly-hills", "Four Seasons Hotel Los Angeles", "5-star", "hotel"],
+            ["peninsula-beverly-hills", "The Peninsula Beverly Hills", "5-star", "hotel"]
+        ]
+    },
+
+    "san-francisco": {
+        name: "San Francisco",
+        hotels: [
+            ["fairmont-san-francisco", "Fairmont San Francisco", "5-star", "heritage"],
+            ["ritz-carlton-san-francisco", "The Ritz-Carlton San Francisco", "5-star", "hotel"],
+            ["four-seasons-san-francisco", "Four Seasons Hotel San Francisco", "5-star", "hotel"],
+            ["palace-hotel-san-francisco", "Palace Hotel", "5-star", "heritage"],
+            ["hotel-nikko-san-francisco", "Hotel Nikko San Francisco", "4-star", "hotel"]
+        ]
+    },
+
+    vancouver: {
+        name: "Vancouver",
+        hotels: [
+            ["fairmont-hotel-vancouver", "Fairmont Hotel Vancouver", "5-star", "heritage"],
+            ["fairmont-pacific-rim", "Fairmont Pacific Rim", "5-star", "hotel"],
+            ["rosewood-hotel-georgia", "Rosewood Hotel Georgia", "5-star", "heritage"],
+            ["shangri-la-vancouver", "Shangri-La Vancouver", "5-star", "hotel"],
+            ["pan-pacific-vancouver", "Pan Pacific Vancouver", "5-star", "hotel"]
+        ]
+    },
+
+    toronto: {
+        name: "Toronto",
+        hotels: [
+            ["fairmont-royal-york", "Fairmont Royal York", "5-star", "heritage"],
+            ["ritz-carlton-toronto", "The Ritz-Carlton Toronto", "5-star", "hotel"],
+            ["shangri-la-toronto", "Shangri-La Toronto", "5-star", "hotel"],
+            ["four-seasons-toronto", "Four Seasons Hotel Toronto", "5-star", "hotel"],
+            ["park-hyatt-toronto", "Park Hyatt Toronto", "5-star", "hotel"]
+        ]
+    },
+
+    sydney: {
+        name: "Sydney",
+        hotels: [
+            ["park-hyatt-sydney", "Park Hyatt Sydney", "5-star", "hotel"],
+            ["four-seasons-sydney", "Four Seasons Hotel Sydney", "5-star", "hotel"],
+            ["shangri-la-sydney", "Shangri-La Sydney", "5-star", "hotel"],
+            ["langham-sydney", "The Langham Sydney", "5-star", "hotel"],
+            ["intercontinental-sydney", "InterContinental Sydney", "5-star", "heritage"]
+        ]
+    },
+
+    melbourne: {
+        name: "Melbourne",
+        hotels: [
+            ["langham-melbourne", "The Langham Melbourne", "5-star", "hotel"],
+            ["westin-melbourne", "The Westin Melbourne", "5-star", "hotel"],
+            ["ritz-carlton-melbourne", "The Ritz-Carlton Melbourne", "5-star", "hotel"],
+            ["park-hyatt-melbourne", "Park Hyatt Melbourne", "5-star", "hotel"],
+            ["crown-towers-melbourne", "Crown Towers Melbourne", "5-star", "hotel"]
+        ]
+    },
+
+    queenstown: {
+        name: "Queenstown",
+        hotels: [
+            ["rees-queenstown", "The Rees Hotel", "5-star", "hotel"],
+            ["matakauri-lodge", "Matakauri Lodge", "5-star", "resort"],
+            ["st-moritz-queenstown", "Hotel St Moritz Queenstown", "5-star", "hotel"],
+            ["sofitel-queenstown", "Sofitel Queenstown Hotel & Spa", "5-star", "hotel"],
+            ["heritage-queenstown", "Heritage Queenstown", "4-star", "hotel"]
+        ]
+    },
+
+    "cape-town": {
+        name: "Cape Town",
+        hotels: [
+            ["one-only-cape-town", "One&Only Cape Town", "5-star", "resort"],
+            ["cape-grace", "Cape Grace", "5-star", "hotel"],
+            ["belmond-mount-nelson", "Mount Nelson, A Belmond Hotel", "5-star", "heritage"],
+            ["silo-hotel-cape-town", "The Silo Hotel", "5-star", "hotel"],
+            ["twelve-apostles", "The Twelve Apostles Hotel", "5-star", "resort"]
+        ]
+    },
+
+    cairo: {
+        name: "Cairo",
+        hotels: [
+            ["marriott-mena-house", "Marriott Mena House, Cairo", "5-star", "heritage"],
+            ["four-seasons-cairo", "Four Seasons Hotel Cairo", "5-star", "hotel"],
+            ["ritz-carlton-cairo", "The Nile Ritz-Carlton Cairo", "5-star", "hotel"],
+            ["fairmont-nile-city", "Fairmont Nile City", "5-star", "hotel"],
+            ["kempinski-nile", "Kempinski Nile Hotel Cairo", "5-star", "hotel"]
+        ]
+    },
+
+    marrakech: {
+        name: "Marrakech",
+        hotels: [
+            ["la-mamounia", "La Mamounia", "5-star", "heritage"],
+            ["royal-mansour-marrakech", "Royal Mansour Marrakech", "5-star", "resort"],
+            ["mandarin-oriental-marrakech", "Mandarin Oriental Marrakech", "5-star", "resort"],
+            ["four-seasons-marrakech", "Four Seasons Resort Marrakech", "5-star", "resort"],
+            ["selman-marrakech", "Selman Marrakech", "5-star", "hotel"]
+        ]
+    },
+
+    nairobi: {
+        name: "Nairobi",
+        hotels: [
+            ["villa-rosa-kempinski", "Villa Rosa Kempinski Nairobi", "5-star", "hotel"],
+            ["giraffe-manor", "Giraffe Manor", "5-star", "boutique"],
+            ["fairmont-norfolk", "Fairmont The Norfolk", "5-star", "heritage"],
+            ["safari-park-nairobi", "Safari Park Hotel", "5-star", "resort"],
+            ["hempstead-nairobi", "Hemingways Nairobi", "5-star", "hotel"]
+        ]
+    },
+
+    "rio-de-janeiro": {
+        name: "Rio de Janeiro",
+        hotels: [
+            ["copacabana-palace", "Copacabana Palace, A Belmond Hotel", "5-star", "heritage"],
+            ["fasano-rio", "Hotel Fasano Rio de Janeiro", "5-star", "hotel"],
+            ["fairmont-rio", "Fairmont Rio de Janeiro Copacabana", "5-star", "hotel"],
+            ["santa-teresa-rio", "Santa Teresa Rio MGallery", "5-star", "boutique"],
+            ["miramar-rio", "Miramar by Windsor Copacabana", "5-star", "hotel"]
+        ]
+    },
+
+    "buenos-aires": {
+        name: "Buenos Aires",
+        hotels: [
+            ["palacio-duhau", "Palacio Duhau - Park Hyatt Buenos Aires", "5-star", "heritage"],
+            ["four-seasons-buenos-aires", "Four Seasons Hotel Buenos Aires", "5-star", "hotel"],
+            ["alver-palace", "Alvear Palace Hotel", "5-star", "heritage"],
+            ["faena-buenos-aires", "Faena Hotel Buenos Aires", "5-star", "hotel"],
+            ["park-tower-buenos-aires", "Park Tower Buenos Aires", "5-star", "hotel"]
+        ]
+    },
+
+    "mexico-city": {
+        name: "Mexico City",
+        hotels: [
+            ["st-regis-mexico-city", "The St. Regis Mexico City", "5-star", "hotel"],
+            ["four-seasons-mexico-city", "Four Seasons Hotel Mexico City", "5-star", "hotel"],
+            ["ritz-carlton-mexico-city", "The Ritz-Carlton Mexico City", "5-star", "hotel"],
+            ["las-alcobas-mexico", "Las Alcobas, Mexico City", "5-star", "boutique"],
+            ["hotel-condesa", "Condesa DF", "4-star", "boutique"]
+        ]
+    },
+
+    "bora-bora": {
+        name: "Bora Bora",
+        hotels: [
+            ["four-seasons-bora-bora", "Four Seasons Resort Bora Bora", "5-star", "resort"],
+            ["st-regis-bora-bora", "The St. Regis Bora Bora Resort", "5-star", "resort"],
+            ["conrad-bora-bora", "Conrad Bora Bora Nui", "5-star", "resort"],
+            ["intercontinental-bora-bora", "InterContinental Bora Bora Resort", "5-star", "resort"],
+            ["le-bora-bora", "Le Bora Bora by Pearl Resorts", "4-star", "resort"]
+        ]
+    },
+
+    honolulu: {
+        name: "Honolulu",
+        hotels: [
+            ["royal-hawaiian", "The Royal Hawaiian", "5-star", "heritage"],
+            ["halekulani-honolulu", "Halekulani", "5-star", "hotel"],
+            ["kahala-hotel", "The Kahala Hotel & Resort", "5-star", "resort"],
+            ["moana-surfrider", "Moana Surfrider", "5-star", "heritage"],
+            ["ritz-carlton-waikiki", "The Ritz-Carlton Residences Waikiki", "5-star", "hotel"]
+        ]
+    },
+
+    istanbul: {
+        name: "Istanbul",
+        hotels: [
+            ["ciragan-palace-istanbul", "Çırağan Palace Kempinski Istanbul", "5-star", "heritage"],
+            ["four-seasons-bosphorus", "Four Seasons Hotel Istanbul", "5-star", "heritage"],
+            ["ritz-carlton-istanbul", "The Ritz-Carlton Istanbul", "5-star", "hotel"],
+            ["peninsula-istanbul", "The Peninsula Istanbul", "5-star", "hotel"],
+            ["mandarin-oriental-bosphorus", "Mandarin Oriental Bosphorus", "5-star", "hotel"]
+        ]
+    },
+
+    patagonia: {
+        name: "Patagonia",
+        hotels: [
+            ["explora-patagonia", "Explora Patagonia", "5-star", "resort"],
+            ["awasi-patagonia", "Awasi Patagonia", "5-star", "resort"],
+            ["tierra-patagonia", "Tierra Patagonia Hotel & Spa", "5-star", "resort"],
+            ["ecocamp-patagonia", "EcoCamp Patagonia", "4-star", "boutique"],
+            ["explora-torres-del-paine", "Explora Torres del Paine", "5-star", "resort"]
+        ]
+    },
+
+    seychelles: {
+        name: "Seychelles",
+        hotels: [
+            ["four-seasons-seychelles", "Four Seasons Resort Seychelles", "5-star", "resort"],
+            ["raffles-seychelles", "Raffles Seychelles", "5-star", "resort"],
+            ["six-senses-zil-pasyon", "Six Senses Zil Pasyon", "5-star", "resort"],
+            ["constance-lemuria", "Constance Lemuria", "5-star", "resort"],
+            ["maia-seychelles", "MAIA Luxury Resort & Spa", "5-star", "resort"]
+        ]
+    }
+};
+
+
+/* =========================================================
+   CONVERT THE 80 DESTINATIONS × 5 HOTELS INTO THE FORMAT
+   USED BY THE HOTEL GRID
+   ========================================================= */
+
+const hotels = {};
+
+const hotelImages = [
+    "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1000&q=85",
+    "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1000&q=85",
+    "https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1000&q=85",
+    "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=1000&q=85",
+    "https://images.unsplash.com/photo-1601918774946-25832a4be0d6?auto=format&fit=crop&w=1000&q=85"
+];
+
+const destinationKeys = Object.keys(destinationData);
+
+destinationKeys.forEach(destinationKey => {
+
+    const destination = destinationData[destinationKey];
+
+    hotels[destinationKey] = destination.hotels.map((hotel, index) => {
+
+        const [
+            slug,
+            name,
+            category,
+            type
+        ] = hotel;
+
+        let priceType = "mid";
+
+        if (index === 0 || category === "5-star") {
+            priceType = "luxury";
+        }
+
+        if (index === 3 || index === 4) {
+            priceType = "mid";
+        }
+
+        if (category === "heritage" && index >= 3) {
+            priceType = "mid";
+        }
+
+        const facilities = [];
+
+        if (index !== 4) {
+            facilities.push("wifi");
+        }
+
+        if (index === 0 || index === 1 || index === 3) {
+            facilities.push("pool");
+        }
+
+        if (index !== 2) {
+            facilities.push("breakfast");
+        }
+
+        if (index === 0 || index === 2) {
+            facilities.push("spa");
+        }
+
+        return {
+            slug: slug,
+            name: name,
+            location: destination.name.toUpperCase(),
+            category: category,
+            type: type,
+            priceType: priceType,
+            rating: category === "5-star"
+                ? "5-Star"
+                : category === "heritage"
+                    ? "Heritage Stay"
+                    : "4-Star",
+            description:
+                "A comfortable stay in " +
+                destination.name +
+                " with convenient facilities and a great location for exploring the destination.",
+            image: hotelImages[index % hotelImages.length],
+            amenities: [
+                "Wi-Fi",
+                "Breakfast",
+                type === "resort" ? "Pool" : "Restaurant",
+                index === 0 ? "Spa" : "Room Service"
+            ],
+            facilities: facilities,
+            official: "#"
+        };
+
+    });
+
+});
+
+
+/* =========================================================
+   FAVORITES
+   ========================================================= */
+
+const HOTEL_FAVORITES_KEY = "travelAIHotelFavorites";
+
+function getHotelFavorites() {
+
+    try {
+        return JSON.parse(
+            localStorage.getItem(HOTEL_FAVORITES_KEY)
+        ) || [];
+    }
+
+    catch (error) {
+        return [];
+    }
+}
+
+
+function saveHotelFavorites(favorites) {
+
+    localStorage.setItem(
+        HOTEL_FAVORITES_KEY,
+        JSON.stringify(favorites)
+    );
+
+}
+
+
+function toggleFavorite(slug) {
+
+    let favorites = getHotelFavorites();
+
+    if (favorites.includes(slug)) {
+
+        favorites = favorites.filter(
+            item => item !== slug
+        );
+
+    } else {
+
+        favorites.push(slug);
+
+    }
+
+    saveHotelFavorites(favorites);
+
+    renderHotels();
+
+}
+
+
+/* =========================================================
+   FILTER STATE
+   ========================================================= */
+
+let selectedPrice = "all";
+let selectedType = "all";
+let selectedFacility = "all";
+let selectedCategory = "all";
+
+
+/* =========================================================
+   GET ALL 400 HOTELS
+   ========================================================= */
+
+function getAllHotels() {
+
+    return Object.values(hotels).flat();
+
+}
+
+
+/* =========================================================
+   RENDER HOTELS
+   ========================================================= */
+
+function renderHotels() {
+
+    const destination =
+        document.getElementById("destination").value;
+
+    let hotelList = [];
+
+    if (destination === "all") {
+
+        hotelList = getAllHotels();
+
+    } else {
+
+        hotelList = hotels[destination] || [];
+
+    }
+
+
+    hotelList = hotelList.filter(hotel => {
+
+        const priceMatch =
+            selectedPrice === "all" ||
+            hotel.priceType === selectedPrice;
+
+        const typeMatch =
+            selectedType === "all" ||
+            hotel.type === selectedType;
+
+        const facilityMatch =
+            selectedFacility === "all" ||
+            hotel.facilities.includes(selectedFacility);
+
+        const categoryMatch =
+            selectedCategory === "all" ||
+            hotel.category === selectedCategory;
+
+        return (
+            priceMatch &&
+            typeMatch &&
+            facilityMatch &&
+            categoryMatch
+        );
+
+    });
+
+
+    const grid =
+        document.getElementById("hotelGrid");
+
+    const noResults =
+        document.getElementById("noResults");
+
+    const heading =
+        document.getElementById("hotelHeading");
+
+    const subheading =
+        document.getElementById("hotelSubheading");
+
+
+    grid.innerHTML = "";
+
+
+    if (destination === "all") {
+
+        heading.textContent =
+            "Hotels Around the World";
+
+        subheading.textContent =
+            "Explore 400 hotel options across 80 destinations.";
+
+    } else {
+
+        const destinationName =
+            destinationData[destination]?.name ||
+            "Selected Destination";
+
+        heading.textContent =
+            "Hotels in " + destinationName;
+
+        subheading.textContent =
+            "Explore all available stays in " +
+            destinationName +
+            ".";
+
+    }
+
+
+    if (hotelList.length === 0) {
+
+        noResults.style.display = "block";
+        return;
+
+    }
+
+
+    noResults.style.display = "none";
+
+
+    const favorites =
+        getHotelFavorites();
+
+
+    hotelList.forEach(hotel => {
+
+        const isFavorite =
+            favorites.includes(hotel.slug);
+
+
+        const card =
+            document.createElement("article");
+
+        card.className = "hotel-card";
+
+
+        card.innerHTML = `
+
+            <div class="hotel-image">
+
+                <img
+                    src="${hotel.image}"
+                    alt="${hotel.name}"
+                    loading="lazy"
+                >
+
+                <span class="hotel-badge">
+                    ${hotel.rating}
+                </span>
+
+                <button
+                    type="button"
+                    class="favorite-btn"
+                    onclick="toggleFavorite('${hotel.slug}')"
+                    aria-label="Add hotel to favorites"
+                >
+                    ${isFavorite ? "♥" : "♡"}
+                </button>
+
+            </div>
+
+
+            <div class="hotel-content">
+
+                <div class="hotel-location">
+                    ${hotel.location}
+                </div>
+
+                <h3>
+                    ${hotel.name}
+                </h3>
+
+                <p class="hotel-description">
+                    ${hotel.description}
+                </p>
+
+
+                <div class="amenities">
+
+                    ${hotel.amenities.map(
+                        amenity =>
+                            `<span class="amenity">${amenity}</span>`
+                    ).join("")}
+
+                </div>
+
+
+                <div class="hotel-bottom">
+
+                    <span class="rating">
+                        ${hotel.rating}
+                    </span>
+
+                    <button
+                        type="button"
+                        class="book-btn"
+                        onclick="openHotelDetails('${hotel.slug}')"
+                    >
+                        View Stay
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+
+        grid.appendChild(card);
+
+    });
+
+}
+
+
+/* =========================================================
+   VIEW STAY
+   IMPORTANT:
+   THIS OPENS THE INTERNAL HOTEL DETAILS PAGE
+   ========================================================= */
+
+function openHotelDetails(slug) {
+
+    window.location.href =
+        "hotel-details.html?hotel=" +
+        encodeURIComponent(slug);
+
+}
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+function searchHotels() {
+
+    renderHotels();
+
+    document
+        .getElementById("hotelGrid")
+        .scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+}
+
+
+/* =========================================================
+   FILTER BUTTONS
+   ========================================================= */
+
+document
+    .querySelectorAll(".price-filter")
+    .forEach(button => {
+
+        button.addEventListener("click", function() {
+
+            document
+                .querySelectorAll(".price-filter")
+                .forEach(btn =>
+                    btn.classList.remove("active")
+                );
+
+            this.classList.add("active");
+
+            selectedPrice =
+                this.dataset.value;
+
+            renderHotels();
+
+        });
+
+    });
+
+
+document
+    .querySelectorAll(".type-filter")
+    .forEach(button => {
+
+        button.addEventListener("click", function() {
+
+            document
+                .querySelectorAll(".type-filter")
+                .forEach(btn =>
+                    btn.classList.remove("active")
+                );
+
+            this.classList.add("active");
+
+            selectedType =
+                this.dataset.value;
+
+            renderHotels();
+
+        });
+
+    });
+
+
+document
+    .querySelectorAll(".facility-filter")
+    .forEach(button => {
+
+        button.addEventListener("click", function() {
+
+            document
+                .querySelectorAll(".facility-filter")
+                .forEach(btn =>
+                    btn.classList.remove("active")
+                );
+
+            this.classList.add("active");
+
+            selectedFacility =
+                this.dataset.value;
+
+            renderHotels();
+
+        });
+
+    });
+
+
+document
+    .querySelectorAll(".category-filter")
+    .forEach(button => {
+
+        button.addEventListener("click", function() {
+
+            document
+                .querySelectorAll(".category-filter")
+                .forEach(btn =>
+                    btn.classList.remove("active")
+                );
+
+            this.classList.add("active");
+
+            selectedCategory =
+                this.dataset.value;
+
+            renderHotels();
+
+        });
+
+    });
+
+
+/* =========================================================
+   DESTINATION CHANGE
+   ========================================================= */
+
+document
+    .getElementById("destination")
+    .addEventListener("change", function() {
+
+        renderHotels();
+
+    });
+
+
+/* =========================================================
+   INITIAL LOAD
+   ========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        document
+            .getElementById("destination")
+            .value = "all";
+
+        renderHotels();
+
+    }
+);
+
+</script>
+
+</body>
+</html>
