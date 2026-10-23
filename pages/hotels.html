@@ -1709,7 +1709,7 @@ const hotelImages = [
     "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=1000&q=85",
     "https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1000&q=85",
     "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=1000&q=85",
-    "https://images.unsplash.com/photo-1601918774946-25832a4be0d6?auto=format&fit=crop&w=1000&q=85"
+    "https://images.unsplash.com/photo-1601918774946-25832a4be0d6?auto=format&fit=crop&w=1000&q=85"  
 ];
 
 const destinationKeys = Object.keys(destinationData);
@@ -2211,18 +2211,29 @@ document
    INITIAL LOAD
    ========================================================= */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function() {
+document.addEventListener("DOMContentLoaded", function () {
 
-        document
-            .getElementById("destination")
-            .value = "all";
+    const params = new URLSearchParams(window.location.search);
 
-        renderHotels();
+    // Destination is passed from destination-details.html as ?destination=goa
+    const requestedDestination = (params.get("destination") || "")
+        .trim()
+        .toLowerCase();
 
-    }
-);
+    const destinationSelect = document.getElementById("destination");
+
+    // Accept either the destination key (for example, kuala-lumpur)
+    // or the displayed destination name (for example, Kuala Lumpur).
+    const matchingOption = Array.from(destinationSelect.options).find(option =>
+        option.value.toLowerCase() === requestedDestination ||
+        option.textContent.trim().toLowerCase() === requestedDestination
+    );
+
+    destinationSelect.value = matchingOption ? matchingOption.value : "all";
+
+    renderHotels();
+
+});
 
 </script>
 

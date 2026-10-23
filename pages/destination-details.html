@@ -584,6 +584,33 @@
 
         }
 
+
+        /* ================= HOTELS BUTTON ================= */
+
+        .hotel-cta-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 8px 0 0;
+            padding: 14px 23px;
+            background: #164A4A;
+            color: #FFFFFF;
+            border: 2px solid #164A4A;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: 0.25s ease;
+        }
+
+        .hotel-cta-btn:hover {
+            background: #267373;
+            border-color: #267373;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(24, 50, 50, 0.15);
+        }
+
     </style>
 
 </head>
@@ -1066,6 +1093,14 @@
                 class="btn"
             >
                 Build My Itinerary
+            </a>
+
+            <a
+                id="exploreHotelsBtn"
+                href="hotels.html"
+                class="hotel-cta-btn"
+            >
+                Explore Hotels in This Destination →
             </a>
 
         </div>
@@ -2708,6 +2743,12 @@ function loadDestination(key) {
     document.getElementById("ctaItinerary").href =
         "itinerary.html?destination=" +
         encodeURIComponent(data.name);
+
+    /* ================= DESTINATION HOTELS ================= */
+
+    document.getElementById("exploreHotelsBtn").href =
+        "hotels.html?destination=" +
+        encodeURIComponent(key);
 
 
     /* ================= PLACES ================= */
